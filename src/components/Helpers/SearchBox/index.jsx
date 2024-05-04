@@ -1,4 +1,5 @@
-export default function SearchBox({ className,type }) {
+export default function SearchBox({ className,type}) {
+ 
   return (
     <>
       <div
@@ -12,6 +13,7 @@ export default function SearchBox({ className,type }) {
               type="text"
               className="search-input"
               placeholder="Search Product..."
+             
             />
           </form>
         </div>
@@ -51,7 +53,7 @@ export default function SearchBox({ className,type }) {
           </button>
         </div>
         <button
-          className={` w-[93px] h-full text-sm font-600  ${type===3?'bg-qh3-blue text-white':'search-btn'}`}
+          className={`w-[93px] h-full text-sm font-600 ${type === 3 ? 'bg-qh3-blue text-white' : 'search-btn'}`}
           type="button"
         >
           Search

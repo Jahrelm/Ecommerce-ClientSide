@@ -7,6 +7,7 @@ import DataIteration from "../Helpers/DataIteration";
 import Layout from "../Partials/Layout";
 import ProductsFilter from "./ProductsFilter";
 
+
 export default function AllProductPage() {
   const [filters, setFilter] = useState({
     mobileLaptop: false,
@@ -53,12 +54,14 @@ export default function AllProductPage() {
 
   const { products } = productDatas;
 
+
   return (
     <>
       <Layout>
         <div className="products-page-wrapper w-full">
           <div className="container-x mx-auto">
             <BreadcrumbCom />
+           
             <div className="w-full lg:flex lg:space-x-[30px]">
               <div className="lg:w-[270px]">
                 <ProductsFilter
@@ -90,6 +93,7 @@ export default function AllProductPage() {
                       results
                     </p>
                   </div>
+                  
                   <div className="flex space-x-3 items-center">
                     <span className="font-400 text-[13px]">Sort by:</span>
                     <div className="flex space-x-3 items-center border-b border-b-qgray">
