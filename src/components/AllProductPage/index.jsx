@@ -6,6 +6,7 @@ import ProductCardStyleOne from "../Helpers/Cards/ProductCardStyleOne";
 import DataIteration from "../Helpers/DataIteration";
 import Layout from "../Partials/Layout";
 import ProductsFilter from "./ProductsFilter";
+import axios from 'axios';
 
 
 export default function AllProductPage() {
@@ -54,7 +55,25 @@ export default function AllProductPage() {
 
   const { products } = productDatas;
 
+  const [prods, setProds] = useState([]);
+/*
+  useEffect(() => {
+    const fetchData = async () => {
+      try{
+        const response = await axios.get('http://localhost:8080/products/list');
+        setProds(response.data);
+      }catch(error){
+        console.error('Error fetching products :', error);
+      }
+    };
+    fetchData();
+  }, []);
 
+  const filteredProducts = prod.filter((prod) =>
+    prod.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+*/ 
   return (
     <>
       <Layout>
