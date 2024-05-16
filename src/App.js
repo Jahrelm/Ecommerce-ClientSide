@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { Provider } from "react-redux";
+import store from "./redux/store"; 
 import Routers from "./Routers";
 
 function App() {
@@ -17,7 +19,12 @@ function App() {
       document.body.classList.add("home-one");
     };
   }, [location.pathname]);
-  return <Routers />;
+
+  return (
+    <Provider store={store}>
+      <Routers />
+    </Provider>
+  );
 }
 
 export default App;

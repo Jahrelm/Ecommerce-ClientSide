@@ -1,15 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "react-input-range/lib/css/index.css";
-import productDatas from "../../data/products.json";
+//import productDatas from "../../data/products.json";
 import BreadcrumbCom from "../BreadcrumbCom";
 import ProductCardStyleOne from "../Helpers/Cards/ProductCardStyleOne";
 import DataIteration from "../Helpers/DataIteration";
 import Layout from "../Partials/Layout";
 import ProductsFilter from "./ProductsFilter";
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProducts } from "../../redux/actions/productActions";
 
 
 export default function AllProductPage() {
+ 
+
+  const dispatch = useDispatch();
+  const  {products} = useSelector( (state )=> state.product);
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  
+  }, [dispatch]);
+
+  
   const [filters, setFilter] = useState({
     mobileLaptop: false,
     gaming: false,
@@ -53,27 +65,10 @@ export default function AllProductPage() {
   };
   const [filterToggle, setToggle] = useState(false);
 
-  const { products } = productDatas;
+ 
 
-  const [prods, setProds] = useState([]);
-/*
-  useEffect(() => {
-    const fetchData = async () => {
-      try{
-        const response = await axios.get('http://localhost:8080/products/list');
-        setProds(response.data);
-      }catch(error){
-        console.error('Error fetching products :', error);
-      }
-    };
-    fetchData();
-  }, []);
 
-  const filteredProducts = prod.filter((prod) =>
-    prod.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
-*/ 
   return (
     <>
       <Layout>

@@ -1,19 +1,27 @@
-import { ActionTypes } from "../constants/action-types";
+import axios from 'axios';
+import * as types from '../constants/action-types';
 
+export const fetchProductsRequest = () => ({
+    type: types.FETCH_PRODUCTS_REQUEST
+});
 
-export const setProducts = (products) => {
-    return {
-        type : ActionTypes.SET_PRODUCTS,
-        payload : products,
-    };
+export const fetchProductsSuccess = (products) => ({
+    type: types.FETCH_PRODUCTS_SUCCESS,
+    payload : products
+});
 
-};
+export const fetchProductsFailure = (error) => ({
+    type: types.FETCH_PRODUCTS_FAILURE,
+    payload : error
+});
 
- 
-export const selectedProducts = (product) => {
-    return {
-        type : ActionTypes.SELECTED_PRODUCT,
-        payload : product,
-    };
+export const fetchProducts = () => async(dispatch) => {
+    dispatch(fetchProductsRequest());
+    try{
+        const response = await axios.get('http://localhost:8080/products/list');
+        dispatch(fetchProductsSuccess(response.data));
+    } catch (error){
+        dispatch(fetchProductsFailure(error.message));
+    }
 
 };
