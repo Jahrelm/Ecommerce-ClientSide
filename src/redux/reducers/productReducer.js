@@ -28,6 +28,22 @@ const productReducer = (state = initialState, action) => {
                     loading: false,
                     error: action.payload,
                 };
+                
+        case types.SEARCH_PRODUCTS:
+            const query = action.payload.toLowerCase();
+            const filteredProducts = state.products.filter(product => {
+                 product.title.toLowerCase().includes(query);
+
+
+            console.log("Filtered Products:", filteredProducts);
+            });
+
+
+            return {
+                ...state,
+                loading : false,
+                products : filteredProducts,
+            }
         default :
             return state;
         

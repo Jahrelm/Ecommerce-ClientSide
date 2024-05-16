@@ -25,3 +25,8 @@ export const fetchProducts = () => async(dispatch) => {
     }
 
 };
+
+export const searchProducts = (query) => ({
+    type : types.SEARCH_PRODUCTS,
+    payload : query
+})

@@ -65,10 +65,6 @@ export default function AllProductPage() {
   };
   const [filterToggle, setToggle] = useState(false);
 
- 
-
-
-
   return (
     <>
       <Layout>

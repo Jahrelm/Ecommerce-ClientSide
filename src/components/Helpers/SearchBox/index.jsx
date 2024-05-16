@@ -1,4 +1,16 @@
+import { useDispatch } from 'react-redux';
+import { searchProducts } from '../../../redux/actions/productActions';
+
+
+
 export default function SearchBox({ className,type}) {
+
+  const dispatch = useDispatch();
+
+  const handleSearch = (query) => {
+    dispatch(searchProducts(query));
+
+  };
  
   return (
     <>
@@ -8,19 +20,27 @@ export default function SearchBox({ className,type}) {
         }`}
       >
         <div className="flex-1 bg-red-500 h-full">
-          <form action="#" className="h-full">
+          <form 
+              className="h-full"
+              onSubmit={(e) => {
+                e.preventDefault();
+                const query = e.target.elements.search.value;
+                handleSearch(query);
+
+              }}
+          >
             <input
               type="text"
+              name="search"
               className="search-input"
-              placeholder="Search Product..."
-             
+              placeholder="Search Product..." 
             />
           </form>
         </div>
         <div className="w-[1px] h-[22px] bg-qgray-border"></div>
         <div className="flex-1 flex items-center px-4">
           <button
-            type="button"
+            type="text"
             className="w-full text-xs font-500 text-qgray flex justify-between items-center"
           >
             <span>All Categories</span>
@@ -54,7 +74,7 @@ export default function SearchBox({ className,type}) {
         </div>
         <button
           className={`w-[93px] h-full text-sm font-600 ${type === 3 ? 'bg-qh3-blue text-white' : 'search-btn'}`}
-          type="button"
+          type="submit"
         >
           Search
         </button>
