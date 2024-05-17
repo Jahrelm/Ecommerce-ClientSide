@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from "../../redux/actions/productActions";
 
 
+
 export default function AllProductPage() {
  
 

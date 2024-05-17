@@ -3,11 +3,21 @@ import QuickViewIco from "../icons/QuickViewIco";
 import Star from "../icons/Star";
 import ThinLove from "../icons/ThinLove";
 
-export default function ProductCardStyleOne({ datas,type }) {
+/* import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../../redux/actions/cartActions";
+import { fetchProducts } from "../../../redux/actions/productActions"
+
+
+  */
+
+
+export default function ProductCardStyleOne({ datas, type}) {
   const available =
     (datas.cam_product_sale /
       (datas.cam_product_available + datas.cam_product_sale)) *
     100;
+
   return (
     <div
       className="product-card-one w-full h-full bg-white relative group overflow-hidden"
@@ -36,7 +46,9 @@ export default function ProductCardStyleOne({ datas,type }) {
                   style={{
                     width: `${datas.campaingn_product ? 100 - available : 0}%`,
                   }}
-                  className={`h-full absolute left-0 top-0  ${type===3?'bg-qh3-blue':'bg-qyellow'}`}
+                  className={`h-full absolute left-0 top-0  ${
+                    type === 3 ? "bg-qh3-blue" : "bg-qyellow"
+                  }`}
                 ></div>
               </div>
             </div>
@@ -58,7 +70,11 @@ export default function ProductCardStyleOne({ datas,type }) {
       <div className="product-card-details px-[30px] pb-[30px] relative">
         {/* add to card button */}
         <div className="absolute w-full h-10 px-[30px] left-0 top-40 group-hover:top-[85px] transition-all duration-300 ease-in-out">
-          <button type="button" className={type===3?'blue-btn':'yellow-btn'}>
+          <button
+            /* onClick={handleAddToCart} */
+            type="button"
+            className={type === 3 ? "blue-btn" : "yellow-btn"}
+          >
             <div className="flex items-center space-x-3">
               <span>
                 <svg

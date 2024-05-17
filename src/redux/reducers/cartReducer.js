@@ -29,6 +29,18 @@ const cartReducer = (state = initialState, action) => {
                     loading: false,
                     error: action.payload,
                 };
+        case types.ADD_TO_CART_SUCCESS:
+            return {
+                ...state,
+                cart: [...state.cart, action.payload]     
+            };
+
+        case types.ADD_TO_CART_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error : action.payload,
+            };
         default :
             return state;
         

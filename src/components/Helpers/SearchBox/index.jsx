@@ -24,7 +24,7 @@ export default function SearchBox({ className,type}) {
               className="h-full"
               onSubmit={(e) => {
                 e.preventDefault();
-                const query = e.target.elements.search.value;
+                const query = e.target.value;
                 handleSearch(query);
 
               }}
