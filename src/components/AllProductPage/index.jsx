@@ -15,7 +15,7 @@ export default function AllProductPage() {
  
 
   const dispatch = useDispatch();
-  const  {products} = useSelector( (state )=> state.product);
+  const  {products} = useSelector( (state ) => state.product);
 
   useEffect(() => {
     dispatch(fetchProducts());

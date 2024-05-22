@@ -29,6 +29,9 @@ export default function Login() {
     try{
      const response = await axios.post("http://localhost:8080/auth/login", formData);
      console.log("Success:", response.data);
+     const authToken = response.data.jwt
+     console.log(authToken);
+     sessionStorage.setItem('authToken', authToken);
     }catch(error){
       console.log("Error:", error.response.data);
     }

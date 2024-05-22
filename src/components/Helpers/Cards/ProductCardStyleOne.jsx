@@ -2,17 +2,21 @@ import Compair from "../icons/Compair";
 import QuickViewIco from "../icons/QuickViewIco";
 import Star from "../icons/Star";
 import ThinLove from "../icons/ThinLove";
+import { useDispatch} from 'react-redux';
 
-/* import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { addToCart } from "../../../redux/actions/cartActions";
-import { fetchProducts } from "../../../redux/actions/productActions"
+import { addToCart } from "../../../redux/actions/productActions"; 
+/* import { useEffect } from "react"; */
+
+export default function ProductCardStyleOne({ datas, type }) {
+
+  const dispatch = useDispatch();
+ 
+  const handleAddToCart = (productId) => {
+    dispatch(addToCart(productId)); 
+};
 
 
-  */
-
-
-export default function ProductCardStyleOne({ datas, type}) {
+  
   const available =
     (datas.cam_product_sale /
       (datas.cam_product_available + datas.cam_product_sale)) *
@@ -35,7 +39,7 @@ export default function ProductCardStyleOne({ datas, type}) {
             <div className="px-[30px] absolute left-0 top-3 w-full">
               <div className="progress-title flex justify-between ">
                 <p className="text-xs text-qblack font-400 leading-6">
-                  Prodcuts Available
+                  Products Available
                 </p>
                 <span className="text-sm text-qblack font-600 leading-6">
                   {datas.cam_product_available}
@@ -46,7 +50,7 @@ export default function ProductCardStyleOne({ datas, type}) {
                   style={{
                     width: `${datas.campaingn_product ? 100 - available : 0}%`,
                   }}
-                  className={`h-full absolute left-0 top-0  ${
+                  className={`h-full absolute left-0 top-0 ${
                     type === 3 ? "bg-qh3-blue" : "bg-qyellow"
                   }`}
                 ></div>
@@ -59,7 +63,9 @@ export default function ProductCardStyleOne({ datas, type}) {
           <div className="product-type absolute right-[14px] top-[17px]">
             <span
               className={`text-[9px] font-700 leading-none py-[6px] px-3 uppercase text-white rounded-full tracking-wider ${
-                datas.product_type === "popular" ? "bg-[#19CC40]" : "bg-qyellow"
+                datas.product_type === "popular"
+                  ? "bg-[#19CC40]"
+                  : "bg-qyellow"
               }`}
             >
               {datas.product_type}
@@ -68,10 +74,10 @@ export default function ProductCardStyleOne({ datas, type}) {
         )}
       </div>
       <div className="product-card-details px-[30px] pb-[30px] relative">
-        {/* add to card button */}
+        {/* add to cart button */}
         <div className="absolute w-full h-10 px-[30px] left-0 top-40 group-hover:top-[85px] transition-all duration-300 ease-in-out">
           <button
-            /* onClick={handleAddToCart} */
+            onClick= {() => handleAddToCart(datas.id)}  
             type="button"
             className={type === 3 ? "blue-btn" : "yellow-btn"}
           >
@@ -92,9 +98,10 @@ export default function ProductCardStyleOne({ datas, type}) {
             </div>
           </button>
         </div>
+
         <div className="reviews flex space-x-[1px] mb-3">
-          {Array.from(Array(datas.review), () => (
-            <span key={datas.review + Math.random()}>
+          {Array.from(Array(datas.review), (e, i) => (
+            <span key={i}>
               <Star />
             </span>
           ))}

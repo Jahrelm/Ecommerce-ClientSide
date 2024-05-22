@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCart } from "../../redux/actions/cartActions";
 import { MdDelete } from "react-icons/md";
-import axios from "axios";
+
 
 export default function Cart({ className, type }) {
   const [totalCartCost, setTotalCartCost] = useState(0);
