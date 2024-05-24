@@ -13,10 +13,14 @@ export const loginFailure = (error) => ({
 
 });
 
-export const Login = () => async (dispatch) => {
+export const loginUser = (formData) => async (dispatch) => {
     try{
-        const response = await axios.post('http://localhost:8080/auth/login');
+        const response = await axios.post('http://localhost:8080/auth/login', formData);
+        console.log(response.data);
         dispatch(loginSuccess(response.data));
+        const authToken = response.data.jwt
+        console.log(authToken);
+        sessionStorage.setItem('authToken', authToken);
     } catch (error){
         console.error("Error Login:", error.message);
         dispatch(loginFailure(error.message));

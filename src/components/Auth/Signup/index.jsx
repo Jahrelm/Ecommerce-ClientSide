@@ -19,7 +19,7 @@ export default function Signup() {
     country: "",
     address: "",
     city: "",
-    postcode: "",
+    postCode: "",
   });
 
   const handleInputChange = (e) => {
@@ -81,7 +81,7 @@ export default function Signup() {
                         name={"fullName"}
                         type={'text'}
                         inputClasses="h-[50px]"
-                        value={formData.fullname}
+                        value={formData.fullName}
                         inputHandler={handleInputChange}
                       />
 

@@ -1,40 +1,28 @@
 import { useState } from "react";
-import axios from "axios";
+import { loginUser } from "../../../redux/actions/authAction";
+import { useDispatch} from "react-redux";
 import InputCom from "../../Helpers/InputCom";
 import Layout from "../../Partials/Layout";
 import Thumbnail from "./Thumbnail";
 
 
 export default function Login() {
-  const [checked, setValue] = useState(false);
-  const rememberMe = () => {
-    setValue(!checked);
-  };
 
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     username : "",
     password : ""
   });
-
-  const handleLoginInput = (e) =>{
-    const {name, value} = e.target
-      setFormData((prevData) => ({
-        ...prevData,
-        [name]:value,
-      }));
+  const [checked, setValue] = useState(false);
+  const rememberMe = () => {
+    setValue(!checked);
   };
-
-  const handleSubmit = async (e) => {
+  const handleLoginInput = (e) =>{
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try{
-     const response = await axios.post("http://localhost:8080/auth/login", formData);
-     console.log("Success:", response.data);
-     const authToken = response.data.jwt
-     console.log(authToken);
-     sessionStorage.setItem('authToken', authToken);
-    }catch(error){
-      console.log("Error:", error.response.data);
-    }
+    dispatch(loginUser(formData))
   }
 
   return (
