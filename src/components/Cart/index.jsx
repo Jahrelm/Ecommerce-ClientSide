@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchCart } from "../../redux/actions/cartActions";
 import { MdDelete } from "react-icons/md";
 
-
 export default function Cart({ className, type }) {
   const [totalCartCost, setTotalCartCost] = useState(0);
 
@@ -49,15 +48,14 @@ export default function Cart({ className, type }) {
                       {item.title}
                     </p>
                     <p className="text-sm font-medium text-black-500">
-                   
-                    ${item.totalCost} (<span className="text-black-600">{item.quantity}</span>)   
+                      ${item.totalCost} (
+                      <span className="text-black-600">{item.quantity}</span>)
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-2">
-                  
                   <button className="p-1 text-red-400 hover:text-red-500">
-                      <MdDelete />
+                    <MdDelete />
                   </button>
                 </div>
               </li>
@@ -75,7 +73,7 @@ export default function Cart({ className, type }) {
             </span>
           </div>
           <div className="space-y-2">
-            <a href="#">
+            <a href="/cart">
               <div className="gray-btn w-full h-[50px] mb-[10px] flex items-center justify-center bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200">
                 <span>View Cart</span>
               </div>
@@ -88,7 +86,9 @@ export default function Cart({ className, type }) {
                     : "bg-yellow-500 text-black"
                 } hover:opacity-90`}
               >
-                <span className="text-sm">Checkout Now</span>
+                <a href="/checkout">
+                  <span className="text-sm">Checkout Now</span>
+                </a>
               </div>
             </a>
           </div>
