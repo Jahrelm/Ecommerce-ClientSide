@@ -4,11 +4,16 @@ import { useDispatch} from "react-redux";
 import InputCom from "../../Helpers/InputCom";
 import Layout from "../../Partials/Layout";
 import Thumbnail from "./Thumbnail";
+import {useNavigate} from "react-router-dom"
+
+
 
 
 export default function Login() {
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     username : "",
     password : ""
@@ -22,8 +27,10 @@ export default function Login() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(loginUser(formData))
-  }
+    dispatch(loginUser(formData)).then (() => {
+      navigate("/");
+    });
+  };
 
   return (
     <Layout childrenClasses="pt-0 pb-0">
@@ -51,7 +58,10 @@ export default function Login() {
                     </svg>
                   </div>
                 </div>
-                <form onSubmit={handleSubmit}>
+                <form 
+                onSubmit={handleSubmit}
+                
+                >
                 <div className="input-area">
                   <div className="input-item mb-5">
                     <InputCom

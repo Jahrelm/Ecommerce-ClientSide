@@ -1,11 +1,15 @@
 import { useState } from "react";
 import axios from "axios";
+import { signUpUser } from "../../../redux/actions/authAction";
 import InputCom from "../../Helpers/InputCom";
 import Layout from "../../Partials/Layout";
 import Thumbnail from "./Thumbnail";
-
+import { useDispatch} from "react-redux";
 
 export default function Signup() {
+
+  const dispatch = useDispatch();
+  
   const [checked, setValue] = useState(false);
   const rememberMe = () => {
     setValue(!checked);
@@ -23,26 +27,18 @@ export default function Signup() {
   });
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post(
-        "http://localhost:8080/auth/register",
-        formData
-      );
-      console.log("Success:", response.data);
-    } catch (error) {
-      console.error("Error:", error.response.data);
+    dispatch(signUpUser(formData))
+
     }
-  };
+
+
+
   return (
     <Layout childrenClasses="pt-0 pb-0">
       <div className="login-page-wrapper w-full py-10">
