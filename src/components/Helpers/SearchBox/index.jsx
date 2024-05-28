@@ -4,12 +4,13 @@ import { useState } from 'react';
 
 
 
-export default function SearchBox({ className,type}) {
+export default function SearchBox({title,className,type}) {
 
   const dispatch = useDispatch();
   const [query, setQuery] = useState('');
+ 
 
-  const handleSearch = (query) => {
+  const handleSearch = () => {
     dispatch(searchProducts(query));
 
   };
@@ -29,7 +30,7 @@ export default function SearchBox({ className,type}) {
               className="h-full"
               onSubmit={(e) => {
                 e.preventDefault();
-                handleSearch(query);
+                handleSearch();
 
               }}
           >
@@ -38,13 +39,13 @@ export default function SearchBox({ className,type}) {
               name="search"
               className="search-input"
               placeholder="Search Product..." 
-              value={query}
+              value={title}
               onChange={handleInputChange}
             />
           </form>
         </div>
         <div className="w-[1px] h-[22px] bg-qgray-border"></div>
-        <div className="flex-1 flex items-center px-4">
+     {/*    <div className="flex-1 flex items-center px-4">
           <button
             type="text"
             className="w-full text-xs font-500 text-qgray flex justify-between items-center"
@@ -77,11 +78,11 @@ export default function SearchBox({ className,type}) {
               </svg>
             </span>
           </button>
-        </div>
+        </div> */}
         <button
           className={`w-[93px] h-full text-sm font-600 ${type === 3 ? 'bg-qh3-blue text-white' : 'search-btn'}`}
           type="submit"
-          onClick={() => handleSearch(query)}
+          onClick={handleSearch}
         >
           Search
         </button>

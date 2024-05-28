@@ -6,7 +6,7 @@ const initialState = {
   error: null,
   test: 1,
   allProducts: [],
-  cart : [],
+  cart: [],
 };
 
 const productReducer = (state = initialState, action) => {
@@ -31,20 +31,6 @@ const productReducer = (state = initialState, action) => {
         loading: false,
         error: action.payload,
       };
-
-    case types.SEARCH_PRODUCTS:
-      const query = action.payload.toLowerCase();
-      const filteredProducts = state.allProducts.filter((product) => {
-        product.title.toLowerCase().includes(query);
-
-        console.log("Filtered Products:", filteredProducts);
-      });
-
-      return {
-        ...state,
-        loading: false,
-        products: filteredProducts,
-      };
     case types.ADD_TO_CART_SUCCESS:
       return {
         ...state,
@@ -52,6 +38,23 @@ const productReducer = (state = initialState, action) => {
       };
 
     case types.ADD_TO_CART_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    case types.SEARCH_PRODUCTS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case types.SEARCH_PRODUCTS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        products: action.payload,
+      };
+    case types.SEARCH_PRODUCTS_FAILURE:
       return {
         ...state,
         loading: false,
