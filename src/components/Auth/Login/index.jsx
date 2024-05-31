@@ -123,7 +123,7 @@ export default function Login() {
                         </span>
                       </div>
                       <a
-                        href="/forgot-password"
+                        href="/reset-password"
                         className="text-base text-qyellow"
                       >
                         Forgot Password

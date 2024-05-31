@@ -24,6 +24,7 @@ import TermsCondition from "./components/TermsCondition/index";
 import TrackingOrder from "./components/TrackingOrder";
 import Wishlist from "./components/Wishlist";
 import HomeThree from "./components/HomeThree";
+import ResetPassword from "./components/Auth/ResetPassword/index.jsx";
 
 export default function Routers() {
   return (
@@ -31,6 +32,7 @@ export default function Routers() {
       <Route exact path="/" element={<Login />} />
       <Route exact path="/home-one" element={<Home />} />
       <Route exact path="/home-two" element={<HomeTwo />} />
+      <Route exact path="/reset-password" element={<ResetPassword />} />
       <Route exact path="/home-three" element={<HomeThree />} />
       <Route exact path="/all-products" element={<AllProductPage />} />
       <Route exact path="/single-product" element={<SingleProductPage />} />
