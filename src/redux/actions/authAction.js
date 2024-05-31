@@ -54,3 +54,30 @@ export const loginUser = (formData) => async (dispatch) => {
     }
 
 }
+export const resetPasswordSuccess = (data) => ({
+    type : types.RESET_PASSWORD_SUCCESS,
+    payload : data,
+});
+
+export const resetPasswordFailure = (error) => ({
+    type : types.RESET_PASSWORD_FAILURE,
+    payload : error,
+});
+
+//post request for reset password
+/* export const resetPasswordRequest = (formData) => async (dispatch) => {
+    try{
+        const response = await axios.post("http://localhost:8080/password/reset-request")
+
+    }catch(error){
+
+
+    }
+
+
+
+
+
+} */
+
+
