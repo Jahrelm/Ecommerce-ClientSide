@@ -4,6 +4,7 @@ const initialState = {
     user : null,
     error : null,
    loading : false,
+   sucess : false,
 
 };
 
@@ -15,6 +16,7 @@ const authReducer = (state = initialState, action) => {
                 user : action.payload,
                 error : null,
                 loading : false,
+                success : true,
                
             };
         case types.LOGIN_FAILURE:
@@ -23,6 +25,7 @@ const authReducer = (state = initialState, action) => {
                 user : null,
                 error : action.payload,
                 loading : false,
+                success : false,
             };
         case types.SIGN_UP_SUCCESS:
             return{
@@ -30,6 +33,7 @@ const authReducer = (state = initialState, action) => {
                 user : action.payload,
                 error : null,
                 loading : false,
+               
                
             };
         case types.SIGN_UP_FAILURE:

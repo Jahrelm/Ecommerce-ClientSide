@@ -28,7 +28,8 @@ import HomeThree from "./components/HomeThree";
 export default function Routers() {
   return (
     <Routes>
-      <Route exact path="/" element={<Home />} />
+      <Route exact path="/" element={<Login />} />
+      <Route exact path="/home-one" element={<Home />} />
       <Route exact path="/home-two" element={<HomeTwo />} />
       <Route exact path="/home-three" element={<HomeThree />} />
       <Route exact path="/all-products" element={<AllProductPage />} />
