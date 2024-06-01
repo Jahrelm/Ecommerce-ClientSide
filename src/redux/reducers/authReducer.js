@@ -43,8 +43,41 @@ const authReducer = (state = initialState, action) => {
                 error : action.payload,
                 loading : false,
             };
+        case types.RESET_PASSWORD_REQUEST_SUCCESS:
+            return{
+                ...state, 
+                user : action.payload,
+                success : true,
+                loading : false,
+              
+            };
+        case types.RESET_PASSWORD_REQUEST_FAILURE:
+            return{
+                ...state, 
+                user : null,
+                error : action.payload,
+                loading : false,
+              
+            };
+        case types.RESET_PASSWORD_SUCCESS:
+                return{
+                    ...state, 
+                    user : action.payload,
+                    success : true,
+                    loading : false,
+                  
+                };
+        case types.RESET_PASSWORD_FAILURE:
+                return{
+                    ...state, 
+                    user : null,
+                    error : action.payload,
+                    loading : false,
+                  
+                };
         default:
             return state;
     }
 };
+
 export default authReducer;

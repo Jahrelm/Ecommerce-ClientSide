@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { loginUser } from "../../../redux/actions/authAction";
+import { /* useEffect, */ useState } from "react";
+import {resetPasswordRequest, resetPassword } from "../../../redux/actions/authAction";
 import { useDispatch, useSelector } from "react-redux";
 import InputCom from "../../Helpers/InputCom";
 import Layout from "../../Partials/Layout";
@@ -8,25 +8,16 @@ import { useNavigate } from "react-router-dom";
 
 export default function ResetPassword() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const { success } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    if (success) {
-      navigate("/home-one");
-    }
-  }, [navigate, success]);
-
+ 
   const [formData, setFormData] = useState({
     username: "",
     password: "",
-    token: ""
+    token: "" 
   });
 
   const [showFirstForm, setShowFirstForm] = useState(true);
 
-  const handleLoginInput = (e) => {
+  const handleRequestInput = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -34,10 +25,10 @@ export default function ResetPassword() {
     e.preventDefault();
     if (showFirstForm) {
       setShowFirstForm(false); 
-      dispatch(loginUser(formData));
+      dispatch(resetPasswordRequest(formData));
     } else {
       setShowFirstForm(true); 
-      dispatch(loginUser(formData));
+      dispatch(resetPassword(formData));
       setFormData({ ...formData, password: "", token: "" });
     }
   };
@@ -79,7 +70,7 @@ export default function ResetPassword() {
                           name="username"
                           type="text"
                           value={formData.username}
-                          inputHandler={handleLoginInput}
+                          inputHandler={handleRequestInput}
                           inputClasses="h-[50px]"
                         />
                       </div>
@@ -104,7 +95,7 @@ export default function ResetPassword() {
                         name="token"
                         type="text"
                         value={formData.token}
-                        inputHandler={handleLoginInput}
+                        inputHandler={handleRequestInput}
                         inputClasses="h-[50px]"
                       />
                     </div>
@@ -115,7 +106,7 @@ export default function ResetPassword() {
                         name="password"
                         type="password"
                         value={formData.password}
-                        inputHandler={handleLoginInput}
+                        inputHandler={handleRequestInput}
                         inputClasses="h-[50px]"
                       />
                     </div>
