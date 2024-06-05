@@ -4,8 +4,20 @@ import ThinBag from "../../../Helpers/icons/ThinBag";
 import ThinLove from "../../../Helpers/icons/ThinLove";
 import ThinPeople from "../../../Helpers/icons/ThinPeople";
 import SearchBox from "../../../Helpers/SearchBox";
+import {useState,useEffect } from "react";
+import {useSelector } from "react-redux";
 
 export default function Middlebar({ className,type }) {
+
+  const { cart } = useSelector((state) => state.cart);
+   const [count, setCount] = useState(0); 
+
+  useEffect(() => {
+      setCount(cart.length);
+  }, [cart]);
+ 
+
+
   return (
     <div className={`w-full h-[86px] bg-white ${className}`}>
       <div className="container-x mx-auto h-full">
@@ -65,7 +77,7 @@ export default function Middlebar({ className,type }) {
                     </span>
                   </a>
                   <span className={`w-[18px] h-[18px] rounded-full  absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px] ${type===3?'bg-qh3-blue text-white':'bg-qyellow'}`}>
-                    15
+                    {count}
                   </span>
                 </div>
                 {/* <div className="fixed left-0 top-0 w-full h-full z-40"></div> */}

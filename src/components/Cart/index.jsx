@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCart } from "../../redux/actions/cartActions";
+import { fetchCart, removeFromCart } from "../../redux/actions/cartActions";
 import { MdDelete } from "react-icons/md";
 
-export default function Cart({ className, type }) {
+export default function Cart({className, type }) {
   const [totalCartCost, setTotalCartCost] = useState(0);
 
   const dispatch = useDispatch();
@@ -13,10 +13,17 @@ export default function Cart({ className, type }) {
     dispatch(fetchCart());
   }, [dispatch]);
 
+  const handleRemoveFromCart = (productId) => {
+    dispatch(removeFromCart(productId));
+  }
+
+
   useEffect(() => {
     if (cart.length > 0) {
       const total = cart.reduce((sum, item) => sum + item.totalCost, 0);
       setTotalCartCost(total.toFixed(2));
+    } else{
+      setTotalCartCost(0);
     }
   }, [cart]);
 
@@ -54,8 +61,11 @@ export default function Cart({ className, type }) {
                   </div>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <button className="p-1 text-red-400 hover:text-red-500">
+                  <button
+                  onClick = {() => handleRemoveFromCart(item.id)}
+                   className="p-1 text-red-400 hover:text-red-500">
                     <MdDelete />
+                   
                   </button>
                 </div>
               </li>

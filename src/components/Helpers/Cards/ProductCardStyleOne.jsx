@@ -4,7 +4,7 @@ import Star from "../icons/Star";
 import ThinLove from "../icons/ThinLove";
 import { useDispatch} from 'react-redux';
 
-import { addToCart } from "../../../redux/actions/productActions"; 
+import { addToCart } from "../../../redux/actions/cartActions"; 
 /* import { useEffect } from "react"; */
 
 export default function ProductCardStyleOne({ datas, type }) {

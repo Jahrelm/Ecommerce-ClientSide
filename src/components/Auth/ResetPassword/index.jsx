@@ -1,6 +1,6 @@
 import { /* useEffect, */ useState } from "react";
 import {resetPasswordRequest, resetPassword } from "../../../redux/actions/authAction";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import InputCom from "../../Helpers/InputCom";
 import Layout from "../../Partials/Layout";
 import Thumbnail from "./Thumbnail";
@@ -8,11 +8,21 @@ import { useNavigate } from "react-router-dom";
 
 export default function ResetPassword() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const loginPage = () => {
+    navigate("/");
+
+  };
+  
+  const [resetFormData, setResetFormData] = useState({
+    token: "" ,
+    newPassword: "",
  
+
+  })
   const [formData, setFormData] = useState({
     username: "",
-    password: "",
-    token: "" 
   });
 
   const [showFirstForm, setShowFirstForm] = useState(true);
@@ -20,16 +30,20 @@ export default function ResetPassword() {
   const handleRequestInput = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+  const handleResetInput = (e) => {
+    setResetFormData({ ...resetFormData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (showFirstForm) {
       setShowFirstForm(false); 
       dispatch(resetPasswordRequest(formData));
-    } else {
+    } else { 
       setShowFirstForm(true); 
-      dispatch(resetPassword(formData));
-      setFormData({ ...formData, password: "", token: "" });
+      dispatch(resetPassword(resetFormData));
+      setFormData({ ...resetFormData,  token: "" , newPassword: "" });
+      
     }
   };
 
@@ -78,9 +92,18 @@ export default function ResetPassword() {
                         <div className="flex justify-center">
                           <button
                             type="submit"
-                            className="black-btn mb-6 text-sm text-white w-full h-[50px] font-semibold flex justify-center bg-purple items-center"
+                            className="black-btn mb-6 mr-5 text-sm text-white w-full h-[50px] font-semibold flex justify-center bg-purple items-center"
                           >
                             <span>Send Reset Link</span>
+                          </button>
+                          <button
+                          type="button"
+                          onClick={loginPage}
+                            
+                            className="black-btn mb-6 ml-5 text-sm text-white w-full h-[50px] font-semibold flex justify-center bg-purple items-center"
+                          >
+                            
+                            <span>Login</span>
                           </button>
                         </div>
                       </div>
@@ -94,8 +117,8 @@ export default function ResetPassword() {
                         label="Token*"
                         name="token"
                         type="text"
-                        value={formData.token}
-                        inputHandler={handleRequestInput}
+                        value={resetFormData.token}
+                        inputHandler={handleResetInput}
                         inputClasses="h-[50px]"
                       />
                     </div>
@@ -103,10 +126,10 @@ export default function ResetPassword() {
                       <InputCom
                         placeholder="Enter new password"
                         label="New Password*"
-                        name="password"
+                        name="newPassword"
                         type="password"
-                        value={formData.password}
-                        inputHandler={handleRequestInput}
+                        value={resetFormData.newPassword}
+                        inputHandler={handleResetInput}
                         inputClasses="h-[50px]"
                       />
                     </div>
@@ -114,7 +137,8 @@ export default function ResetPassword() {
                       <div className="flex justify-center">
                         <button
                           type="submit"
-                          className="black-btn mb-6 text-sm text-white w-full h-[50px] font-semibold flex justify-center bg-purple items-center"
+                         
+                          className="black-btn mb-6 mr-6 text-sm text-white w-full h-[50px] font-semibold flex justify-center bg-purple items-center"
                         >
                           <span>Submit</span>
                         </button>

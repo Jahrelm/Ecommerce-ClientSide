@@ -873,7 +873,7 @@ export default function Navbar({ className,type }) {
                             <div className="category-items">
                               <ul className="flex flex-col space-y-2">
                                 <li>
-                                  <a href="/">
+                                  <a href="/home-one">
                                     <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type===3?'hover:text-qh3-blue hover:border-qh3-blue':'hover:text-qyellow hover:border-qyellow'}`}>
                                       Home One
                                     </span>

@@ -73,15 +73,8 @@ export const resetPasswordRequestFailure = (error) => ({
 
 export const resetPasswordRequest = (formData) => async (dispatch) => {
     try {
-        const authToken = sessionStorage.getItem('authToken');
-        const response = await axiosInstance.post('/password/reset-request', formData,
-        {},
-        {
-          headers: {
-            'Authorization': `Bearer ${authToken}`
-          }
-        }
-      );
+     
+        const response = await axiosInstance.post('/password/reset-request', formData);
         console.log(response.data);
         dispatch(resetPasswordRequestSuccess(response.data));
     } catch (error) {
@@ -104,15 +97,8 @@ export const resetPasswordFailure = (error) => ({
 
 export const resetPassword = (formData) => async (dispatch) => {
     try {
-        const authToken = sessionStorage.getItem('authToken');
-        const response = await axiosInstance.post('/password/reset', formData,
-        {},
-        {
-          headers: {
-            'Authorization': `Bearer ${authToken}`
-          }
-        }
-      );
+      
+        const response = await axiosInstance.post('/password/reset', formData);
         console.log(response.data);
         dispatch(resetPasswordSuccess(response.data));
     } catch (error) {

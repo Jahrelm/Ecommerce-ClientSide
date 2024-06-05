@@ -141,7 +141,7 @@ export default function Signup() {
                         />
                       </div>
                       <div className="flex-1">
-                        <div className="w-full h-[50px] mb-5 sm:mb-0">
+                        <div className="w-full h-[50px] mb-6 sm:mb-0">
                           <InputCom
                             label="Postcode / ZIP*"
                             name={"postCode"}
@@ -154,7 +154,7 @@ export default function Signup() {
                         </div>
                       </div>
                     </div>
-                    <div className="forgot-password-area mb-7 mt-20">
+                    <div className="forgot-password-area mb-7 mt-12">
                       <div className="remember-checkbox flex items-center space-x-2.5">
                         <button
                           onClick={rememberMe}
@@ -180,11 +180,8 @@ export default function Signup() {
                           onClick={rememberMe}
                           className="text-base text-black"
                         >
-                          I agree all
-                          <span className="text-qblack">
-                            tarm and condition
-                          </span>
-                          in BigShop.
+                          I agree to all terms and conditions
+                      
                         </span>
                       </div>
                     </div>
