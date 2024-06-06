@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as types from '../constants/action-types';
+import { fetchCart } from './cartActions';
 
 
 const axiosInstance = axios.create({

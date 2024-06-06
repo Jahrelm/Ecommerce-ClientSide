@@ -7,7 +7,8 @@ import DataIteration from "../Helpers/DataIteration";
 import Layout from "../Partials/Layout";
 import ProductsFilter from "./ProductsFilter";
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProducts } from "../../redux/actions/productActions";
+import { fetchProducts/* , searchProducts */ } from "../../redux/actions/productActions";
+/* import SearchBox from "../Helpers/SearchBox"; */
 
 
 
@@ -16,11 +17,19 @@ export default function AllProductPage() {
 
   const dispatch = useDispatch();
   const  {products} = useSelector( (state ) => state.product);
+  /* 
+  const  {success} = useSelector( (state ) => state.product); */
 
   useEffect(() => {
     dispatch(fetchProducts());
   
   }, [dispatch]);
+
+ /*  useEffect(() => {
+    if (success){
+      dispatch(searchProducts());
+    }
+  }, [success]); */
 
   
   const [filters, setFilter] = useState({
@@ -104,6 +113,7 @@ export default function AllProductPage() {
                       results
                     </p>
                   </div>
+                 
                   
                   <div className="flex space-x-3 items-center">
                     <span className="font-400 text-[13px]">Sort by:</span>
@@ -165,7 +175,7 @@ export default function AllProductPage() {
                 <div className="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 xl:gap-[30px] gap-5 mb-[40px]">
                   <DataIteration
                     datas={products}
-                    startLength={6}
+                    startLength={0}
                     endLength={15}
                   >
                     {({ datas }) => (

@@ -9,12 +9,15 @@ export default function Cart({className, type }) {
   const dispatch = useDispatch();
   const { cart } = useSelector((state) => state.cart);
 
+
   useEffect(() => {
-    dispatch(fetchCart());
+      dispatch(fetchCart());
   }, [dispatch]);
 
-  const handleRemoveFromCart = (productId) => {
-    dispatch(removeFromCart(productId));
+
+
+  const handleRemoveFromCart = (cartItemId) => {
+    dispatch(removeFromCart(cartItemId));
   }
 
 
@@ -62,9 +65,10 @@ export default function Cart({className, type }) {
                 </div>
                 <div className="flex items-center space-x-2">
                   <button
-                  onClick = {() => handleRemoveFromCart(item.id)}
+                  
                    className="p-1 text-red-400 hover:text-red-500">
-                    <MdDelete />
+                    <MdDelete
+                    onClick = {() => handleRemoveFromCart(item.id)}/>
                    
                   </button>
                 </div>

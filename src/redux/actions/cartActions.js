@@ -59,23 +59,24 @@ export const addToCart = (productId) => async (dispatch) => {
 
     console.log("Response from server:", response.data);
     dispatch(addToCartSuccess(response.data));
+    dispatch(fetchCart());
   } catch (error) {
     console.error("Error adding to cart:", error.message);
     dispatch(addToCartFailure(error.message));
   }
 };
 
-export const deleteFromCartSuccess = (productId) => ({
+export const deleteFromCartSuccess = () => ({
   type: types.DELETE_FROM_CART_SUCCESS,
-  payload: productId,
+  //payload: 
 });
 
 
-export const removeFromCart = (productId) => async (dispatch) => {
+export const removeFromCart = (cartItemId) => async (dispatch) => {
   try {
     const authToken = sessionStorage.getItem('authToken');
     console.log(authToken);
-    const response = await axiosInstance.delete(`/cart/remove?productId=${productId}`, 
+    const response = await axiosInstance.delete(`/cart/remove?cartItemId=${cartItemId}`, 
       {},
       {
         headers: {
@@ -83,7 +84,8 @@ export const removeFromCart = (productId) => async (dispatch) => {
         }
       }
     );
-    dispatch(deleteFromCartSuccess(productId));
+   //dispatch(deleteFromCartSuccess());
+    dispatch(fetchCart());
     console.log("Successfuly remove",response.data);
   } catch (error) {
     console.error("Unsucceffuly removed");

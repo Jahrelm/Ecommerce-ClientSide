@@ -5,10 +5,29 @@ import PageTitle from "../Helpers/PageTitle";
 import Layout from "../Partials/Layout";
 import ProductsTable from "./ProductsTable";
 
-export default function CardPage({ cart = true }) {
+import { useState, useEffect } from "react";
+import { useSelector} from "react-redux";
+
+
+export default function CardPage({ cartt = true }) {
+
+  const {cart} = useSelector((state) => state.cart); 
+
+  
+  const [totalCartCost, setTotalCartCost] = useState(0);
+
+  useEffect(() => {
+    if (cart.length > 0) {
+      const total = cart.reduce((sum, item) => sum + item.totalCost, 0);
+      setTotalCartCost(total.toFixed(2));
+    } else{
+      setTotalCartCost(0);
+    }
+  }, [cart]);
+
   return (
-    <Layout childrenClasses={cart ? "pt-0 pb-0" : ""}>
-      {cart === false ? (
+    <Layout childrenClasses={cartt ? "pt-0 pb-0" : ""}>
+      {cartt === false ? (
         <div className="cart-page-wrapper w-full">
           <div className="container-x mx-auto">
             <BreadcrumbCom
@@ -51,23 +70,20 @@ export default function CardPage({ cart = true }) {
                       </span>
                     </div>
                   </a>
-                  <a href="#">
-                    <div className="w-[140px] h-[50px] bg-[#F6F6F6] flex justify-center items-center">
-                      <span className="text-sm font-semibold">Update Cart</span>
-                    </div>
-                  </a>
                 </div>
               </div>
               <div className="w-full mt-[30px] flex sm:justify-end">
                 <div className="sm:w-[370px] w-full border border-[#EDEDED] px-[30px] py-[26px]">
                   <div className="sub-total mb-6">
-                    <div className=" flex justify-between mb-6">
-                      <p className="text-[15px] font-medium text-qblack">
-                        Subtotal
-                      </p>
-                      <p className="text-[15px] font-medium text-qred">$365</p>
-                    </div>
-                    <div className="w-full h-[1px] bg-[#EDEDED]"></div>
+                    
+                    <div className=" flex justify-between mb-6"
+                        >
+                        <p className="text-[15px] font-medium text-qblack">
+                          Subtotal
+                        </p>
+                        <p className="text-[15px] font-medium text-qred">${totalCartCost}</p>
+                      </div><div className="w-full h-[1px] bg-[#EDEDED]"></div>
+                  
                   </div>
                   <div className="shipping mb-6">
                     <span className="text-[15px] font-medium text-qblack mb-[18px] block">
@@ -166,17 +182,12 @@ export default function CardPage({ cart = true }) {
                       />
                     </div>
                   </div>
-                  <button type="button" className="w-full mb-10">
-                    <div className="w-full h-[50px] bg-[#F6F6F6] flex justify-center items-center">
-                      <span className="text-sm font-semibold">Update Cart</span>
-                    </div>
-                  </button>
                   <div className="total mb-6">
                     <div className=" flex justify-between">
                       <p className="text-[18px] font-medium text-qblack">
                         Total
                       </p>
-                      <p className="text-[18px] font-medium text-qred">$365</p>
+                      <p className="text-[18px] font-medium text-qred">${totalCartCost}</p>
                     </div>
                   </div>
                   <a href="/checkout">
