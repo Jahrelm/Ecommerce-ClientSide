@@ -5,6 +5,7 @@ import ThinLove from "../icons/ThinLove";
 import { useDispatch} from 'react-redux';
 
 import { addToCart } from "../../../redux/actions/cartActions"; 
+import { addToWishList } from "../../../redux/actions/wishListAction";
 /* import { useEffect } from "react"; */
 
 export default function ProductCardStyleOne({ datas, type }) {
@@ -14,6 +15,11 @@ export default function ProductCardStyleOne({ datas, type }) {
   const handleAddToCart = (productId) => {
     dispatch(addToCart(productId)); 
 };
+
+
+const handleAddToWishList = (productId) => {
+  dispatch(addToWishList(productId));
+}
 
 
   
@@ -128,9 +134,12 @@ export default function ProductCardStyleOne({ datas, type }) {
           </span>
         </a>
         <a href="#">
-          <span className="w-10 h-10 flex justify-center items-center bg-primarygray rounded">
-            <ThinLove />
-          </span>
+          <button
+          onClick={() => handleAddToWishList(datas.id)}>
+            <span className="w-10 h-10 flex justify-center items-center bg-primarygray rounded">
+              <ThinLove />
+            </span>
+          </button>
         </a>
         <a href="#">
           <span className="w-10 h-10 flex justify-center items-center bg-primarygray rounded">

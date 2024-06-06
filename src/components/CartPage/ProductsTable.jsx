@@ -1,12 +1,12 @@
 /* import InputQuantityCom from "../Helpers/InputQuantityCom"; */
 import { useSelector, useDispatch } from "react-redux";
-import { useState, useEffect } from "react";
+import {useEffect } from "react";
 import { MdDelete } from "react-icons/md";
 import {removeFromCart } from "../../redux/actions/cartActions";
 
 export default function ProductsTable({ className }) {
 
-  const [totalCartCost, setTotalCartCost] = useState(0);
+ 
 
   const dispatch = useDispatch();
 

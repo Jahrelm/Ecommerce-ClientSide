@@ -34,6 +34,7 @@ export const fetchCart = () => async (dispatch) => {
     dispatch(fetchCartFailure(error.message));
   }
 };
+
 export const addToCartSuccess = (data) => ({
   type: types.ADD_TO_CART_SUCCESS,
   payload: data,

@@ -3,11 +3,25 @@ import EmptyWishlistError from "../EmptyWishlistError";
 import PageTitle from "../Helpers/PageTitle";
 import Layout from "../Partials/Layout";
 import ProductsTable from "./ProductsTable";
+import { addToCart } from "../../redux/actions/cartActions";
+import { useDispatch,useSelector } from "react-redux";
 
-export default function Wishlist({ wishlist = true }) {
+export default function Wishlist({ wishlistt = true }) {
+
+  const {wishlist} = useSelector((state) => state.wishlist);
+
+  const dispatch = useDispatch();
+
+  
+  const handleAddToCart = (productIds) => {
+    productIds.forEach(productId => {
+      dispatch(addToCart(productId));
+    });
+  }
+
   return (
-    <Layout childrenClasses={wishlist ? "pt-0 pb-0" : ""}>
-      {wishlist === false ? (
+    <Layout childrenClasses={wishlistt ? "pt-0 pb-0" : ""}>
+      {wishlistt === false ? (
         <div className="wishlist-page-wrapper w-full">
           <div className="container-x mx-auto">
             <BreadcrumbCom
@@ -41,7 +55,11 @@ export default function Wishlist({ wishlist = true }) {
                     </div>
                   </button>
                   <div className="w-[180px] h-[50px]">
-                    <button type="button" className="yellow-btn">
+                    <button 
+                    type="button" 
+                    className="yellow-btn"
+                    onClick = {() => handleAddToCart(wishlist.map(product => product.id))}
+                    >
                       <div className="w-full text-sm font-semibold">
                         Add to Cart All
                       </div>
