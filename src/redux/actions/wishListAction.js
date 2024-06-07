@@ -68,5 +68,35 @@ export const fetchWishListRequest = () => ({
     }
   };
   
+  export const moveAllToCartSuccess = () => ({
+    type: types.MOVE_ALL_TO_CART_SUCCESS,
+});
+
+export const moveAllToCartFailure = (error) => ({
+    type: types.MOVE_ALL_TO_CART_FAILURE,
+    payload: error,
+});
+export const moveAllToCart = () => async (dispatch) => {
+  try {
+      const authToken = sessionStorage.getItem('authToken');
+      const response = await axiosInstance.post(
+          '/wishlist/moveAllToCart',
+          {},
+          {
+              headers: {
+                  'Authorization': `Bearer ${authToken}`,
+              },
+          }
+      );
+
+      console.log("Response from server:", response.data);
+      dispatch(moveAllToCartSuccess());
+      // Fetch the updated cart
+      dispatch(fetchCart());
+  } catch (error) {
+      console.log("Error: ", error.message);
+      dispatch(moveAllToCartFailure(error.message));
+  }
+};
 
 

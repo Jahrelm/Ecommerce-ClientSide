@@ -3,21 +3,21 @@ import EmptyWishlistError from "../EmptyWishlistError";
 import PageTitle from "../Helpers/PageTitle";
 import Layout from "../Partials/Layout";
 import ProductsTable from "./ProductsTable";
-import { addToCart } from "../../redux/actions/cartActions";
-import { useDispatch,useSelector } from "react-redux";
+import { moveAllToCart } from "../../redux/actions/wishListAction";
+
+import { useDispatch} from "react-redux";
+
 
 export default function Wishlist({ wishlistt = true }) {
 
-  const {wishlist} = useSelector((state) => state.wishlist);
 
   const dispatch = useDispatch();
 
+  const handleMoveAllToCart = () => {
+    dispatch(moveAllToCart());
+  };
   
-  const handleAddToCart = (productIds) => {
-    productIds.forEach(productId => {
-      dispatch(addToCart(productId));
-    });
-  }
+
 
   return (
     <Layout childrenClasses={wishlistt ? "pt-0 pb-0" : ""}>
@@ -58,7 +58,7 @@ export default function Wishlist({ wishlistt = true }) {
                     <button 
                     type="button" 
                     className="yellow-btn"
-                    onClick = {() => handleAddToCart(wishlist.map(product => product.id))}
+                    onClick = {handleMoveAllToCart}
                     >
                       <div className="w-full text-sm font-semibold">
                         Add to Cart All

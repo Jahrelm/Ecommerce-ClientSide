@@ -66,6 +66,19 @@ const wishListReducer = (state = initialState, action) => {
                 error: action.payload,
             };
 
+        case types.MOVE_ALL_TO_CART_SUCCESS:
+                return {
+                    ...state,
+                    wishlist: [],
+                };
+    
+            case types.MOVE_ALL_TO_CART_FAILURE:
+                return {
+                    ...state,
+                    loading: false,
+                    error: action.payload,
+                };
+
         /* case types.DELETE_FROM_CART_SUCCESS: {
             const updatedCart = state.cart.filter(product => product.id !== action.payload);
             return {
