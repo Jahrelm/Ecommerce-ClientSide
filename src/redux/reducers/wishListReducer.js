@@ -29,11 +29,11 @@ const wishListReducer = (state = initialState, action) => {
                 error: action.payload,
             };
         case types.ADD_TO_WISHLIST_SUCCESS: {
-            const itemIndex = state.wishlist.findIndex(item => item.id === action.payload.id);
+            const itemWishIndex = state.wishlist.findIndex(item => item.id === action.payload.id);
 
-            if (itemIndex >= 0) {
+            if (itemWishIndex >= 0) {
                 const newWishList = state.wishlist.map((item, index) => 
-                    index === itemIndex ? 
+                    index === itemWishIndex ? 
                     { 
                         ...item, 
                         quantity: item.quantity + action.payload.quantity, 
@@ -46,7 +46,7 @@ const wishListReducer = (state = initialState, action) => {
                     wishlist: newWishList
                 };
             } else {
-                const newItem = {
+                const newWishItem = {
                     ...action.payload,
                     quantity: 1,
                     originalPrice: parseFloat(action.payload.price)
@@ -54,7 +54,7 @@ const wishListReducer = (state = initialState, action) => {
 
                 return {
                     ...state,
-                    wishlist: [...state.wishlist, newItem]
+                    wishlist: [...state.wishlist, newWishItem]
                 };
             }
         }

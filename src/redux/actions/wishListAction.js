@@ -10,6 +10,31 @@ const axiosInstance = axios.create({
   },
 });
 
+export const fetchWishListRequest = () => ({
+  type: types.FETCH_WISHLIST_REQUEST,
+});
+
+export const fetchWishListSuccess = (wishlist) => ({
+  type: types.FETCH_WISHLIST_SUCCESS,
+  payload: wishlist,
+});
+
+export const fetchWishListFailure = (error) => ({
+  type: types.FETCH_WISHLIST_FAILURE,
+  payload: error,
+});
+
+export const fetchWishList = () => async (dispatch) => {
+  dispatch(fetchWishListRequest());
+  try {
+    const response = await axiosInstance.get("/wishlist/list");
+    dispatch(fetchWishListSuccess(response.data));
+  } catch (error) {
+    dispatch(fetchWishListFailure(error.message));
+  }
+};
+
+
 export const addToWishListSuccess = (data) => ({
     type : types.ADD_TO_WISHLIST_SUCCESS,
     payload : data
@@ -44,30 +69,7 @@ export const addToWishList = (productId) => async(dispatch) => {
 
     }
 }
-export const fetchWishListRequest = () => ({
-    type: types.FETCH_WISHLIST_REQUEST,
-  });
-  
-  export const fetchWishListSuccess = (wishlist) => ({
-    type: types.FETCH_WISHLIST_SUCCESS,
-    payload: wishlist,
-  });
-  
-  export const fetchWishListFailure = (error) => ({
-    type: types.FETCH_WISHLIST_FAILURE,
-    payload: error,
-  });
-  
-  export const fetchWishList = () => async (dispatch) => {
-    dispatch(fetchWishListRequest());
-    try {
-      const response = await axiosInstance.get("/wishlist/list");
-      dispatch(fetchWishListSuccess(response.data));
-    } catch (error) {
-      dispatch(fetchWishListFailure(error.message));
-    }
-  };
-  
+
   export const moveAllToCartSuccess = () => ({
     type: types.MOVE_ALL_TO_CART_SUCCESS,
 });
@@ -98,5 +100,4 @@ export const moveAllToCart = () => async (dispatch) => {
       dispatch(moveAllToCartFailure(error.message));
   }
 };
-
 
