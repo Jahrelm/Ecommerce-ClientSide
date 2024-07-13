@@ -123,7 +123,7 @@ export default function Login() {
                       </div>
                       <a
                         href="/reset-password"
-                        className="text-base text-qyellow"
+                        className="text-base semi-bold text-customBlue"
                       >
                         Forgot Password
                       </a>
@@ -132,7 +132,7 @@ export default function Login() {
                       <div className="flex justify-center">
                         <button
                           type="submit"
-                          className="black-btn  text-sm text-white w-full h-[50px] font-semibold flex justify-center bg-purple items-center"
+                          className="bg-customBlue text-sm text-white w-full h-[50px] font-semibold flex justify-center items-center"
                         >
                           <span>Log In</span>
                         </button>

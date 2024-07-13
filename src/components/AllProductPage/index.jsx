@@ -7,29 +7,28 @@ import DataIteration from "../Helpers/DataIteration";
 import Layout from "../Partials/Layout";
 import ProductsFilter from "./ProductsFilter";
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProducts/* , searchProducts */ } from "../../redux/actions/productActions";
-/* import SearchBox from "../Helpers/SearchBox"; */
+import { fetchProducts, searchProducts } from "../../redux/actions/productActions";
+import SearchBox from "../Helpers/SearchBox";
+
+
 
 
 
 export default function AllProductPage() {
  
-
+/*   const [title, setTitle] = useState('') */;
   const dispatch = useDispatch();
-  const  {products} = useSelector( (state ) => state.product);
-  /* 
-  const  {success} = useSelector( (state ) => state.product); */
+  const { products, search, success } = useSelector(state => state.product);
+  
 
   useEffect(() => {
     dispatch(fetchProducts());
   
   }, [dispatch]);
 
- /*  useEffect(() => {
-    if (success){
+   useEffect(() => {
       dispatch(searchProducts());
-    }
-  }, [success]); */
+  }, [dispatch]); 
 
   
   const [filters, setFilter] = useState({
@@ -81,7 +80,7 @@ export default function AllProductPage() {
         <div className="products-page-wrapper w-full">
           <div className="container-x mx-auto">
             <BreadcrumbCom />
-           
+        
             <div className="w-full lg:flex lg:space-x-[30px]">
               <div className="lg:w-[270px]">
                 <ProductsFilter
@@ -104,6 +103,7 @@ export default function AllProductPage() {
                   />
                 </div>
               </div>
+              
 
               <div className="flex-1">
                 <div className="products-sorting w-full bg-white md:h-[70px] flex md:flex-row flex-col md:space-y-0 space-y-5 md:justify-between md:items-center p-[30px] mb-[40px]">
@@ -111,16 +111,18 @@ export default function AllProductPage() {
                     <p className="font-400 text-[13px]">
                       <span className="text-qgray"> Showing</span> 1–16 of 66
                       results
+                   
                     </p>
                   </div>
+                  
                  
                   
                   <div className="flex space-x-3 items-center">
-                    <span className="font-400 text-[13px]">Sort by:</span>
                     <div className="flex space-x-3 items-center border-b border-b-qgray">
                       <span className="font-400 text-[13px] text-qgray">
                         Default
                       </span>
+                      
                       <span>
                         <svg
                           width="10"
@@ -174,7 +176,7 @@ export default function AllProductPage() {
                 </div>
                 <div className="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 xl:gap-[30px] gap-5 mb-[40px]">
                   <DataIteration
-                    datas={products}
+                   datas={products}
                     startLength={0}
                     endLength={15}
                   >

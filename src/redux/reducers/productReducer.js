@@ -8,6 +8,7 @@ const initialState = {
   allProducts: [],
   cart: [],
   success : false,
+  search : []
 };
 
 const productReducer = (state = initialState, action) => {
@@ -53,7 +54,7 @@ const productReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        products: action.payload,
+        search : action.payload,
         success : true,
       };
     case types.SEARCH_PRODUCTS_FAILURE:

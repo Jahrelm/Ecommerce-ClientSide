@@ -4,18 +4,18 @@ import { useState } from 'react';
 
 
 
-export default function SearchBox({title,className,type}) {
+export default function SearchBox({className,type}) {
 
   const dispatch = useDispatch();
-  const [query, setQuery] = useState('');
+  const [title, setTitle] = useState('');
  
 
   const handleSearch = () => {
-    dispatch(searchProducts(query));
+    dispatch(searchProducts(title));
 
   };
   const handleInputChange = (e) => {
-    setQuery(e.target.value)
+    setTitle(e.target.value)
   };
 
   return (
@@ -80,7 +80,7 @@ export default function SearchBox({title,className,type}) {
           </button>
         </div> */}
         <button
-          className={`w-[93px] h-full text-sm font-600 ${type === 3 ? 'bg-qh3-blue text-white' : 'search-btn'}`}
+          className={`w-[93px] h-full text-sm font-600 ${type === 3 ? 'bg-qh3-blue text-white' : 'bg-customBlue text-white'}`}
           type="submit"
           onClick={handleSearch}
         >

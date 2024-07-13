@@ -84,8 +84,16 @@ humour, or randomised words"
                 <div className="inputs mt-5">
                   <div className="mb-4">
                     <InputCom
-                      label="Frist Name*"
-                      placeholder="Demo Name"
+                      label="First Name*"
+                      placeholder="First Name"
+                      name="first_name"
+                      inputClasses="h-[50px]"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <InputCom
+                      label="Last  Name*"
+                      placeholder="Last Name"
                       name="first_name"
                       inputClasses="h-[50px]"
                     />

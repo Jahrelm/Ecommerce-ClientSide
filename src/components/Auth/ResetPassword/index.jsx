@@ -92,7 +92,7 @@ export default function ResetPassword() {
                         <div className="flex justify-center">
                           <button
                             type="submit"
-                            className="black-btn mb-6 mr-5 text-sm text-white w-full h-[50px] font-semibold flex justify-center bg-purple items-center"
+                            className="bg-customBlue mb-6 mr-5 text-sm text-white w-full h-[50px] font-semibold flex justify-center bg-purple items-center"
                           >
                             <span>Send Reset Link</span>
                           </button>
@@ -100,7 +100,7 @@ export default function ResetPassword() {
                           type="button"
                           onClick={loginPage}
                             
-                            className="black-btn mb-6 ml-5 text-sm text-white w-full h-[50px] font-semibold flex justify-center bg-purple items-center"
+                            className="bg-customBlue mb-6 ml-5 text-sm text-white w-full h-[50px] font-semibold flex justify-center bg-purple items-center"
                           >
                             
                             <span>Login</span>
