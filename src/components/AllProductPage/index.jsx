@@ -7,8 +7,8 @@ import DataIteration from "../Helpers/DataIteration";
 import Layout from "../Partials/Layout";
 import ProductsFilter from "./ProductsFilter";
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProducts, searchProducts } from "../../redux/actions/productActions";
-import SearchBox from "../Helpers/SearchBox";
+import { fetchProducts/*, searchProducts */} from "../../redux/actions/productActions";
+
 
 
 
@@ -26,10 +26,11 @@ export default function AllProductPage() {
   
   }, [dispatch]);
 
+  /*
    useEffect(() => {
       dispatch(searchProducts());
   }, [dispatch]); 
-
+*/
   
   const [filters, setFilter] = useState({
     mobileLaptop: false,
@@ -73,6 +74,9 @@ export default function AllProductPage() {
     setStorage(value);
   };
   const [filterToggle, setToggle] = useState(false);
+
+  const displayedProducts = search.length > 0 ? search : products;
+  console.log("Displayed Products : ", displayedProducts);
 
   return (
     <>
@@ -158,7 +162,7 @@ export default function AllProductPage() {
                   </button>
                 </div>
                 <div className="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1  xl:gap-[30px] gap-5 mb-[40px]">
-                  <DataIteration datas={products} startLength={0} endLength={15}>
+                  <DataIteration datas={displayedProducts} startLength={0} endLength={15}>
                     {({ datas }) => (
                       <div data-aos="fade-up" key={datas.id}>
                         <ProductCardStyleOne datas={datas} />
@@ -176,7 +180,7 @@ export default function AllProductPage() {
                 </div>
                 <div className="grid xl:grid-cols-3 sm:grid-cols-2 grid-cols-1 xl:gap-[30px] gap-5 mb-[40px]">
                   <DataIteration
-                   datas={products}
+                   datas={displayedProducts}
                     startLength={0}
                     endLength={15}
                   >
