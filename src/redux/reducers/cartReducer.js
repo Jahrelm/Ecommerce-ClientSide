@@ -4,7 +4,6 @@ const initialState = {
     cart: [],
     loading: false,
     error: null,
-    test: 1,
 };
 
 const cartReducer = (state = initialState, action) => {
@@ -29,50 +28,33 @@ const cartReducer = (state = initialState, action) => {
                 error: action.payload,
             };
 
-        case types.ADD_TO_CART_SUCCESS: {
-            const itemIndex = state.cart.findIndex(item => item.id === action.payload.id);
-
-            if (itemIndex >= 0) {
-                const newCart = state.cart.map((item, index) => 
-                    index === itemIndex ? 
-                    { 
-                        ...item, 
-                        quantity: item.quantity + action.payload.quantity, 
-                        price: parseFloat(item.originalPrice) * (item.quantity + action.payload.quantity) 
-                    } : item
-                );
-
-                return {
-                    ...state,
-                    cart: newCart
-                };
-            } else {
-                const newItem = {
-                    ...action.payload,
-                    quantity: 1,
-                    originalPrice: parseFloat(action.payload.price)
-                };
-
-                return {
-                    ...state,
-                    cart: [...state.cart, newItem]
-                };
+            case types.ADD_TO_CART_SUCCESS: {
+                const existingItem = state.cart.find(item => item.id === action.payload.id);
+            
+                if (existingItem) {
+                    const updatedCart = state.cart.map(item =>
+                        item.id === action.payload.id
+                            ? { 
+                                ...item, 
+                                quantity: item.quantity + action.payload.quantity, 
+                                totalCost: (parseFloat(item.price) * (item.quantity + action.payload.quantity)).toFixed(2) 
+                            }
+                            : item
+                    );
+                    return { ...state, cart: updatedCart };
+                } else {
+                    
+                    return { ...state, cart: [...state.cart, { ...action.payload, quantity: 1 }] };
+                }
             }
-        }
+            
+
 
         case types.ADD_TO_CART_FAILURE:
-            return {
-                ...state,
-                loading: false,
-                error: action.payload,
-            };
+            return { ...state, loading: false, error: action.payload };
 
         case types.DELETE_FROM_CART_SUCCESS: {
-            const updatedCart = state.cart.filter(product => product.id !== action.payload);
-            return {
-                ...state,
-                cart: updatedCart,
-            };
+            return { ...state, cart: state.cart.filter(product => product.id !== action.payload) };
         }
 
         default:

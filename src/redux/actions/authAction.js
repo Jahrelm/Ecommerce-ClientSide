@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 import * as types from "../constants/action-types";
 
 const axiosInstance = axios.create({
@@ -52,12 +53,15 @@ export const loginUser = (formData) => async (dispatch) => {
         console.log(response.data);
         dispatch(loginSuccess(response.data));
         const authToken = response.data.jwt
+        const userInfo = response.data.user.userId
         console.log(authToken);
         sessionStorage.setItem('authToken', authToken)
+        sessionStorage.setItem('userInfo', userInfo);
 
     } catch (error) {
-        console.error("Error Login:", error.message);
-        dispatch(loginFailure(error.message));
+        let errorMessage = "Invalid Username or Password";
+        console.error("Error Login:", errorMessage);
+        dispatch(loginFailure(errorMessage));
     }
 
 }

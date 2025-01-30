@@ -28,7 +28,14 @@ export const fetchCartFailure = (error) => ({
 export const fetchCart = () => async (dispatch) => {
   dispatch(fetchCartRequest());
   try {
-    const response = await axiosInstance.get("/cart/list");
+    const userInfo = sessionStorage.getItem('userInfo');
+    if (!userInfo) {
+      console.error("User ID is not set in sessionStorage");
+      dispatch(fetchCartFailure("User ID missing"));
+      return;
+    }
+
+    const response = await axiosInstance.get(`/cart/list/${userInfo}`);
     dispatch(fetchCartSuccess(response.data));
   } catch (error) {
     dispatch(fetchCartFailure(error.message));
@@ -48,9 +55,15 @@ export const addToCartFailure = (error) => ({
 export const addToCart = (productId) => async (dispatch) => {
   try {
     const authToken = sessionStorage.getItem('authToken');
+    const userInfo = sessionStorage.getItem('userInfo');
+    if (!userInfo) {
+  console.error("User ID is not set in sessionStorage");
+}
     console.log(authToken);
-    const response = await axiosInstance.post(`/cart/add?productId=${productId}&quantity=1`, 
-      {},
+    
+    const response = await axiosInstance.post(`/cart/add/${userInfo}?productId=${productId}&quantity=1`, 
+      {
+      },
       {
         headers: {
           'Authorization': `Bearer ${authToken}`
@@ -60,7 +73,9 @@ export const addToCart = (productId) => async (dispatch) => {
 
     console.log("Response from server:", response.data);
     dispatch(addToCartSuccess(response.data));
-    dispatch(fetchCart());
+    setTimeout(() => {
+      dispatch(fetchCart());
+    }, 500);
   } catch (error) {
     console.error("Error adding to cart:", error.message);
     dispatch(addToCartFailure(error.message));

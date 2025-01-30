@@ -14,7 +14,7 @@ export default function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { success } = useSelector((state) => state.auth);
+  const { success , error } = useSelector((state) => state.auth);
 
   useEffect(() => {
     console.log('useEffect triggered: success =', success);
@@ -23,16 +23,21 @@ export default function Login() {
       navigate("/home-one")
     }
   },[navigate, success])
-  
 
+
+
+  
+  
   const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
+
   const [checked, setValue] = useState(false);
   const rememberMe = () => {
     setValue(!checked);
   };
+
   const handleLoginInput = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -92,6 +97,9 @@ export default function Login() {
                         inputClasses="h-[50px]"
                       />
                     </div>
+                    <div>
+                      <p className ="mb-4 text-red-400">{error}</p>
+                    </div>
                     <div className="forgot-password-area flex justify-between items-center mb-7">
                       <div className="remember-checkbox flex items-center space-x-2.5">
                         <button
@@ -148,6 +156,7 @@ export default function Login() {
                     </div>
                   </div>
                 </form>
+                
               </div>
             </div>
             <div className="flex-1 lg:flex hidden transform scale-60 xl:scale-100   xl:justify-center ">

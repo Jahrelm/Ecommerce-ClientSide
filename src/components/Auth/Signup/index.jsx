@@ -6,12 +6,15 @@ import Thumbnail from "./Thumbnail";
 import { useDispatch } from "react-redux";
 
 export default function Signup() {
-  
   const dispatch = useDispatch();
   const [checked, setValue] = useState(false);
   const rememberMe = () => {
     setValue(!checked);
   };
+
+  const[vPassword, setVPassword] = useState('');
+  const [fName, setFNameError] = useState("");
+  const [vUsername, setVUserName] = useState("");
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -24,13 +27,71 @@ export default function Signup() {
     postCode: "",
   });
 
+   /*  const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+   
+
+    && hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar;
+    */
   const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
+  function validatePassword(password) {
+    const minLength = 5;
+    const maxLength = 9;
+    const lengthValid = password.length >= minLength && password.length <= maxLength;
+    return lengthValid;
+ 
+}
+
+
+  function validationForm() {
+    const message = {
+      emptyFirstName: "Full Name cannot be empty",
+      emptyUsername: "Email cannot be empty",
+      invalidPassword: "Password must be 8-9 chars",
+      emptyPassword : "Password cannot be empty"
+    };
+    
+    let isValid = true;
+
+    if (!formData.fullName) {
+      setFNameError(message.emptyFirstName);
+      isValid = false
+    } else {
+      setFNameError("");
+    }
+    
+
+    if (!formData.username){
+      setVUserName(message.emptyUsername);
+      isValid = false;
+    }else{
+      setVUserName('');
+    }
+
+    if (validatePassword(formData.password)){
+      setVPassword(message.invalidPassword);
+      isValid = false;
+    } else if (!formData.password){
+      setVPassword(message.emptyPassword);
+    }else{
+      setVPassword('');
+    }
+
+    return isValid;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(signUpUser(formData));
+    if (validationForm()) {
+      dispatch(signUpUser(formData));
+    }
   };
 
   return (
@@ -38,7 +99,7 @@ export default function Signup() {
       <div className="login-page-wrapper w-full py-10">
         <div className="container-x mx-auto">
           <div className="lg:flex items-center relative">
-            <div className="lg:w-[572px] w-full lg:h-[783px] bg-white flex flex-col justify-center sm:p-10 p-5 border border-[#E0E0E0]">
+            <div className="lg:w-[572px] w-full lg:h-[840px] bg-white flex flex-col justify-center sm:p-10 p-5 border border-[#E0E0E0]">
               <div className="w-full">
                 <div className="title-area flex flex-col justify-center items-center relative text-center mb-7">
                   <h1 className="text-[34px] font-bold leading-[74px] text-qblack">
@@ -73,7 +134,6 @@ export default function Signup() {
                         value={formData.fullName}
                         inputHandler={handleInputChange}
                       />
-
                       <InputCom
                         placeholder="Demo@gmail.com"
                         label="Email Address*"
@@ -84,6 +144,15 @@ export default function Signup() {
                         inputClasses="h-[50px]"
                       />
                     </div>
+                    <div className="flex justify-between">
+                        <div>
+                          <p className="mb-2  text-red-400">{fName}</p>
+                        </div>
+                        <div className="mr-16">
+                          <p className="mb-4  text-red-400">{vUsername}</p>
+                        </div>
+                    </div>
+                    
                     <div className="flex sm:flex-row flex-col space-y-5 sm:space-y-0 sm:space-x-5 mb-5">
                       <InputCom
                         placeholder="● ● ● ● ● ●"
@@ -105,6 +174,16 @@ export default function Signup() {
                         inputClasses="h-[50px]"
                       />
                     </div>
+                    <div className="flex justify-between">
+                        <div>
+                          <p className="mb-2  text-red-400">{vPassword}</p>
+                        </div>
+                        <div className="mr-16">
+                          <p className="mb-4  text-red-400">{vUsername}</p>
+                        </div>
+                    </div>
+                    
+
 
                     <div className="input-item mb-5">
                       <InputCom
@@ -137,7 +216,7 @@ export default function Signup() {
                           type={"text"}
                           value={formData.city}
                           inputHandler={handleInputChange}
-                          placeholder="00000"
+                          placeholder="City"
                         />
                       </div>
                       <div className="flex-1">
@@ -181,7 +260,6 @@ export default function Signup() {
                           className="text-base text-black"
                         >
                           I agree to all terms and conditions
-                      
                         </span>
                       </div>
                     </div>
@@ -189,7 +267,7 @@ export default function Signup() {
                       <div className="flex justify-center">
                         <button
                           type="submit"
-                          className="black-btn text-sm text-white w-full h-[50px] font-semibold flex justify-center bg-purple items-center"
+                          className="bg-customBlue text-sm text-white w-full h-[50px] font-semibold flex justify-center bg-purple items-center"
                         >
                           <span>Create Account</span>
                         </button>
