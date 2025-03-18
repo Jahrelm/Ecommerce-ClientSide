@@ -107,3 +107,56 @@ export const removeFromCart = (cartItemId) => async (dispatch) => {
     console.error("Unsucceffuly removed");
   }
 };
+
+
+export const checkoutSuccss = (stripeResponse) => ({
+  type: types.CHECKOUT_SUCCESS,
+  payload: stripeResponse,
+});
+
+export const checkoutFailure = (error) => ({
+  type: types.CHECKOUT_FAILURE,
+  payload: error,
+});
+
+export const checkoutCart = (cartItem) => async(dispatch) => {
+  try {
+    const authToken = sessionStorage.getItem('authToken');
+    
+    const payload = {
+      product: {
+        productId: cartItem.productId,
+        title: cartItem.title,
+        price: cartItem.subTotal, // Send price without conversion
+        currency: cartItem.currency
+      },
+      quantity: cartItem.quantity
+    };
+    console.log('Checkout payload:', payload);
+    
+    const response = await axiosInstance.post('/products-checkout/checkout', 
+      payload,
+      {
+        headers: {
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    console.log('Checkout response:', response.data);
+
+    const stripeUrl = response.data.message;
+    
+    if (!stripeUrl) {
+      throw new Error('No Stripe session URL received from server');
+    }
+
+    dispatch(checkoutSuccss(response.data));
+    window.location.href = stripeUrl;
+    
+  } catch (error) {
+    console.error("Checkout failed", error.response?.data || error.message);
+    dispatch(checkoutFailure(error.message));
+  }
+};

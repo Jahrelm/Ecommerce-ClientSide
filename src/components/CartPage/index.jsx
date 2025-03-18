@@ -11,19 +11,24 @@ import { useSelector} from "react-redux";
 
 export default function CardPage({ cartt = true }) {
 
-  const {cart} = useSelector((state) => state.cart); 
+  const {cart} = useSelector((state) => state.cart) || {cart : []};
+
+  
 
   
   const [totalCartCost, setTotalCartCost] = useState(0);
 
-  useEffect(() => {
-    if (cart.length > 0) {
-      const total = cart.reduce((sum, item) => sum + item.totalCost, 0);
-      setTotalCartCost(total.toFixed(2));
-    } else{
-      setTotalCartCost(0);
-    }
-  }, [cart]);
+ useEffect(() => {
+     if (Array.isArray(cart) && cart.length > 0 && cart[0].cartItems) {
+       const total = cart[0].cartItems.reduce(
+         (sum, item) => sum + (parseFloat(item.subTotal.toFixed(2)) || 0),
+         0
+       );
+       setTotalCartCost(total.toFixed(2));
+     } else {
+       setTotalCartCost("0.00");
+     }
+   }, [cart]);
 
   return (
     <Layout childrenClasses={cartt ? "pt-0 pb-0" : ""}>

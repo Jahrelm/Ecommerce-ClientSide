@@ -25,6 +25,7 @@ export default function Cart({ className, type }) {
   }, [cart]);
 
   const cartItems = cart.length > 0 ? cart[0].cartItems : [];
+ 
 
   return (
     <div

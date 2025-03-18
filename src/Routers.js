@@ -25,6 +25,7 @@ import TrackingOrder from "./components/TrackingOrder";
 import Wishlist from "./components/Wishlist";
 import HomeThree from "./components/HomeThree";
 import ResetPassword from "./components/Auth/ResetPassword/index.jsx";
+import Payment from "./components/Payment/index.jsx";
 
 export default function Routers() {
   return (
@@ -56,6 +57,7 @@ export default function Routers() {
       <Route exact path="/privacy-policy" element={<PrivacyPolicy />} />
       <Route exact path="/terms-condition" element={<TermsCondition />} />
       <Route exact path="*" element={<FourZeroFour />} />
+      <Route exact path="/payment-success" element={<Payment />} />
     </Routes>
   );
 }

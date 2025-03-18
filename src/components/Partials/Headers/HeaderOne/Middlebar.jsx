@@ -7,40 +7,30 @@ import SearchBox from "../../../Helpers/SearchBox";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
-export default function Middlebar({className, type }) {
-
-  const { cart } = useSelector((state) => state.cart);
-  const { user , success} = useSelector((state) => state.auth);
-  const [count, setCount] = useState(0);
-  const [username , setUsername] = useState("");
-
- 
-  useEffect(() => {
-    if (success && user){
-      setUsername(user.fullName);
-      
-      
-    } else {
-      setUsername("");
-    }
-  },[success, user])
- 
-
-  useEffect(() => {
-    setCount(cart.length);
-   
-  }, [cart]);
+export default function Middlebar({ className, type }) {
+  const { cart } = useSelector((state) => state.cart) || { cart: [] };
+  const { user } = useSelector((state) => state.auth);
   
+  const [count, setCount] = useState(0);
+  const [username, setUsername] = useState("");
+
+  const cartItems = cart.length > 0 ? cart[0].cartItems : [];
+
+  useEffect(() => {
+    const totalQuantity = cartItems.reduce((acc, item) => acc + (item.quantity || 0), 0);
+    setCount(totalQuantity);
+  }, [cartItems]);
+
   console.log(cart);
   console.log(user);
   console.log(username);
-
 
   return (
     <div className={`w-full h-[86px] bg-white ${className}`}>
       <div className="container-x mx-auto h-full">
         <div className="relative h-full">
           <div className="flex justify-between items-center h-full">
+            {/* Logo Section */}
             <div className="flex items-center justify-center h-24">
               {type === 3 ? (
                 <a href="/">
@@ -55,18 +45,25 @@ export default function Middlebar({className, type }) {
                 <a href="/" className="flex items-center">
                   <img
                     className="max-w-full h-auto max-h-20"
-                    style={{ width: '80px', maxHeight: '120px' }}
+                    style={{ width: "80px", maxHeight: "120px" }}
                     src={`${process.env.PUBLIC_URL}/assets/images/mobileLogo.png`}
                     alt="logo"
                   />
-                  <span className="ml-4 text-xl font-semibold text-customBlue">WorthIT-Mobile</span>
+                  <span className="ml-4 text-xl font-semibold text-customBlue">
+                    WorthIT-Mobile
+                  </span>
                 </a>
               )}
             </div>
+
+            {/* Search Box */}
             <div className="w-[517px] h-[44px]">
               <SearchBox type={type} className="search-com" />
             </div>
+
+            {/* Icons (Compare, Wishlist, Cart, Profile) */}
             <div className="flex space-x-6 items-center">
+              {/* Compare */}
               <div className="compaire relative">
                 <a href="/products-compaire">
                   <span>
@@ -75,14 +72,14 @@ export default function Middlebar({className, type }) {
                 </a>
                 <span
                   className={`w-[18px] h-[18px] rounded-full absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px] ${
-                    type === 3
-                      ? "bg-qh3-blue text-white"
-                      : "bg-customBlue text-white"
+                    type === 3 ? "bg-qh3-blue text-white" : "bg-customBlue text-white"
                   }`}
                 >
                   2
                 </span>
               </div>
+
+              {/* Wishlist */}
               <div className="favorite relative">
                 <a href="/wishlist">
                   <span>
@@ -91,26 +88,22 @@ export default function Middlebar({className, type }) {
                 </a>
                 <span
                   className={`w-[18px] h-[18px] rounded-full absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px] ${
-                    type === 3
-                      ? "bg-qh3-blue text-white"
-                      : "bg-customBlue text-white"
+                    type === 3 ? "bg-qh3-blue text-white" : "bg-customBlue text-white"
                   }`}
                 >
                   1
                 </span>
               </div>
+
+              {/* Cart */}
               <div className="cart-wrapper group relative py-4">
                 <div className="cart relative cursor-pointer">
-                  
-                    <span>
-                      <ThinBag />
-                    </span>
-               
+                  <span>
+                    <ThinBag />
+                  </span>
                   <span
                     className={`w-[18px] h-[18px] rounded-full absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px] ${
-                      type === 3
-                        ? "bg-qh3-blue text-white"
-                        : "bg-customBlue text-white"
+                      type === 3 ? "bg-qh3-blue text-white" : "bg-customBlue text-white"
                     }`}
                   >
                     {count}
@@ -121,13 +114,15 @@ export default function Middlebar({className, type }) {
                   className="absolute -right-[45px] top-11 z-50 hidden group-hover:block"
                 />
               </div>
+
+              {/* User/Profile */}
               <div className="flex items-center space-x-2">
                 <button type="button">
                   <span>
                     <ThinPeople />
                   </span>
                 </button>
-               <span className="text-gray-700">{username}</span> 
+                <span className="text-gray-700">{username}</span>
               </div>
             </div>
           </div>

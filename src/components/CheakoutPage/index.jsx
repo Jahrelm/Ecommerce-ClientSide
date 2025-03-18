@@ -1,8 +1,58 @@
 import InputCom from "../Helpers/InputCom";
 import PageTitle from "../Helpers/PageTitle";
 import Layout from "../Partials/Layout";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+
+import { checkoutCart } from "../../redux/actions/cartActions";
 
 export default function CheakoutPage() {
+  const dispatch = useDispatch();
+
+  const { cart } = useSelector((state) => state.cart) || { cart: [] };
+  const [totalCartCost, setTotalCartCost] = useState(0);
+
+  const cartItems = cart.length > 0 ? cart[0].cartItems : [];
+
+  const handleCheckout = () => {
+    if (cart.length === 0 || !cart[0].cartItems) {
+      console.error("Cart is empty");
+      return;
+    }
+
+    const cartItem = cart[0].cartItems[0];
+    console.log("Cart item for checkout:", cartItem);
+
+    // Get total without conversion
+    const total = cart[0].cartItems.reduce((sum, item) => {
+      return sum + (parseFloat(item.subTotal) || 0);
+    }, 0);
+
+    const checkoutData = {
+      productId: cartItem.product.id,
+      title: cartItem.product.title,
+      subTotal: total.toString(),
+      currency: "JMD",
+      quantity: cartItem.quantity,
+    };
+
+    console.log("Sending checkout data:", checkoutData);
+    dispatch(checkoutCart(checkoutData));
+  };
+
+  /* const dispatch = useDispatch(); */
+
+  useEffect(() => {
+    if (Array.isArray(cart) && cart.length > 0 && cart[0].cartItems) {
+      const total = cart[0].cartItems.reduce((sum, item) => {
+        return sum + (parseFloat(item.subTotal) || 0);
+      }, 0);
+      setTotalCartCost(total.toFixed(2));
+    } else {
+      setTotalCartCost("0.00");
+    }
+  }, [cart]);
+
   return (
     <Layout childrenClasses="pt-0 pb-0">
       <div className="checkout-page-wrapper w-full bg-white pb-[60px]">
@@ -194,69 +244,33 @@ export default function CheakoutPage() {
                   <div className="product-list w-full mb-[30px]">
                     <ul className="flex flex-col space-y-5">
                       <li>
-                        <div className="flex justify-between items-center">
-                          <div>
-                            <h4 className="text-[15px] text-qblack mb-2.5">
-                              Apple Watch
-                              <sup className="text-[13px] text-qgray ml-2 mt-2">
-                                x1
-                              </sup>
-                            </h4>
-                            <p className="text-[13px] text-qgray">
-                              64GB, Black, 44mm, Chain Belt
-                            </p>
+                        {cartItems.map((item, index) => (
+                          <div
+                            className="flex justify-between items-center"
+                            key={index}
+                          >
+                            <div>
+                              <h4 className="text-[15px] text-qblack mb-2.5">
+                                {item.product.title}
+                                <sup className="text-[13px] text-qgray ml-2 mt-2">
+                                  {item.quantity}
+                                </sup>
+                              </h4>
+                              <p className="mt-2 text-qblack">
+                                {item.product.brand}
+                              </p>
+                            </div>
+                            <div>
+                              <span className="text-[15px] text-qblack font-medium">
+                                {item.product.price}
+                              </span>
+                            </div>
                           </div>
-                          <div>
-                            <span className="text-[15px] text-qblack font-medium">
-                              $38
-                            </span>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="flex justify-between items-center">
-                          <div>
-                            <h4 className="text-[15px] text-qblack mb-2.5">
-                              Apple Watch
-                              <sup className="text-[13px] text-qgray ml-2 mt-2">
-                                x1
-                              </sup>
-                            </h4>
-                            <p className="text-[13px] text-qgray">
-                              64GB, Black, 44mm, Chain Belt
-                            </p>
-                          </div>
-                          <div>
-                            <span className="text-[15px] text-qblack font-medium">
-                              $38
-                            </span>
-                          </div>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="flex justify-between items-center">
-                          <div>
-                            <h4 className="text-[15px] text-qblack mb-2.5">
-                              Apple Watch
-                              <sup className="text-[13px] text-qgray ml-2 mt-2">
-                                x1
-                              </sup>
-                            </h4>
-                            <p className="text-[13px] text-qgray">
-                              64GB, Black, 44mm, Chain Belt
-                            </p>
-                          </div>
-                          <div>
-                            <span className="text-[15px] text-qblack font-medium">
-                              $38
-                            </span>
-                          </div>
-                        </div>
+                        ))}
                       </li>
                     </ul>
                   </div>
                   <div className="w-full h-[1px] bg-[#EDEDED]"></div>
-
                   <div className="mt-[30px]">
                     <div className=" flex justify-between mb-5">
                       <p className="text-[13px] font-medium text-qblack uppercase">
@@ -355,13 +369,14 @@ export default function CheakoutPage() {
                       </li>
                     </ul>
                   </div>
-                  <a href="#">
-                    <div className="w-full h-[50px] black-btn flex justify-center items-center">
-                      <span className="text-sm font-semibold">
-                        Place Order Now
-                      </span>
-                    </div>
-                  </a>
+                  <button
+                    onClick={handleCheckout}
+                    className="w-full h-[50px] black-btn flex justify-center items-center"
+                  >
+                    <span className="text-sm font-semibold">
+                      Proceed to Checkout
+                    </span>
+                  </button>
                 </div>
               </div>
             </div>

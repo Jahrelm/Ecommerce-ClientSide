@@ -1,14 +1,34 @@
 /* import InputQuantityCom from "../Helpers/InputQuantityCom"; */
 import { useSelector, useDispatch } from "react-redux";
-import {useEffect } from "react";
+import {useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
 import {removeFromCart } from "../../redux/actions/cartActions";
 
 export default function ProductsTable({ className }) {
 
- 
+  const { cart } = useSelector((state) => state.cart) || { cart: [] };
+  const [totalCartCost, setTotalCartCost] = useState(0);
+
+    
+  const cartItems = cart.length > 0 ? cart[0].cartItems : [];
+
+
 
   const dispatch = useDispatch();
+
+    useEffect(() => {
+      if (Array.isArray(cart) && cart.length > 0 && cart[0].cartItems) {
+        const total = cart[0].cartItems.reduce(
+          (sum, item) => sum + (parseFloat(item.subTotal) || 0),
+          0
+        );
+        setTotalCartCost(total.toFixed(2));
+      } else {
+        setTotalCartCost("0.00");
+      }
+    }, [cart]);
+
+
 
   useEffect(() => {
     dispatch(removeFromCart());
@@ -26,7 +46,7 @@ export default function ProductsTable({ className }) {
     }
   }, [cart]); */
 
- const {cart} = useSelector((state) => state.cart); 
+
 
   return (
     <div className={`w-full ${className || ""}`}>
@@ -45,7 +65,7 @@ export default function ProductsTable({ className }) {
               <td className="py-4 whitespace-nowrap text-right w-[114px]"></td>
             </tr>
             {/* table heading end */}
-             {cart.map((item, index) => ( 
+             {cartItems.map((item, index) => ( 
             <tr className="bg-white border-b hover:bg-gray-50"
             key={index}
             >
@@ -60,19 +80,19 @@ export default function ProductsTable({ className }) {
                   </div>
                   <div className="flex-1 flex flex-col">
                     <p className="font-medium text-[15px] text-qblack">
-                      {item.title}
+                      {item.product.title}
                     </p>
                   </div>
                 </div>
               </td>
               <td className="text-center py-4 px-2">
                 <div className="flex space-x-1 items-center justify-center">
-                  <span className="text-[15px] font-normal">{item.brand}</span>
+                  <span className="text-[15px] font-normal">{item.product.brand}</span>
                 </div>
               </td>
               <td className="text-center py-4 px-2">
                 <div className="flex space-x-1 items-center justify-center">
-                  <span className="text-[15px] font-normal">{item.price}</span>
+                  <span className="text-[15px] font-normal">{item.product.price}</span>
                 </div>
               </td>
               <td className="text-center py-4 px-2">
@@ -82,7 +102,7 @@ export default function ProductsTable({ className }) {
               </td>
               <td className="text-center py-4 px-2">
                 <div className="flex space-x-1 items-center justify-center">
-                  <span className="text-[15px] font-normal">${item.totalCost}</span>
+                  <span className="text-[15px] font-normal">${item.subTotal.toFixed(2)}</span>
                 </div>
               </td>
               <td className="text-right py-4">

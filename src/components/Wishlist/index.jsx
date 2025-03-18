@@ -5,19 +5,14 @@ import Layout from "../Partials/Layout";
 import ProductsTable from "./ProductsTable";
 import { moveAllToCart } from "../../redux/actions/wishListAction";
 
-import { useDispatch} from "react-redux";
-
+import { useDispatch } from "react-redux";
 
 export default function Wishlist({ wishlistt = true }) {
-
-
   const dispatch = useDispatch();
 
   const handleMoveAllToCart = () => {
     dispatch(moveAllToCart());
   };
-  
-
 
   return (
     <Layout childrenClasses={wishlistt ? "pt-0 pb-0" : ""}>
@@ -55,10 +50,10 @@ export default function Wishlist({ wishlistt = true }) {
                     </div>
                   </button>
                   <div className="w-[180px] h-[50px]">
-                    <button 
-                    type="button" 
-                    className="yellow-btn"
-                    onClick = {handleMoveAllToCart}
+                    <button
+                      type="button"
+                      className="yellow-btn"
+                      onClick={handleMoveAllToCart}
                     >
                       <div className="w-full text-sm font-semibold">
                         Add to Cart All
