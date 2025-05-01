@@ -28,40 +28,74 @@ export const fetchWishList = () => async (dispatch) => {
   dispatch(fetchWishListRequest());
   try {
     const userInfo = sessionStorage.getItem('userInfo');
+    const authToken = sessionStorage.getItem('authToken');
+    
     if (!userInfo) {
       throw new Error("Please login to view wishlist");
     }
-
-    const response = await axiosInstance.get(`/wishlist/list/${userInfo}`);
     
-    let formattedData = [];
-    if (Array.isArray(response.data)) {
-      formattedData = response.data.map(item => {
-        const productData = item.product || item;
-        return {
-          id: item.id || productData.id || item.productId,
-          title: productData.title || productData.name || 'Product',
-          brand: productData.brand || (item.product && item.product.brand) || 'N/A',
-          price: productData.price || (item.product && item.product.price) || 0,
-          quantity: item.quantity || 1,
-          totalCost: (productData.price || (item.product && item.product.price) || 0) * (item.quantity || 1)
-        };
-      });
-    } else if (response.data && typeof response.data === 'object') {
-      const item = response.data;
-      const productData = item.product || item;
-      formattedData = [{
-        id: item.id || productData.id || item.productId,
-        title: productData.title || productData.name || 'Product',
-        brand: productData.brand || (item.product && item.product.brand) || 'N/A',
-        price: productData.price || (item.product && item.product.price) || 0,
-        quantity: item.quantity || 1,
-        totalCost: (productData.price || (item.product && item.product.price) || 0) * (item.quantity || 1)
-      }];
+    if (!authToken) {
+      throw new Error("Authorization token missing");
     }
+
+    const response = await axiosInstance.get(`/wishlist/list/${userInfo}`, {
+      headers: {
+        'Authorization': `Bearer ${authToken}`
+      }
+    });
+    
+    console.log('Raw API Response:', response.data);
+    
+    // If no data or empty array, return empty array
+    if (!response.data || (Array.isArray(response.data) && response.data.length === 0)) {
+      dispatch(fetchWishListSuccess([]));
+      return;
+    }
+    
+    // Handle the nested structure of the wishlist data
+    let wishlistItems = [];
+    
+    // Check if response is an array with nested wishListItems
+    if (Array.isArray(response.data) && response.data.length > 0 && response.data[0].wishListItems) {
+      // Extract wishlist items from the first object in the array
+      wishlistItems = response.data[0].wishListItems || [];
+    } 
+    // Check if response is a single object with wishListItems
+    else if (response.data.wishListItems) {
+      wishlistItems = response.data.wishListItems || [];
+    }
+    // If response is already an array of items
+    else if (Array.isArray(response.data)) {
+      wishlistItems = response.data;
+    }
+    // If response is a single item
+    else {
+      wishlistItems = [response.data];
+    }
+    
+    console.log('Extracted wishlist items:', wishlistItems);
+    
+    // Format the wishlist items for the component
+    const formattedData = wishlistItems.map(item => {
+      return {
+        id: item.id,
+        productId: item.product?.productId || item.product?.id,
+        product: {
+          id: item.product?.productId || item.product?.id,
+          title: item.product?.title || "Product",
+          brand: item.product?.brand || "Brand",
+          price: parseFloat(item.product?.price?.replace('$', '').replace(',', '')) || 0,
+          image: item.product?.image || `${process.env.PUBLIC_URL}/assets/images/product-img-1.jpg`
+        },
+        quantity: item.quantity || 1
+      };
+    });
+    
+    console.log('Formatted Data:', formattedData);
     
     dispatch(fetchWishListSuccess(formattedData));
   } catch (error) {
+    console.error("Wishlist fetch error:", error);
     dispatch(fetchWishListFailure(error.message));
   }
 };
@@ -79,6 +113,7 @@ export const addToWishListFailure = (error) => ({
 
 export const addToWishList = (productId) => async(dispatch) => {
     try {
+        console.log("Adding to wishlist, productId:", productId);
         const authToken = sessionStorage.getItem('authToken');
         const userInfo = sessionStorage.getItem('userInfo');
         
@@ -90,35 +125,76 @@ export const addToWishList = (productId) => async(dispatch) => {
             throw new Error("Product ID is required");
         }
 
-        const checkResponse = await axiosInstance.get(`/wishlist/list/${userInfo}`);
-        const existingItem = checkResponse.data.find(item => 
-            item.product?.id === productId || item.productId === productId
-        );
-        
-        if (existingItem) {
-            throw new Error("Item already exists in wishlist");
-        }
-
-        const response = await axiosInstance.post(
-            `/wishlist/add/${userInfo}`,
-            {
-                productId: productId,
-                quantity: 1
-            },
-            {
+        // First, fetch the product details to ensure we have complete information
+        let productDetails = null;
+        try {
+            const productResponse = await axiosInstance.get(`/products/${productId}`, {
                 headers: {
                     'Authorization': `Bearer ${authToken}`
                 }
+            });
+            productDetails = productResponse.data;
+            console.log("Fetched product details:", productDetails);
+        } catch (productError) {
+            console.error("Error fetching product details:", productError);
+            // Continue with add attempt even if product fetch fails
+        }
+
+        // Check if item already exists in wishlist
+        try {
+            const checkResponse = await axiosInstance.get(`/wishlist/list/${userInfo}`);
+            if (Array.isArray(checkResponse.data)) {
+                const existingItem = checkResponse.data.find(item => 
+                    (item.product?.id === productId || item.productId === productId)
+                );
+                
+                if (existingItem) {
+                    throw new Error("Item already exists in wishlist");
+                }
             }
-        );
+        } catch (checkError) {
+            console.log("Error checking wishlist:", checkError);
+            // Continue with add attempt even if check fails
+        }
+
+        // Create a FormData object to handle different parameter types
+        const formData = new FormData();
+        formData.append('productId', productId);
+        formData.append('quantity', 1);
+
+        console.log("Sending request to add to wishlist with productId:", productId);
+        
+        // Try with form data approach
+        const response = await axiosInstance({
+            method: 'post',
+            url: `/wishlist/add/${userInfo}`,
+            data: formData,
+            headers: {
+                'Authorization': `Bearer ${authToken}`,
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+
+        console.log("Add to wishlist response:", response.data);
 
         if (!response.data) {
             throw new Error("Failed to add item to wishlist");
         }
 
-        dispatch(addToWishListSuccess(response.data));
+        // If we have product details, enhance the response data with it
+        let enhancedData = response.data;
+        if (productDetails) {
+            enhancedData = {
+                ...response.data,
+                product: productDetails
+            };
+        }
+
+        dispatch(addToWishListSuccess(enhancedData));
         dispatch(fetchWishList());
     } catch (error) {
+        console.error("Add to wishlist error:", error);
+        console.error("Error details:", error.response?.data || error.message);
         dispatch(addToWishListFailure(error.message));
     }
 };
@@ -226,4 +302,3 @@ export const clearWishlist = () => async (dispatch) => {
         dispatch(clearWishlistFailure(error.message));
     }
 };
-
