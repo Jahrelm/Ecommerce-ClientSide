@@ -1,180 +1,383 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import InputCom from "../../../Helpers/InputCom";
 
-export default function ProfileTab() {
-  const [profileImg, setprofileImg] = useState(null);
+export default function ProfileTab({ userData }) {
+  const [profileImg, setProfileImg] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
   const profileImgInput = useRef(null);
-  const browseprofileImg = () => {
-    profileImgInput.current.click();
-  };
-  const profileImgChangHandler = (e) => {
-    if (e.target.value !== "") {
-      const imgReader = new FileReader();
-      imgReader.onload = (event) => {
-        setprofileImg(event.target.result);
+  
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    bio: "",
+    country: "",
+    city: "",
+    address: "",
+    postalCode: "",
+    taxId: ""
+  });
+
+  useEffect(() => {
+    // Log the user data passed as prop
+    console.log("ProfileTab - User data from props:", userData);
+    
+    if (userData) {
+      // Extract user information from the user object based on the login response structure
+      const fullNameParts = userData.fullName ? userData.fullName.split(' ') : ["", ""];
+      
+      setFormData({
+        firstName: fullNameParts[0] || "",
+        lastName: fullNameParts.length > 1 ? fullNameParts.slice(1).join(' ') : "",
+        email: userData.username || "",
+        phone: userData.phoneNumber || "",
+        bio: userData.role || userData.authorities?.[0]?.authority || "",
+        country: userData.country || "",
+        city: userData.city || "",
+        address: userData.address || "",
+        postalCode: userData.postCode || "",
+        taxId: userData.userId || ""
+      });
+      
+      // Set profile image if available (placeholder for now)
+      setProfileImg(userData.profileImage || null);
+    }
+  }, [userData]);
+
+  const handleProfileImgInputChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setProfileImg(e.target.result);
       };
-      imgReader.readAsDataURL(e.target.files[0]);
+      reader.readAsDataURL(file);
     }
   };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
+
+  const handleEditToggle = () => {
+    setIsEditing(!isEditing);
+  };
+
+  const handleSaveChanges = () => {
+    // Here you would typically dispatch an action to update the user profile
+    console.log("Saving changes:", formData);
+    setIsEditing(false);
+  };
+
   return (
-    <>
-      <div className="flex space-x-8">
-        <div className="w-[570px] ">
-          <div className="input-item flex space-x-2.5 mb-8">
-            <div className="w-1/2 h-full">
-              <InputCom
-                label="First Name*"
-                placeholder="Demo Name"
-                type="text"
-                inputClasses="h-[50px]"
-              />
-            </div>
-            <div className="w-1/2 h-full">
-              <InputCom
-                label="Last Name*"
-                placeholder="Demo Name"
-                type="text"
-                inputClasses="h-[50px]"
-              />
-            </div>
-          </div>
-          <div className="input-item flex space-x-2.5 mb-8">
-            <div className="w-1/2 h-full">
-              <InputCom
-                label="Email*"
-                placeholder="demoemial@gmail.com"
-                type="email"
-                inputClasses="h-[50px]"
-              />
-            </div>
-            <div className="w-1/2 h-full">
-              <InputCom
-                label="Phone Number*"
-                placeholder="012 3  *******"
-                type="text"
-                inputClasses="h-[50px]"
-              />
-            </div>
-          </div>
-          <div className="input-item mb-8">
-            <div className="w-full">
-              <InputCom
-                label="Country*"
-                placeholder="country"
-                type="text"
-                inputClasses="h-[50px]"
-              />
-            </div>
-          </div>
-          <div className="input-item mb-8">
-            <div className="w-full">
-              <InputCom
-                label="Address*"
-                placeholder="your address here"
-                type="text"
-                inputClasses="h-[50px]"
-              />
-            </div>
-          </div>
-          <div className="input-item flex space-x-2.5 mb-8">
-            <div className="w-1/2 h-full">
-              <InputCom
-                label="Town / City*"
-                placeholder=""
-                type="text"
-                inputClasses="h-[50px]"
-              />
-            </div>
-            <div className="w-1/2 h-full">
-              <InputCom
-                label="Postcode / ZIP*"
-                placeholder=""
-                type="text"
-                inputClasses="h-[50px]"
-              />
-            </div>
-          </div>
-        </div>
-        <div className="flex-1">
-          <div className="update-logo w-full mb-9">
-            <h1 className="text-xl tracking-wide font-bold text-qblack flex items-center mb-2">
-              Update Profile
-              <span className="ml-1">
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M10 0C4.47457 0 0 4.47791 0 10C0 15.5221 4.47791 20 10 20C15.5221 20 20 15.5221 20 10C19.9967 4.48126 15.5221 0.00669344 10 0ZM10 16.67C9.53815 16.67 9.16667 16.2985 9.16667 15.8367C9.16667 15.3748 9.53815 15.0033 10 15.0033C10.4618 15.0033 10.8333 15.3748 10.8333 15.8367C10.8333 16.2952 10.4618 16.67 10 16.67ZM11.6098 10.425C11.1078 10.7396 10.8132 11.2952 10.8333 11.8842V12.5033C10.8333 12.9652 10.4618 13.3367 10 13.3367C9.53815 13.3367 9.16667 12.9652 9.16667 12.5033V11.8842C9.14324 10.6861 9.76907 9.56827 10.8032 8.96586C11.4357 8.61781 11.7704 7.90161 11.6366 7.19545C11.5027 6.52276 10.9772 5.99732 10.3046 5.8668C9.40094 5.69946 8.5308 6.29853 8.36346 7.20214C8.34673 7.30254 8.33668 7.40295 8.33668 7.50335C8.33668 7.96519 7.9652 8.33668 7.50335 8.33668C7.0415 8.33668 6.67002 7.96519 6.67002 7.50335C6.67002 5.66265 8.16265 4.17001 10.0067 4.17001C11.8474 4.17001 13.34 5.66265 13.34 7.50669C13.3333 8.71821 12.674 9.83601 11.6098 10.425Z"
-                    fill="#374557"
-                    fillOpacity="0.6"
-                  />
-                </svg>
-              </span>
-            </h1>
-            <p className="text-sm text-qgraytwo mb-5 ">
-              Profile of at least Size
-              <span className="ml-1 text-qblack">300x300</span>. Gifs work too.
-              <span className="ml-1 text-qblack">Max 5mb</span>.
-            </p>
-            <div className="flex xl:justify-center justify-start">
-              <div className="relative">
-                <div className="sm:w-[198px] sm:h-[198px] w-[199px] h-[199px] rounded-full overflow-hidden relative">
-                  <img
-                    src={
-                      profileImg ||
-                      `${process.env.PUBLIC_URL}/assets/images/edit-profileimg.jpg`
-                    }
-                    alt=""
-                    className="object-cover w-full h-full"
-                  />
-                </div>
-                <input
-                  ref={profileImgInput}
-                  onChange={(e) => profileImgChangHandler(e)}
-                  type="file"
-                  className="hidden"
+    <div className="profile-wrapper w-full">
+      {/* Gradient header */}
+      <div className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg p-5 mb-6">
+        <h1 className="text-2xl font-bold text-white mb-2">Your Profile</h1>
+        <p className="text-white/80">Manage your personal information and account settings</p>
+      </div>
+
+      <div className="w-full bg-white p-5 rounded-lg shadow-sm border border-gray-100">
+        <div className="flex flex-col md:flex-row">
+          {/* Profile Image Section */}
+          <div className="md:w-1/3 flex flex-col items-center p-4">
+            <div className="w-40 h-40 rounded-full overflow-hidden border-4 border-gray-100 shadow-md mb-4">
+              {profileImg ? (
+                <img
+                  src={profileImg}
+                  alt="profile"
+                  className="w-full h-full object-cover"
                 />
-                <div
-                  onClick={browseprofileImg}
-                  className="w-[32px] h-[32px] absolute bottom-7 sm:right-0 right-[105px]  bg-qblack rounded-full cursor-pointer"
+              ) : (
+                <div className="w-full h-full bg-gradient-to-r from-blue-100 to-indigo-100 flex items-center justify-center">
+                  <span className="text-5xl font-bold text-indigo-500">
+                    {formData.firstName && formData.firstName[0]}
+                    {formData.lastName && formData.lastName[0]}
+                  </span>
+                </div>
+              )}
+            </div>
+            <input
+              type="file"
+              className="hidden"
+              ref={profileImgInput}
+              onChange={handleProfileImgInputChange}
+            />
+            <button
+              type="button"
+              className="px-4 py-2 bg-indigo-100 text-indigo-600 rounded-lg hover:bg-indigo-200 transition duration-300 mb-2"
+              onClick={() => profileImgInput.current.click()}
+            >
+              Change Photo
+            </button>
+            <div className="text-center mt-4">
+              <h2 className="text-xl font-bold text-gray-800">{userData?.fullName || "User"}</h2>
+              <p className="text-gray-500">{userData?.username || "user@example.com"}</p>
+              <p className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded mt-2 inline-block">
+                {userData?.authorities?.[0]?.authority || "USER"}
+              </p>
+            </div>
+          </div>
+
+          {/* Profile Form Section */}
+          <div className="md:w-2/3 md:pl-8 mt-6 md:mt-0">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-lg font-semibold text-gray-800">Personal Information</h3>
+              {!isEditing ? (
+                <button
+                  type="button"
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 flex items-center"
+                  onClick={handleEditToggle}
                 >
-                  <svg
-                    width="32"
-                    height="32"
-                    viewBox="0 0 32 32"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M16.5147 11.5C17.7284 12.7137 18.9234 13.9087 20.1296 15.115C19.9798 15.2611 19.8187 15.4109 19.6651 15.5683C17.4699 17.7635 15.271 19.9587 13.0758 22.1539C12.9334 22.2962 12.7948 22.4386 12.6524 22.5735C12.6187 22.6034 12.5663 22.6296 12.5213 22.6296C11.3788 22.6334 10.2362 22.6297 9.09365 22.6334C9.01498 22.6334 9 22.6034 9 22.536C9 21.4009 9 20.2621 9.00375 19.1271C9.00375 19.0746 9.02997 19.0109 9.06368 18.9772C10.4123 17.6249 11.7609 16.2763 13.1095 14.9277C14.2295 13.8076 15.3459 12.6913 16.466 11.5712C16.4884 11.5487 16.4997 11.5187 16.5147 11.5Z"
-                      fill="white"
-                    />
-                    <path
-                      d="M20.9499 14.2904C19.7436 13.0842 18.5449 11.8854 17.3499 10.6904C17.5634 10.4694 17.7844 10.2446 18.0054 10.0199C18.2639 9.76139 18.5261 9.50291 18.7884 9.24443C19.118 8.91852 19.5713 8.91852 19.8972 9.24443C20.7251 10.0611 21.5492 10.8815 22.3771 11.6981C22.6993 12.0165 22.7105 12.4698 22.3996 12.792C21.9238 13.2865 21.4443 13.7772 20.9686 14.2717C20.9648 14.2792 20.9536 14.2867 20.9499 14.2904Z"
-                      fill="white"
-                    />
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                   </svg>
+                  Edit Profile
+                </button>
+              ) : (
+                <div className="flex space-x-2">
+                  <button
+                    type="button"
+                    className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition duration-300"
+                    onClick={handleEditToggle}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300"
+                    onClick={handleSaveChanges}
+                  >
+                    Save Changes
+                  </button>
+                </div>
+              )}
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="input-item">
+                <label className="text-sm font-medium text-gray-700 block mb-1">
+                  First Name
+                </label>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                ) : (
+                  <p className="text-gray-800 py-2 border-b border-gray-100">
+                    {formData.firstName || "Not provided"}
+                  </p>
+                )}
+              </div>
+
+              <div className="input-item">
+                <label className="text-sm font-medium text-gray-700 block mb-1">
+                  Last Name
+                </label>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                ) : (
+                  <p className="text-gray-800 py-2 border-b border-gray-100">
+                    {formData.lastName || "Not provided"}
+                  </p>
+                )}
+              </div>
+
+              <div className="input-item">
+                <label className="text-sm font-medium text-gray-700 block mb-1">
+                  Email Address
+                </label>
+                {isEditing ? (
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                ) : (
+                  <p className="text-gray-800 py-2 border-b border-gray-100">
+                    {formData.email || "Not provided"}
+                  </p>
+                )}
+              </div>
+
+              <div className="input-item">
+                <label className="text-sm font-medium text-gray-700 block mb-1">
+                  Phone Number
+                </label>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                ) : (
+                  <p className="text-gray-800 py-2 border-b border-gray-100">
+                    {formData.phone || "Not provided"}
+                  </p>
+                )}
+              </div>
+
+              <div className="input-item md:col-span-2">
+                <label className="text-sm font-medium text-gray-700 block mb-1">
+                  Address
+                </label>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    name="address"
+                    value={formData.address}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                ) : (
+                  <p className="text-gray-800 py-2 border-b border-gray-100">
+                    {formData.address || "Not provided"}
+                  </p>
+                )}
+              </div>
+
+              <div className="input-item">
+                <label className="text-sm font-medium text-gray-700 block mb-1">
+                  City
+                </label>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    name="city"
+                    value={formData.city}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                ) : (
+                  <p className="text-gray-800 py-2 border-b border-gray-100">
+                    {formData.city || "Not provided"}
+                  </p>
+                )}
+              </div>
+
+              <div className="input-item">
+                <label className="text-sm font-medium text-gray-700 block mb-1">
+                  Country
+                </label>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    name="country"
+                    value={formData.country}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                ) : (
+                  <p className="text-gray-800 py-2 border-b border-gray-100">
+                    {formData.country || "Not provided"}
+                  </p>
+                )}
+              </div>
+
+              <div className="input-item">
+                <label className="text-sm font-medium text-gray-700 block mb-1">
+                  Postal Code
+                </label>
+                {isEditing ? (
+                  <input
+                    type="text"
+                    name="postalCode"
+                    value={formData.postalCode}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                ) : (
+                  <p className="text-gray-800 py-2 border-b border-gray-100">
+                    {formData.postalCode || "Not provided"}
+                  </p>
+                )}
+              </div>
+
+              <div className="input-item">
+                <label className="text-sm font-medium text-gray-700 block mb-1">
+                  User ID
+                </label>
+                <p className="text-gray-800 py-2 border-b border-gray-100">
+                  {userData?.userId || "Not available"}
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-8">
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">Account Status</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-gray-50 p-3 rounded-lg">
+                  <div className="flex items-center">
+                    <div className={`w-3 h-3 rounded-full ${userData?.accountNonExpired ? 'bg-green-500' : 'bg-red-500'} mr-2`}></div>
+                    <span className="text-sm font-medium text-gray-700">Account Status:</span>
+                    <span className={`ml-2 text-sm ${userData?.accountNonExpired ? 'text-green-600' : 'text-red-600'}`}>
+                      {userData?.accountNonExpired ? 'Active' : 'Expired'}
+                    </span>
+                  </div>
+                </div>
+                
+                <div className="bg-gray-50 p-3 rounded-lg">
+                  <div className="flex items-center">
+                    <div className={`w-3 h-3 rounded-full ${!userData?.accountNonLocked ? 'bg-red-500' : 'bg-green-500'} mr-2`}></div>
+                    <span className="text-sm font-medium text-gray-700">Lock Status:</span>
+                    <span className={`ml-2 text-sm ${!userData?.accountNonLocked ? 'text-red-600' : 'text-green-600'}`}>
+                      {!userData?.accountNonLocked ? 'Locked' : 'Unlocked'}
+                    </span>
+                  </div>
+                </div>
+                
+                <div className="bg-gray-50 p-3 rounded-lg">
+                  <div className="flex items-center">
+                    <div className={`w-3 h-3 rounded-full ${userData?.credentialsNonExpired ? 'bg-green-500' : 'bg-red-500'} mr-2`}></div>
+                    <span className="text-sm font-medium text-gray-700">Credentials:</span>
+                    <span className={`ml-2 text-sm ${userData?.credentialsNonExpired ? 'text-green-600' : 'text-red-600'}`}>
+                      {userData?.credentialsNonExpired ? 'Valid' : 'Expired'}
+                    </span>
+                  </div>
+                </div>
+                
+                <div className="bg-gray-50 p-3 rounded-lg">
+                  <div className="flex items-center">
+                    <div className={`w-3 h-3 rounded-full ${userData?.enabled ? 'bg-green-500' : 'bg-red-500'} mr-2`}></div>
+                    <span className="text-sm font-medium text-gray-700">Account:</span>
+                    <span className={`ml-2 text-sm ${userData?.enabled ? 'text-green-600' : 'text-red-600'}`}>
+                      {userData?.enabled ? 'Enabled' : 'Disabled'}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
+
+            {userData?.resetTokenExpiry && (
+              <div className="mt-6 p-4 bg-yellow-50 rounded-lg border border-yellow-100">
+                <h4 className="text-sm font-medium text-yellow-800 mb-1">Password Reset Status</h4>
+                <p className="text-sm text-yellow-700">
+                  Your password reset token expires on: {new Date(userData.resetTokenExpiry).toLocaleString()}
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>
-      <div className="action-area flex space-x-4 items-center">
-        <button type="button" className="text-sm text-qred font-semibold">
-          Cancel
-        </button>
-        <button
-          type="button"
-          className="w-[164px] h-[50px] bg-qblack text-white text-sm"
-        >
-          Update Profile
-        </button>
-      </div>
-    </>
+    </div>
   );
 }

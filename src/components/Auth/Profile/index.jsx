@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 import datas from "../../../data/products.json";
 import BreadcrumbCom from "../../BreadcrumbCom";
 import Layout from "../../Partials/Layout";
@@ -28,6 +29,19 @@ export default function Profile() {
   const location = useLocation();
   const getHashContent = location.hash.split("#");
   const [active, setActive] = useState("dashboard");
+  
+  // Get auth state from Redux
+  const authState = useSelector((state) => state.auth);
+  
+  // Extract user data from auth state
+  const userData = authState?.user?.user || authState?.user || {};
+  
+  // Log user data for debugging
+  useEffect(() => {
+    console.log("Profile Component - Auth State:", authState);
+    console.log("Profile Component - User Data:", userData);
+  }, [authState, userData]);
+  
   useEffect(() => {
     setActive(
       getHashContent && getHashContent.length > 1
@@ -35,6 +49,7 @@ export default function Profile() {
         : "dashboard"
     );
   }, [getHashContent]);
+  
   return (
     <Layout childrenClasses="pt-0 pb-0">
       <div className="profile-page-wrapper w-full">
@@ -76,7 +91,7 @@ export default function Profile() {
                             <IcoDashboard />
                           </span>
                           <span className=" font-normal text-base">
-                            Dashbaord
+                            Dashboard
                           </span>
                         </div>
                       </Link>
@@ -88,7 +103,7 @@ export default function Profile() {
                             <IcoPeople />
                           </span>
                           <span className=" font-normal text-base">
-                            Parsonal Info
+                            Personal Info
                           </span>
                         </div>
                       </Link>
@@ -183,7 +198,7 @@ export default function Profile() {
                             <IcoLogout />
                           </span>
                           <span className=" font-normal text-base">
-                            Logoout
+                            Logout
                           </span>
                         </div>
                       </Link>
@@ -193,38 +208,38 @@ export default function Profile() {
                 <div className="flex-1">
                   <div className="item-body dashboard-wrapper w-full">
                     {active === "dashboard" ? (
-                      <Dashboard />
+                      <Dashboard userData={userData} />
                     ) : active === "profile" ? (
                       <>
-                        <ProfileTab />
+                        <ProfileTab userData={userData} />
                       </>
                     ) : active === "payment" ? (
                       <>
-                        <Payment />
+                        <Payment userData={userData} />
                       </>
                     ) : active === "order" ? (
                       <>
-                        <OrderTab />
+                        <OrderTab userData={userData} />
                       </>
                     ) : active === "wishlist" ? (
                       <>
-                        <WishlistTab />
+                        <WishlistTab userData={userData} />
                       </>
                     ) : active === "address" ? (
                       <>
-                        <AddressesTab />
+                        <AddressesTab userData={userData} />
                       </>
                     ) : active === "password" ? (
                       <>
-                        <PasswordTab />
+                        <PasswordTab userData={userData} />
                       </>
                     ) : active === "support" ? (
                       <>
-                        <SupportTab />
+                        <SupportTab userData={userData} />
                       </>
                     ) : active === "review" ? (
                       <>
-                        <ReviewTab products={datas.products} />
+                        <ReviewTab products={datas.products} userData={userData} />
                       </>
                     ) : (
                       ""

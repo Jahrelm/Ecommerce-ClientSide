@@ -10,8 +10,10 @@ import { useSelector } from "react-redux";
 export default function Middlebar({ className, type }) {
   const { cart } = useSelector((state) => state.cart) || { cart: [] };
   const { user } = useSelector((state) => state.auth);
+  const { wishlist } = useSelector((state) => state.wishlist) || { wishlist: [] };
   
   const [count, setCount] = useState(0);
+  const [wishlistCount, setWishlistCount] = useState(0);
   const [username, setUsername] = useState("");
 
   const cartItems = cart.length > 0 ? cart[0].cartItems : [];
@@ -21,9 +23,29 @@ export default function Middlebar({ className, type }) {
     setCount(totalQuantity);
   }, [cartItems]);
 
-  console.log(cart);
-  console.log(user);
-  console.log(username);
+  // Set username when user is logged in
+  useEffect(() => {
+    if (user && user.username) {
+      setUsername(user.username);
+    } else if (user && user.email) {
+      // If username is not available, use email or name
+      const emailName = user.email.split('@')[0];
+      setUsername(emailName);
+    } else if (user && user.name) {
+      setUsername(user.name);
+    } else {
+      setUsername("");
+    }
+  }, [user]);
+
+  // Update wishlist count
+  useEffect(() => {
+    if (wishlist && Array.isArray(wishlist)) {
+      setWishlistCount(wishlist.length);
+    } else {
+      setWishlistCount(0);
+    }
+  }, [wishlist]);
 
   return (
     <div className={`w-full h-[86px] bg-white ${className}`}>
@@ -91,7 +113,7 @@ export default function Middlebar({ className, type }) {
                     type === 3 ? "bg-qh3-blue text-white" : "bg-customBlue text-white"
                   }`}
                 >
-                  1
+                  {wishlistCount}
                 </span>
               </div>
 
@@ -117,12 +139,16 @@ export default function Middlebar({ className, type }) {
 
               {/* User/Profile */}
               <div className="flex items-center space-x-2">
-                <button type="button">
+                <a href="/profile" className="flex items-center space-x-2">
                   <span>
                     <ThinPeople />
                   </span>
-                </button>
-                <span className="text-gray-700">{username}</span>
+                  {username ? (
+                    <span className="text-sm font-medium text-gray-700">{username}</span>
+                  ) : (
+                    <span className="text-sm font-medium text-gray-700">Login</span>
+                  )}
+                </a>
               </div>
             </div>
           </div>

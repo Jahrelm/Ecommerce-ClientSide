@@ -122,17 +122,27 @@ export const checkoutFailure = (error) => ({
 export const checkoutCart = (cartItem) => async(dispatch) => {
   try {
     const authToken = sessionStorage.getItem('authToken');
+    if (!authToken) {
+      console.error("Authentication token is missing");
+      dispatch(checkoutFailure("Authentication required"));
+      return;
+    }
     
+    // Simple payload for checkout
     const payload = {
       product: {
         productId: cartItem.productId,
         title: cartItem.title,
-        price: cartItem.subTotal, // Send price without conversion
+        price: cartItem.subTotal,
         currency: cartItem.currency
       },
       quantity: cartItem.quantity
     };
+    
     console.log('Checkout payload:', payload);
+    
+    // Dispatch a loading action
+    dispatch({ type: types.CHECKOUT_REQUEST });
     
     const response = await axiosInstance.post('/products-checkout/checkout', 
       payload,
@@ -146,17 +156,44 @@ export const checkoutCart = (cartItem) => async(dispatch) => {
 
     console.log('Checkout response:', response.data);
 
-    const stripeUrl = response.data.message;
+    // Get the Stripe URL
+    const stripeUrl = response.data.message || response.data.url || response.data.redirect;
     
     if (!stripeUrl) {
-      throw new Error('No Stripe session URL received from server');
+      console.error('No Stripe URL in response:', response.data);
+      throw new Error('No Stripe URL received from server');
     }
 
+    // Dispatch success action
     dispatch(checkoutSuccss(response.data));
+    
+    // Direct redirect to Stripe
     window.location.href = stripeUrl;
     
   } catch (error) {
-    console.error("Checkout failed", error.response?.data || error.message);
-    dispatch(checkoutFailure(error.message));
+    console.error("Checkout failed", error);
+    dispatch(checkoutFailure(error.message || "Checkout failed"));
+    alert("Payment processing failed: " + (error.message || "Unknown error"));
   }
+};
+
+// Helper function to calculate estimated delivery date based on shipping method
+const getEstimatedDeliveryDate = (shippingMethod) => {
+  const today = new Date();
+  let daysToAdd = 5; // Default for standard shipping
+  
+  if (shippingMethod === 'express') {
+    daysToAdd = 2;
+  } else if (shippingMethod === 'free') {
+    daysToAdd = 7;
+  }
+  
+  const deliveryDate = new Date(today);
+  deliveryDate.setDate(today.getDate() + daysToAdd);
+  
+  return deliveryDate.toLocaleDateString('en-US', { 
+    weekday: 'long', 
+    month: 'short', 
+    day: 'numeric' 
+  });
 };

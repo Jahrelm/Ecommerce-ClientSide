@@ -1,175 +1,273 @@
-import React from "react";
+import React, { useState } from "react";
 
-export default function AddressesTab() {
+export default function AddressesTab({ userData }) {
+  const [editMode, setEditMode] = useState(false);
+  
+  // Log user data for debugging
+  console.log("AddressesTab - User data from props:", userData);
+  
+  // Extract address from user data
+  const userAddress = userData?.address || "";
+  const userCity = userData?.city || "";
+  const userCountry = userData?.country || "";
+  const userPostCode = userData?.postCode || "";
+  const userName = userData?.fullName || "";
+  const userEmail = userData?.username || "";
+  const userPhone = userData?.phoneNumber || "";
+  
   return (
     <>
-      <div className="grid grid-cols-2 gap-[30px]">
-        <div className="w-full bg-primarygray p-5 border">
-          <div className="flex justify-between items-center">
-            <p className="title text-[22px] font-semibold">Address #1</p>
-            <button
-              type="button"
-              className="border border-qgray w-[34px] h-[34px] rounded-full flex justify-center items-center"
-            >
-              <svg
-                width="17"
-                height="19"
-                viewBox="0 0 17 19"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M15.7768 5.95215C15.6991 6.9104 15.6242 7.84603 15.5471 8.78237C15.3691 10.9285 15.1917 13.0747 15.0108 15.2209C14.9493 15.9473 14.9097 16.6773 14.8065 17.3988C14.6963 18.1726 14.0716 18.7161 13.2929 18.7196C10.3842 18.7323 7.47624 18.7337 4.56757 18.7189C3.70473 18.7146 3.08639 18.0794 3.00795 17.155C2.78181 14.493 2.57052 11.8302 2.35145 9.16821C2.2716 8.19442 2.1875 7.22133 2.10623 6.24824C2.09846 6.15638 2.09563 6.06451 2.08998 5.95286C6.65579 5.95215 11.2061 5.95215 15.7768 5.95215ZM5.25375 8.05803C5.25234 8.05803 5.25163 8.05803 5.25022 8.05803C5.27566 8.4573 5.3011 8.85657 5.32583 9.25584C5.46717 11.5228 5.60709 13.7891 5.75125 16.0561C5.77245 16.3897 5.99081 16.6038 6.28196 16.6024C6.58724 16.601 6.80066 16.3636 6.8056 16.0159C6.80702 15.9339 6.80136 15.8512 6.79571 15.7692C6.65367 13.4789 6.51304 11.1886 6.36888 8.89826C6.33849 8.41702 6.31164 7.93507 6.26146 7.45524C6.22966 7.1549 6.0318 6.99732 5.73076 6.99802C5.44526 6.99873 5.24033 7.2185 5.23043 7.52873C5.22619 7.7054 5.24598 7.88207 5.25375 8.05803ZM12.6102 8.05521C12.6088 8.05521 12.6074 8.05521 12.606 8.05521C12.6152 7.89055 12.6321 7.7259 12.6307 7.56195C12.6286 7.24465 12.4399 7.02417 12.1622 6.99873C11.888 6.97329 11.6484 7.16268 11.5961 7.46443C11.5665 7.63756 11.5615 7.81494 11.5502 7.9909C11.4626 9.38799 11.3749 10.7851 11.2887 12.1822C11.2103 13.4499 11.1276 14.7184 11.0576 15.9869C11.0379 16.3431 11.2463 16.5819 11.5495 16.6003C11.8562 16.6194 12.088 16.4017 12.1099 16.0505C12.2788 13.3856 12.4441 10.7208 12.6102 8.05521ZM9.45916 11.814C9.45916 10.4727 9.45986 9.13147 9.45916 7.79091C9.45916 7.25101 9.28603 6.99449 8.92845 6.99661C8.56805 6.99802 8.40198 7.24819 8.40198 7.79586C8.40127 10.4664 8.40127 13.1369 8.40268 15.8074C8.40268 15.948 8.37088 16.1289 8.44296 16.2194C8.56946 16.3763 8.76591 16.5748 8.93198 16.5741C9.09805 16.5734 9.29309 16.3727 9.41746 16.2151C9.48955 16.124 9.45704 15.9431 9.45704 15.8032C9.46057 14.4725 9.45916 13.1432 9.45916 11.814Z"
-                  fill="#EB5757"
-                />
-                <path
-                  d="M5.20143 2.75031C5.21486 2.49449 5.21839 2.2945 5.23747 2.09593C5.31733 1.25923 5.93496 0.648664 6.77449 0.637357C8.21115 0.618277 9.64923 0.618277 11.0859 0.637357C11.9254 0.648664 12.5438 1.25852 12.6236 2.09522C12.6427 2.2938 12.6462 2.49379 12.6582 2.73335C12.7854 2.739 12.9084 2.74889 13.0314 2.7496C13.9267 2.75101 14.8221 2.74677 15.7174 2.75172C16.4086 2.75525 16.8757 3.18774 16.875 3.81244C16.8742 4.43643 16.4078 4.87103 15.716 4.87174C11.1926 4.87386 6.66849 4.87386 2.14508 4.87174C1.45324 4.87103 0.986135 4.43713 0.985429 3.81314C0.984722 3.18915 1.45183 2.75525 2.14296 2.75243C3.15421 2.74677 4.16545 2.75031 5.20143 2.75031ZM11.5799 2.73335C11.5799 2.59625 11.5806 2.49096 11.5799 2.38637C11.5749 1.86626 11.4018 1.69313 10.876 1.69242C9.55878 1.69101 8.24225 1.68959 6.92501 1.69313C6.48546 1.69454 6.30031 1.87545 6.28265 2.3051C6.27699 2.4422 6.28194 2.58 6.28194 2.73335C8.05851 2.73335 9.7941 2.73335 11.5799 2.73335Z"
-                  fill="#EB5757"
-                />
-              </svg>
-            </button>
-          </div>
-          <div className="mt-5">
-            <table>
-              <tbody>
-                <tr className="flex mb-3">
-                  <td className="text-base text-qgraytwo w-[70px] block line-clamp-1">
-                    <div>Name:</div>
-                  </td>
-                  <td className="text-base text-qblack line-clamp-1 font-medium">
-                    Shuvo Khan
-                  </td>
-                </tr>
-                <tr className="flex mb-3">
-                  <td className="text-base text-qgraytwo w-[70px] block line-clamp-1">
-                    <div>Email:</div>
-                  </td>
-                  <td className="text-base text-qblack line-clamp-1 font-medium">
-                    rafiqulislamsuvobd@gmail.com
-                  </td>
-                </tr>
-                <tr className="flex mb-3">
-                  <td className="text-base text-qgraytwo w-[70px] block line-clamp-1">
-                    <div>Phone:</div>
-                  </td>
-                  <td className="text-base text-qblack line-clamp-1 font-medium">
-                    01792166627
-                  </td>
-                </tr>
-                <tr className="flex mb-3">
-                  <td className="text-base text-qgraytwo w-[70px] block line-clamp-1">
-                    <div>country:</div>
-                  </td>
-                  <td className="text-base text-qblack line-clamp-1 font-medium">
-                    Dhaka,Bangldesh
-                  </td>
-                </tr>
-                <tr className="flex mb-3">
-                  <td className="text-base text-qgraytwo w-[70px] block line-clamp-1">
-                    <div>state:</div>
-                  </td>
-                  <td className="text-base text-qblack line-clamp-1 font-medium">
-                    Barishal
-                  </td>
-                </tr>
-                <tr className="flex mb-3">
-                  <td className="text-base text-qgraytwo w-[70px] block line-clamp-1">
-                    <div>City:</div>
-                  </td>
-                  <td className="text-base text-qblack line-clamp-1 font-medium">
-                    banaripara
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div className="w-full bg-primarygray p-5 border">
-          <div className="flex justify-between items-center">
-            <p className="title text-[22px] font-semibold">Address #1</p>
-            <button
-              type="button"
-              className="border border-qgray w-[34px] h-[34px] rounded-full flex justify-center items-center"
-            >
-              <svg
-                width="17"
-                height="19"
-                viewBox="0 0 17 19"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M15.7768 5.95215C15.6991 6.9104 15.6242 7.84603 15.5471 8.78237C15.3691 10.9285 15.1917 13.0747 15.0108 15.2209C14.9493 15.9473 14.9097 16.6773 14.8065 17.3988C14.6963 18.1726 14.0716 18.7161 13.2929 18.7196C10.3842 18.7323 7.47624 18.7337 4.56757 18.7189C3.70473 18.7146 3.08639 18.0794 3.00795 17.155C2.78181 14.493 2.57052 11.8302 2.35145 9.16821C2.2716 8.19442 2.1875 7.22133 2.10623 6.24824C2.09846 6.15638 2.09563 6.06451 2.08998 5.95286C6.65579 5.95215 11.2061 5.95215 15.7768 5.95215ZM5.25375 8.05803C5.25234 8.05803 5.25163 8.05803 5.25022 8.05803C5.27566 8.4573 5.3011 8.85657 5.32583 9.25584C5.46717 11.5228 5.60709 13.7891 5.75125 16.0561C5.77245 16.3897 5.99081 16.6038 6.28196 16.6024C6.58724 16.601 6.80066 16.3636 6.8056 16.0159C6.80702 15.9339 6.80136 15.8512 6.79571 15.7692C6.65367 13.4789 6.51304 11.1886 6.36888 8.89826C6.33849 8.41702 6.31164 7.93507 6.26146 7.45524C6.22966 7.1549 6.0318 6.99732 5.73076 6.99802C5.44526 6.99873 5.24033 7.2185 5.23043 7.52873C5.22619 7.7054 5.24598 7.88207 5.25375 8.05803ZM12.6102 8.05521C12.6088 8.05521 12.6074 8.05521 12.606 8.05521C12.6152 7.89055 12.6321 7.7259 12.6307 7.56195C12.6286 7.24465 12.4399 7.02417 12.1622 6.99873C11.888 6.97329 11.6484 7.16268 11.5961 7.46443C11.5665 7.63756 11.5615 7.81494 11.5502 7.9909C11.4626 9.38799 11.3749 10.7851 11.2887 12.1822C11.2103 13.4499 11.1276 14.7184 11.0576 15.9869C11.0379 16.3431 11.2463 16.5819 11.5495 16.6003C11.8562 16.6194 12.088 16.4017 12.1099 16.0505C12.2788 13.3856 12.4441 10.7208 12.6102 8.05521ZM9.45916 11.814C9.45916 10.4727 9.45986 9.13147 9.45916 7.79091C9.45916 7.25101 9.28603 6.99449 8.92845 6.99661C8.56805 6.99802 8.40198 7.24819 8.40198 7.79586C8.40127 10.4664 8.40127 13.1369 8.40268 15.8074C8.40268 15.948 8.37088 16.1289 8.44296 16.2194C8.56946 16.3763 8.76591 16.5748 8.93198 16.5741C9.09805 16.5734 9.29309 16.3727 9.41746 16.2151C9.48955 16.124 9.45704 15.9431 9.45704 15.8032C9.46057 14.4725 9.45916 13.1432 9.45916 11.814Z"
-                  fill="#EB5757"
-                />
-                <path
-                  d="M5.20143 2.75031C5.21486 2.49449 5.21839 2.2945 5.23747 2.09593C5.31733 1.25923 5.93496 0.648664 6.77449 0.637357C8.21115 0.618277 9.64923 0.618277 11.0859 0.637357C11.9254 0.648664 12.5438 1.25852 12.6236 2.09522C12.6427 2.2938 12.6462 2.49379 12.6582 2.73335C12.7854 2.739 12.9084 2.74889 13.0314 2.7496C13.9267 2.75101 14.8221 2.74677 15.7174 2.75172C16.4086 2.75525 16.8757 3.18774 16.875 3.81244C16.8742 4.43643 16.4078 4.87103 15.716 4.87174C11.1926 4.87386 6.66849 4.87386 2.14508 4.87174C1.45324 4.87103 0.986135 4.43713 0.985429 3.81314C0.984722 3.18915 1.45183 2.75525 2.14296 2.75243C3.15421 2.74677 4.16545 2.75031 5.20143 2.75031ZM11.5799 2.73335C11.5799 2.59625 11.5806 2.49096 11.5799 2.38637C11.5749 1.86626 11.4018 1.69313 10.876 1.69242C9.55878 1.69101 8.24225 1.68959 6.92501 1.69313C6.48546 1.69454 6.30031 1.87545 6.28265 2.3051C6.27699 2.4422 6.28194 2.58 6.28194 2.73335C8.05851 2.73335 9.7941 2.73335 11.5799 2.73335Z"
-                  fill="#EB5757"
-                />
-              </svg>
-            </button>
-          </div>
-          <div className="mt-5">
-            <table>
-              <tbody>
-                <tr className="flex mb-3">
-                  <td className="text-base text-qgraytwo w-[70px] block line-clamp-1">
-                    <div>Name:</div>
-                  </td>
-                  <td className="text-base text-qblack line-clamp-1 font-medium">
-                    Shuvo Khan
-                  </td>
-                </tr>
-                <tr className="flex mb-3">
-                  <td className="text-base text-qgraytwo w-[70px] block line-clamp-1">
-                    <div>Email:</div>
-                  </td>
-                  <td className="text-base text-qblack line-clamp-1 font-medium">
-                    rafiqulislamsuvobd@gmail.com
-                  </td>
-                </tr>
-                <tr className="flex mb-3">
-                  <td className="text-base text-qgraytwo w-[70px] block line-clamp-1">
-                    <div>Phone:</div>
-                  </td>
-                  <td className="text-base text-qblack line-clamp-1 font-medium">
-                    01792166627
-                  </td>
-                </tr>
-                <tr className="flex mb-3">
-                  <td className="text-base text-qgraytwo w-[70px] block line-clamp-1">
-                    <div>country:</div>
-                  </td>
-                  <td className="text-base text-qblack line-clamp-1 font-medium">
-                    Dhaka,Bangldesh
-                  </td>
-                </tr>
-                <tr className="flex mb-3">
-                  <td className="text-base text-qgraytwo w-[70px] block line-clamp-1">
-                    <div>state:</div>
-                  </td>
-                  <td className="text-base text-qblack line-clamp-1 font-medium">
-                    Barishal
-                  </td>
-                </tr>
-                <tr className="flex mb-3">
-                  <td className="text-base text-qgraytwo w-[70px] block line-clamp-1">
-                    <div>City:</div>
-                  </td>
-                  <td className="text-base text-qblack line-clamp-1 font-medium">
-                    banaripara
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+      <div className="w-full bg-gradient-to-r from-green-500 to-teal-500 rounded-lg p-5 mb-6">
+        <h1 className="text-2xl font-bold text-white mb-2">Your Addresses</h1>
+        <p className="text-white/80">Manage your shipping and billing addresses</p>
       </div>
-      <div className="w-[180px] h-[50px] mt-4">
-        <button type="button" className="yellow-btn">
-          <div className="w-full text-sm font-semibold">Add New Address</div>
+      
+      <div className="flex items-center justify-between mb-6">
+        <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
+          </svg>
+          Add New Address
         </button>
       </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Primary Address Card */}
+        <div className="w-full bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition duration-300">
+          <div className="flex justify-between items-center mb-4">
+            <div className="flex items-center">
+              <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-semibold text-gray-800">Primary Address</h3>
+            </div>
+            <div className="flex space-x-2">
+              <button 
+                className="p-2 text-blue-600 hover:text-blue-800 rounded-full hover:bg-blue-50"
+                onClick={() => setEditMode(!editMode)}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                </svg>
+              </button>
+              <button className="p-2 text-red-600 hover:text-red-800 rounded-full hover:bg-red-50">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+                </svg>
+              </button>
+            </div>
+          </div>
+          
+          <div className="bg-blue-50 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded inline-block mb-4">
+            Default Address
+          </div>
+          
+          <div className="space-y-3">
+            <div className="flex">
+              <span className="text-gray-500 w-24">Name:</span>
+              <span className="text-gray-800 font-medium">{userName}</span>
+            </div>
+            <div className="flex">
+              <span className="text-gray-500 w-24">Email:</span>
+              <span className="text-gray-800">{userEmail}</span>
+            </div>
+            <div className="flex">
+              <span className="text-gray-500 w-24">Phone:</span>
+              <span className="text-gray-800">{userPhone}</span>
+            </div>
+            <div className="flex">
+              <span className="text-gray-500 w-24">Address:</span>
+              <span className="text-gray-800">{userAddress}</span>
+            </div>
+            <div className="flex">
+              <span className="text-gray-500 w-24">City:</span>
+              <span className="text-gray-800">{userCity}</span>
+            </div>
+            <div className="flex">
+              <span className="text-gray-500 w-24">Country:</span>
+              <span className="text-gray-800">{userCountry}</span>
+            </div>
+            <div className="flex">
+              <span className="text-gray-500 w-24">Postal Code:</span>
+              <span className="text-gray-800">{userPostCode}</span>
+            </div>
+          </div>
+        </div>
+        
+        {/* Billing Address Card (if different from shipping) */}
+        <div className="w-full bg-white p-6 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition duration-300">
+          <div className="flex justify-between items-center mb-4">
+            <div className="flex items-center">
+              <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mr-3">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-purple-600" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-semibold text-gray-800">Billing Address</h3>
+            </div>
+            <div className="flex space-x-2">
+              <button className="p-2 text-blue-600 hover:text-blue-800 rounded-full hover:bg-blue-50">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                </svg>
+              </button>
+              <button className="p-2 text-red-600 hover:text-red-800 rounded-full hover:bg-red-50">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+                </svg>
+              </button>
+            </div>
+          </div>
+          
+          <div className="space-y-3">
+            <div className="flex">
+              <span className="text-gray-500 w-24">Name:</span>
+              <span className="text-gray-800 font-medium">{userName}</span>
+            </div>
+            <div className="flex">
+              <span className="text-gray-500 w-24">Email:</span>
+              <span className="text-gray-800">{userEmail}</span>
+            </div>
+            <div className="flex">
+              <span className="text-gray-500 w-24">Phone:</span>
+              <span className="text-gray-800">{userPhone}</span>
+            </div>
+            <div className="flex">
+              <span className="text-gray-500 w-24">Address:</span>
+              <span className="text-gray-800">{userAddress}</span>
+            </div>
+            <div className="flex">
+              <span className="text-gray-500 w-24">City:</span>
+              <span className="text-gray-800">{userCity}</span>
+            </div>
+            <div className="flex">
+              <span className="text-gray-500 w-24">Country:</span>
+              <span className="text-gray-800">{userCountry}</span>
+            </div>
+            <div className="flex">
+              <span className="text-gray-500 w-24">Postal Code:</span>
+              <span className="text-gray-800">{userPostCode}</span>
+            </div>
+          </div>
+          
+          <div className="mt-4 pt-4 border-t border-gray-100">
+            <div className="flex items-center">
+              <input 
+                id="same-as-shipping" 
+                type="checkbox" 
+                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                defaultChecked={true}
+              />
+              <label htmlFor="same-as-shipping" className="ml-2 text-sm font-medium text-gray-700">
+                Same as shipping address
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Add New Address Form (conditionally rendered) */}
+      {editMode && (
+        <div className="mt-8 bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+          <h3 className="text-lg font-semibold text-gray-800 mb-4">Edit Address</h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+              <input 
+                type="text" 
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                defaultValue={userName}
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+              <input 
+                type="email" 
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                defaultValue={userEmail}
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+              <input 
+                type="text" 
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                defaultValue={userPhone}
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Country</label>
+              <input 
+                type="text" 
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                defaultValue={userCountry}
+              />
+            </div>
+            
+            <div className="md:col-span-2">
+              <label className="block text-sm font-medium text-gray-700 mb-1">Street Address</label>
+              <input 
+                type="text" 
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                defaultValue={userAddress}
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
+              <input 
+                type="text" 
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                defaultValue={userCity}
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Postal Code</label>
+              <input 
+                type="text" 
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                defaultValue={userPostCode}
+              />
+            </div>
+            
+            <div className="md:col-span-2 mt-2">
+              <div className="flex items-center">
+                <input 
+                  id="default-address" 
+                  type="checkbox" 
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                  defaultChecked={true}
+                />
+                <label htmlFor="default-address" className="ml-2 text-sm font-medium text-gray-700">
+                  Set as default address
+                </label>
+              </div>
+            </div>
+          </div>
+          
+          <div className="mt-6 flex justify-end space-x-3">
+            <button 
+              className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition duration-300"
+              onClick={() => setEditMode(false)}
+            >
+              Cancel
+            </button>
+            <button 
+              className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300"
+              onClick={() => setEditMode(false)}
+            >
+              Save Address
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 }
