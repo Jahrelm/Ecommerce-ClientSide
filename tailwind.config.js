@@ -4,18 +4,28 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        customBlue: '#3c93da',
-        primarygray: "#f8f8f8",
+        // Toddler Kingdom Pre-Loved Brand Colors
+        'primary-blue': '#4A90E2',
+        'peachy-pink': '#FFB6C1',
+        'accent-cream': '#FFF8E7',
+        'soft-lavender': '#E6E6FA',
+        'off-white': '#FAFAFA',
+        'medium-grey': '#6B7280',
+        'success-green': '#10B981',
+        
+        // Legacy colors (keeping for backward compatibility)
+        customBlue: '#4A90E2', // Updated to primary-blue
+        primarygray: "#FAFAFA",
         qblack: "#222222",
         qyellow: "#FFBB38",
         qred: "#EF262C",
-        qgray: "#797979",
+        qgray: "#6B7280",
         qblacktext: "#1D1D1D",
         qgraytwo: "#8E8E8E",
         "qgray-border": "#EFEFEF",
         "qblue-white": "#CBECFF",
         "qh2-green": "#2D6F6D",
-          "qh3-blue":"#1868D5"
+        "qh3-blue":"#4A90E2"
       },
       scale: {
         60: "0.6",

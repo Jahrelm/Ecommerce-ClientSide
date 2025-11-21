@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Arrow from "../../../Helpers/icons/Arrow";
 
-export default function Navbar({ className,type }) {
+export default function Navbar({ className, type }) {
   const [categoryToggle, setToggle] = useState(false);
   const [elementsSize, setSize] = useState("0px");
   // const getItems = document.querySelectorAll(`.categories-list li`).length;
@@ -25,15 +25,14 @@ export default function Navbar({ className,type }) {
 
   return (
     <div
-      className={`nav-widget-wrapper w-full  h-[60px] relative z-30 ${type===3?'bg-qh3-blue':'bg-customBlue'}  ${
-        className || ""
-      }`}
+      className={`nav-widget-wrapper w-full h-[56px] relative z-30 bg-gradient-to-r from-primary-blue to-blue-600 shadow-md ${className || ""
+        }`}
     >
-      <div className="container-x mx-auto h-full ">
+      <div className="container-x mx-auto h-full">
         <div className="w-full h-full relative">
-          <div className="w-full h-full flex justify-between items-center">
+          <div className="w-full h-full flex justify-between items-center px-4">
             <div className="category-and-nav flex xl:space-x-7 space-x-3 items-center">
-              <div className="category w-[270px] h-[53px] bg-white px-5 rounded-t-md mt-[6px] relative">
+              <div className="category w-[240px] h-[48px] bg-white/95 backdrop-blur-sm px-5 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 relative group">
                 <button
                   onClick={handler}
                   type="button"
@@ -41,19 +40,19 @@ export default function Navbar({ className,type }) {
                 >
                   <div className="flex space-x-3 items-center">
                     <span>
-                      <svg className="fill-current"
+                      <svg className="fill-current text-gray-700"
                         width="14"
                         height="9"
                         viewBox="0 0 14 9"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                       >
-                        <rect width="14" height="1"  />
-                        <rect y="8" width="14" height="1"  />
-                        <rect y="4" width="10" height="1"  />
+                        <rect width="14" height="1" />
+                        <rect y="8" width="14" height="1" />
+                        <rect y="4" width="10" height="1" />
                       </svg>
                     </span>
-                    <span className="text-sm font-600 text-qblacktext">
+                    <span className="text-sm font-semibold text-gray-800">
                       All Categories
                     </span>
                   </div>
@@ -61,7 +60,7 @@ export default function Navbar({ className,type }) {
                     <Arrow
                       width="5.78538"
                       height="1.28564"
-                      className="fill-current text-qblacktext"
+                      className="fill-current text-gray-700"
                     />
                   </div>
                 </button>
@@ -78,7 +77,7 @@ export default function Navbar({ className,type }) {
                   <ul className="categories-list">
                     <li className="category-item">
                       <a href="/all-products">
-                        <div className={`flex justify-between items-center px-5 h-10 bg-white  transition-all duration-300 ease-in-out cursor-pointer text-qblack ${type===3?'hover:bg-qh3-blue hover:text-white':'hover:bg-qyellow'}`}>
+                        <div className={`flex justify-between items-center px-5 h-10 bg-white  transition-all duration-300 ease-in-out cursor-pointer text-qblack ${type === 3 ? 'hover:bg-qh3-blue hover:text-white' : 'hover:bg-qyellow'}`}>
                           <div className="flex items-center space-x-6">
                             <span>
                               <svg className="fill-current"
@@ -159,7 +158,7 @@ export default function Navbar({ className,type }) {
                     </li>
                     <li className="category-item">
                       <a href="/all-products">
-                        <div className={`flex justify-between items-center px-5 h-10 bg-white  transition-all duration-300 ease-in-out cursor-pointer text-qblack ${type===3?'hover:bg-qh3-blue hover:text-white':'hover:bg-qyellow'}`}>
+                        <div className={`flex justify-between items-center px-5 h-10 bg-white  transition-all duration-300 ease-in-out cursor-pointer text-qblack ${type === 3 ? 'hover:bg-qh3-blue hover:text-white' : 'hover:bg-qyellow'}`}>
                           <div className="flex items-center space-x-6">
                             <span>
                               <svg className="fill-current"
@@ -244,7 +243,7 @@ export default function Navbar({ className,type }) {
                     </li>
                     <li className="category-item">
                       <a href="/all-products">
-                        <div className={`flex justify-between items-center px-5 h-10 bg-white  transition-all duration-300 ease-in-out cursor-pointer text-qblack ${type===3?'hover:bg-qh3-blue hover:text-white':'hover:bg-qyellow'}`}>
+                        <div className={`flex justify-between items-center px-5 h-10 bg-white  transition-all duration-300 ease-in-out cursor-pointer text-qblack ${type === 3 ? 'hover:bg-qh3-blue hover:text-white' : 'hover:bg-qyellow'}`}>
                           <div className="flex items-center space-x-6">
                             <span>
                               <svg className="fill-current"
@@ -325,7 +324,7 @@ export default function Navbar({ className,type }) {
                     </li>
                     <li className="category-item">
                       <a href="/all-products">
-                        <div className={`flex justify-between items-center px-5 h-10 bg-white  transition-all duration-300 ease-in-out cursor-pointer text-qblack ${type===3?'hover:bg-qh3-blue hover:text-white':'hover:bg-qyellow'}`}>
+                        <div className={`flex justify-between items-center px-5 h-10 bg-white  transition-all duration-300 ease-in-out cursor-pointer text-qblack ${type === 3 ? 'hover:bg-qh3-blue hover:text-white' : 'hover:bg-qyellow'}`}>
                           <div className="flex items-center space-x-6">
                             <span>
                               <svg className="fill-current"
@@ -396,7 +395,7 @@ export default function Navbar({ className,type }) {
                     </li>
                     <li className="category-item">
                       <a href="/all-products">
-                        <div className={`flex justify-between items-center px-5 h-10 bg-white  transition-all duration-300 ease-in-out cursor-pointer text-qblack ${type===3?'hover:bg-qh3-blue hover:text-white':'hover:bg-qyellow'}`}>
+                        <div className={`flex justify-between items-center px-5 h-10 bg-white  transition-all duration-300 ease-in-out cursor-pointer text-qblack ${type === 3 ? 'hover:bg-qh3-blue hover:text-white' : 'hover:bg-qyellow'}`}>
                           <div className="flex items-center space-x-6">
                             <span>
                               <svg className="fill-current"
@@ -487,7 +486,7 @@ export default function Navbar({ className,type }) {
                     </li>
                     <li className="category-item">
                       <a href="/all-products">
-                        <div className={`flex justify-between items-center px-5 h-10 bg-white  transition-all duration-300 ease-in-out cursor-pointer text-qblack ${type===3?'hover:bg-qh3-blue hover:text-white':'hover:bg-qyellow'}`}>
+                        <div className={`flex justify-between items-center px-5 h-10 bg-white  transition-all duration-300 ease-in-out cursor-pointer text-qblack ${type === 3 ? 'hover:bg-qh3-blue hover:text-white' : 'hover:bg-qyellow'}`}>
                           <div className="flex items-center space-x-6">
                             <span>
                               <svg className="fill-current"
@@ -540,7 +539,7 @@ export default function Navbar({ className,type }) {
                     </li>
                     <li className="category-item ">
                       <a href="/all-products">
-                        <div className={`flex justify-between items-center px-5 h-10 bg-white  transition-all duration-300 ease-in-out cursor-pointer text-qblack ${type===3?'hover:bg-qh3-blue hover:text-white':'hover:bg-qyellow'}`}>
+                        <div className={`flex justify-between items-center px-5 h-10 bg-white  transition-all duration-300 ease-in-out cursor-pointer text-qblack ${type === 3 ? 'hover:bg-qh3-blue hover:text-white' : 'hover:bg-qyellow'}`}>
                           <div className="flex items-center space-x-6">
                             <span>
                               <svg className="fill-current"
@@ -613,7 +612,7 @@ export default function Navbar({ className,type }) {
                     </li>
                     <li className="category-item">
                       <a href="/all-products">
-                        <div className={`flex justify-between items-center px-5 h-10 bg-white  transition-all duration-300 ease-in-out cursor-pointer text-qblack ${type===3?'hover:bg-qh3-blue hover:text-white':'hover:bg-qyellow'}`}>
+                        <div className={`flex justify-between items-center px-5 h-10 bg-white  transition-all duration-300 ease-in-out cursor-pointer text-qblack ${type === 3 ? 'hover:bg-qh3-blue hover:text-white' : 'hover:bg-qyellow'}`}>
                           <div className="flex items-center space-x-6">
                             <span>
                               <svg className="fill-current"
@@ -678,7 +677,7 @@ export default function Navbar({ className,type }) {
                     </li>
                     <li className="category-item">
                       <a href="/all-products">
-                        <div className={`flex justify-between items-center px-5 h-10 bg-white  transition-all duration-300 ease-in-out cursor-pointer text-qblack ${type===3?'hover:bg-qh3-blue hover:text-white':'hover:bg-qyellow'}`}>
+                        <div className={`flex justify-between items-center px-5 h-10 bg-white  transition-all duration-300 ease-in-out cursor-pointer text-qblack ${type === 3 ? 'hover:bg-qh3-blue hover:text-white' : 'hover:bg-qyellow'}`}>
                           <div className="flex items-center space-x-6">
                             <span>
                               <svg className="fill-current"
@@ -733,7 +732,7 @@ export default function Navbar({ className,type }) {
                     </li>
                     <li className="category-item ">
                       <a href="/all-products">
-                        <div className={`flex justify-between items-center px-5 h-10 bg-white  transition-all duration-300 ease-in-out cursor-pointer text-qblack ${type===3?'hover:bg-qh3-blue hover:text-white':'hover:bg-qyellow'}`}>
+                        <div className={`flex justify-between items-center px-5 h-10 bg-white  transition-all duration-300 ease-in-out cursor-pointer text-qblack ${type === 3 ? 'hover:bg-qh3-blue hover:text-white' : 'hover:bg-qyellow'}`}>
                           <div className="flex items-center space-x-6">
                             <span>
                               <svg className="fill-current"
@@ -798,7 +797,7 @@ export default function Navbar({ className,type }) {
                     </li>
                     <li className="category-item">
                       <a href="/all-products">
-                        <div className={`flex justify-between items-center px-5 h-10 bg-white  transition-all duration-300 ease-in-out cursor-pointer text-qblack ${type===3?'hover:bg-qh3-blue hover:text-white':'hover:bg-qyellow'}`}>
+                        <div className={`flex justify-between items-center px-5 h-10 bg-white  transition-all duration-300 ease-in-out cursor-pointer text-qblack ${type === 3 ? 'hover:bg-qh3-blue hover:text-white' : 'hover:bg-qyellow'}`}>
                           <div className="flex items-center space-x-6">
                             <span>
                               <svg className="fill-current"
@@ -853,11 +852,11 @@ export default function Navbar({ className,type }) {
                 </div>
               </div>
               <div className="nav">
-                <ul className="nav-wrapper flex xl:space-x-10 space-x-5">
-                  <li className="relative">
-                    <span className={`flex items-center text-sm font-600 cursor-pointer ${type===3?'text-white':'text-white'}`}>
+                <ul className="nav-wrapper flex xl:space-x-8 space-x-4">
+                  <li className="relative group">
+                    <span className="flex items-center text-sm font-semibold cursor-pointer text-white/90 hover:text-white transition-colors duration-300">
                       <span>Homepage</span>
-                      <span className="ml-1.5 ">
+                      <span className="ml-1.5">
                         <Arrow className="fill-current" />
                       </span>
                     </span>
@@ -873,23 +872,9 @@ export default function Navbar({ className,type }) {
                             <div className="category-items">
                               <ul className="flex flex-col space-y-2">
                                 <li>
-                                  <a href="/home-one">
-                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type===3?'hover:text-qh3-blue hover:border-qh3-blue':'hover:text-qyellow hover:border-qyellow'}`}>
-                                      Home One
-                                    </span>
-                                  </a>
-                                </li>
-                                <li>
-                                  <a href="/home-two">
-                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type===3?'hover:text-qh3-blue hover:border-qh3-blue':'hover:text-qyellow hover:border-qyellow'}`}>
-                                      Home two
-                                    </span>
-                                  </a>
-                                </li>
-                                <li>
-                                  <a href="/home-three">
-                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type===3?'hover:text-qh3-blue hover:border-qh3-blue':'hover:text-qyellow hover:border-qyellow'}`}>
-                                      Home three
+                                  <a href="/home">
+                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type === 3 ? 'hover:text-qh3-blue hover:border-qh3-blue' : 'hover:text-qyellow hover:border-qyellow'}`}>
+                                      Home
                                     </span>
                                   </a>
                                 </li>
@@ -900,10 +885,10 @@ export default function Navbar({ className,type }) {
                       </div>
                     </div>
                   </li>
-                  <li>
-                    <span className={`flex items-center text-sm font-600 cursor-pointer ${type===3?'text-white':'text-white'}`}>
+                  <li className="relative group">
+                    <span className="flex items-center text-sm font-semibold cursor-pointer text-white/90 hover:text-white transition-colors duration-300">
                       <span>Shop</span>
-                      <span className="ml-1.5 ">
+                      <span className="ml-1.5">
                         <Arrow className="fill-current" />
                       </span>
                     </span>
@@ -926,35 +911,35 @@ export default function Navbar({ className,type }) {
                               <ul className="flex flex-col space-y-2">
                                 <li>
                                   <a href="/all-products">
-                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type===3?'hover:text-qh3-blue hover:border-qh3-blue':'hover:text-qyellow hover:border-qyellow'}`}>
+                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type === 3 ? 'hover:text-qh3-blue hover:border-qh3-blue' : 'hover:text-qyellow hover:border-qyellow'}`}>
                                       Shop Sidebar
                                     </span>
                                   </a>
                                 </li>
                                 <li>
                                   <a href="/all-products">
-                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type===3?'hover:text-qh3-blue hover:border-qh3-blue':'hover:text-qyellow hover:border-qyellow'}`}>
+                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type === 3 ? 'hover:text-qh3-blue hover:border-qh3-blue' : 'hover:text-qyellow hover:border-qyellow'}`}>
                                       Shop Fullwidth
                                     </span>
                                   </a>
                                 </li>
                                 <li>
                                   <a href="/all-products">
-                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type===3?'hover:text-qh3-blue hover:border-qh3-blue':'hover:text-qyellow hover:border-qyellow'}`}>
+                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type === 3 ? 'hover:text-qh3-blue hover:border-qh3-blue' : 'hover:text-qyellow hover:border-qyellow'}`}>
                                       Shop Category Icon
                                     </span>
                                   </a>
                                 </li>
                                 <li>
                                   <a href="/all-products">
-                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type===3?'hover:text-qh3-blue hover:border-qh3-blue':'hover:text-qyellow hover:border-qyellow'}`}>
+                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type === 3 ? 'hover:text-qh3-blue hover:border-qh3-blue' : 'hover:text-qyellow hover:border-qyellow'}`}>
                                       Shop Category Icon
                                     </span>
                                   </a>
                                 </li>
                                 <li>
                                   <a href="/all-products">
-                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type===3?'hover:text-qh3-blue hover:border-qh3-blue':'hover:text-qyellow hover:border-qyellow'}`}>
+                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type === 3 ? 'hover:text-qh3-blue hover:border-qh3-blue' : 'hover:text-qyellow hover:border-qyellow'}`}>
                                       Shop List View
                                     </span>
                                   </a>
@@ -972,28 +957,28 @@ export default function Navbar({ className,type }) {
                               <ul className="flex flex-col space-y-2">
                                 <li>
                                   <a href="/all-products">
-                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type===3?'hover:text-qh3-blue hover:border-qh3-blue':'hover:text-qyellow hover:border-qyellow'}`}>
+                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type === 3 ? 'hover:text-qh3-blue hover:border-qh3-blue' : 'hover:text-qyellow hover:border-qyellow'}`}>
                                       Horizonral Thumbnail
                                     </span>
                                   </a>
                                 </li>
                                 <li>
                                   <a href="/all-products">
-                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type===3?'hover:text-qh3-blue hover:border-qh3-blue':'hover:text-qyellow hover:border-qyellow'}`}>
+                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type === 3 ? 'hover:text-qh3-blue hover:border-qh3-blue' : 'hover:text-qyellow hover:border-qyellow'}`}>
                                       Vertical Thumbnail
                                     </span>
                                   </a>
                                 </li>
                                 <li>
                                   <a href="/all-products">
-                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type===3?'hover:text-qh3-blue hover:border-qh3-blue':'hover:text-qyellow hover:border-qyellow'}`}>
+                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type === 3 ? 'hover:text-qh3-blue hover:border-qh3-blue' : 'hover:text-qyellow hover:border-qyellow'}`}>
                                       Gallery Thumbnail
                                     </span>
                                   </a>
                                 </li>
                                 <li>
                                   <a href="/all-products">
-                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type===3?'hover:text-qh3-blue hover:border-qh3-blue':'hover:text-qyellow hover:border-qyellow'}`}>
+                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type === 3 ? 'hover:text-qh3-blue hover:border-qh3-blue' : 'hover:text-qyellow hover:border-qyellow'}`}>
                                       Sticky Summary
                                     </span>
                                   </a>
@@ -1011,28 +996,28 @@ export default function Navbar({ className,type }) {
                               <ul className="flex flex-col space-y-2">
                                 <li>
                                   <a href="/all-products">
-                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type===3?'hover:text-qh3-blue hover:border-qh3-blue':'hover:text-qyellow hover:border-qyellow'}`}>
+                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type === 3 ? 'hover:text-qh3-blue hover:border-qh3-blue' : 'hover:text-qyellow hover:border-qyellow'}`}>
                                       Phone & Tablet
                                     </span>
                                   </a>
                                 </li>
                                 <li>
                                   <a href="/all-products">
-                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type===3?'hover:text-qh3-blue hover:border-qh3-blue':'hover:text-qyellow hover:border-qyellow'}`}>
+                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type === 3 ? 'hover:text-qh3-blue hover:border-qh3-blue' : 'hover:text-qyellow hover:border-qyellow'}`}>
                                       Gaming & Sports
                                     </span>
                                   </a>
                                 </li>
                                 <li>
                                   <a href="/all-products">
-                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type===3?'hover:text-qh3-blue hover:border-qh3-blue':'hover:text-qyellow hover:border-qyellow'}`}>
+                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type === 3 ? 'hover:text-qh3-blue hover:border-qh3-blue' : 'hover:text-qyellow hover:border-qyellow'}`}>
                                       Home Appliance
                                     </span>
                                   </a>
                                 </li>
                                 <li>
                                   <a href="/all-products">
-                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type===3?'hover:text-qh3-blue hover:border-qh3-blue':'hover:text-qyellow hover:border-qyellow'}`}>
+                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type === 3 ? 'hover:text-qh3-blue hover:border-qh3-blue' : 'hover:text-qyellow hover:border-qyellow'}`}>
                                       Fashion Clothes
                                     </span>
                                   </a>
@@ -1054,10 +1039,10 @@ export default function Navbar({ className,type }) {
                       </div>
                     </div>
                   </li>
-                  <li className="relative">
-                    <span className={`flex items-center text-sm font-600 cursor-pointer ${type===3?'text-white':'text-white'}`}>
+                  <li className="relative group">
+                    <span className="flex items-center text-sm font-semibold cursor-pointer text-white/90 hover:text-white transition-colors duration-300">
                       <span>Pages</span>
-                      <span className="ml-1.5 ">
+                      <span className="ml-1.5">
                         <Arrow className="fill-current" />
                       </span>
                     </span>
@@ -1074,35 +1059,35 @@ export default function Navbar({ className,type }) {
                               <ul className="flex flex-col space-y-2">
                                 <li>
                                   <a href="/privacy-policy">
-                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type===3?'hover:text-qh3-blue hover:border-qh3-blue':'hover:text-qyellow hover:border-qyellow'}`}>
+                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type === 3 ? 'hover:text-qh3-blue hover:border-qh3-blue' : 'hover:text-qyellow hover:border-qyellow'}`}>
                                       Privacy Policy
                                     </span>
                                   </a>
                                 </li>
                                 <li>
                                   <a href="/terms-condition">
-                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type===3?'hover:text-qh3-blue hover:border-qh3-blue':'hover:text-qyellow hover:border-qyellow'}`}>
+                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type === 3 ? 'hover:text-qh3-blue hover:border-qh3-blue' : 'hover:text-qyellow hover:border-qyellow'}`}>
                                       Terms and Conditions
                                     </span>
                                   </a>
                                 </li>
                                 <li>
                                   <a href="/faq">
-                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type===3?'hover:text-qh3-blue hover:border-qh3-blue':'hover:text-qyellow hover:border-qyellow'}`}>
+                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type === 3 ? 'hover:text-qh3-blue hover:border-qh3-blue' : 'hover:text-qyellow hover:border-qyellow'}`}>
                                       FAQ
                                     </span>
                                   </a>
                                 </li>
                                 <li>
                                   <a href="/all-products">
-                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type===3?'hover:text-qh3-blue hover:border-qh3-blue':'hover:text-qyellow hover:border-qyellow'}`}>
+                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type === 3 ? 'hover:text-qh3-blue hover:border-qh3-blue' : 'hover:text-qyellow hover:border-qyellow'}`}>
                                       Shop Category Icon
                                     </span>
                                   </a>
                                 </li>
                                 <li>
                                   <a href="/all-products">
-                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type===3?'hover:text-qh3-blue hover:border-qh3-blue':'hover:text-qyellow hover:border-qyellow'}`}>
+                                    <span className={`text-qgray text-sm font-400 border-b border-transparent   ${type === 3 ? 'hover:text-qh3-blue hover:border-qh3-blue' : 'hover:text-qyellow hover:border-qyellow'}`}>
                                       Shop List View
                                     </span>
                                   </a>
@@ -1116,21 +1101,21 @@ export default function Navbar({ className,type }) {
                   </li>
                   <li>
                     <Link to="/about">
-                      <span className={`flex items-center text-sm font-600 cursor-pointer ${type===3?'text-white':'text-white'}`}>
+                      <span className="flex items-center text-sm font-semibold cursor-pointer text-white/90 hover:text-white transition-colors duration-300">
                         <span>About</span>
                       </span>
                     </Link>
                   </li>
                   <li>
                     <Link to="/blogs">
-                      <span className={`flex items-center text-sm font-600 cursor-pointer ${type===3?'text-white':'text-white'}`}>
+                      <span className="flex items-center text-sm font-semibold cursor-pointer text-white/90 hover:text-white transition-colors duration-300">
                         <span>Blog</span>
                       </span>
                     </Link>
                   </li>
                   <li>
                     <Link to="/contact">
-                      <span className={`flex items-center text-sm font-600 cursor-pointer ${type===3?'text-white':'text-white'}`}>
+                      <span className="flex items-center text-sm font-semibold cursor-pointer text-white/90 hover:text-white transition-colors duration-300">
                         <span>Contact</span>
                       </span>
                     </Link>
@@ -1140,9 +1125,9 @@ export default function Navbar({ className,type }) {
             </div>
             <div className="become-seller-btn">
               <Link to="/become-saller">
-                <div className="black-btn w-[161px] h-[40px] flex justify-center items-center cursor-pointer">
+                <div className="bg-black hover:bg-gray-900 w-[170px] h-[44px] rounded-xl flex justify-center items-center cursor-pointer transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
                   <div className="flex space-x-2 items-center">
-                    <span className="text-sm font-600">Become a Seller</span>
+                    <span className="text-sm font-semibold text-white">Become a Seller</span>
                     <span>
                       <svg className="fill-current"
                         width="6"

@@ -1,128 +1,91 @@
-import Accodion from "../Helpers/Accodion";
 import InputCom from "../Helpers/InputCom";
-import PageTitle from "../Helpers/PageTitle";
 import Layout from "../Partials/Layout";
 
 export default function Faq() {
   return (
-    <Layout childrenClasses="pt-0 pb-0">
-      <div className="faq-page-wrapper w-full mb-10">
-        <div className="page-title w-full">
-          <PageTitle
-            title="Frequently Asked Questions"
-            breadcrumb={[
-              { name: "home", path: "/" },
-              { name: "FAQ", path: "/faq" },
-            ]}
-          />
-        </div>
-      </div>
-      <div className="contact-wrapper w-full mb-10">
-        <div className="container-x mx-auto">
-          <div className="main-wrapper w-full lg:flex lg:space-x-[30px]">
-            <div className="lg:w-1/2 w-full mb-10 lg:mb-0">
-              <h1 className="text-qblack font-bold text-[22px] mb-4">
-                Frequently asked questions
+    <Layout>
+      <div className="faq-page-wrapper w-full bg-off-white">
+        {/* Hero Header */}
+        <div className="bg-gradient-to-r from-primary-blue to-blue-500 text-white py-10 sm:py-12 -mt-[30px] mb-8">
+          <div className="container-x mx-auto">
+            <div className="max-w-3xl">
+              <span className="inline-block px-3 py-1 rounded-full bg-white/20 text-xs font-semibold uppercase tracking-wider mb-3">
+                Support
+              </span>
+              <h1 className="text-2xl sm:text-3xl font-bold mb-2">
+                Frequently Asked Questions
               </h1>
-              <div className="flex flex-col space-y-7 justify-between">
-                <Accodion
-                  title="01. How does information technology work?"
-                  des="There are many variations of passages of Lorem Ipsum available into the 
-but the majority have suffered alteration in some form, by injecte find to a
-humour, or randomised words"
-                />
-                <Accodion
-                  init
-                  title="02. How can I become IT manager?"
-                  des="There are many variations of passages of Lorem Ipsum available into the 
-but the majority have suffered alteration in some form, by injecte find to a
-humour, or randomised words"
-                />
-                <Accodion
-                  title="03. What are the latest trends in IT?"
-                  des="There are many variations of passages of Lorem Ipsum available into the 
-but the majority have suffered alteration in some form, by injecte find to a
-humour, or randomised words"
-                />
-                <Accodion
-                  title="04. How long should a business plan be?"
-                  des="There are many variations of passages of Lorem Ipsum available into the 
-but the majority have suffered alteration in some form, by injecte find to a
-humour, or randomised words"
-                />
-                <Accodion
-                  title="05. How work the support policy?"
-                  des="There are many variations of passages of Lorem Ipsum available into the 
-but the majority have suffered alteration in some form, by injecte find to a
-humour, or randomised words"
-                />
+              <p className="text-sm sm:text-base text-white/90 leading-relaxed">
+                Find answers to common questions about our marketplace and services.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="w-full py-16">
+          <div className="container-x mx-auto max-w-4xl">
+            {/* FAQ List */}
+            <div className="space-y-4 mb-16">
+              <div className="bg-white rounded-xl border border-gray-200 p-8 hover:shadow-md transition-shadow">
+                <h3 className="text-xl font-bold text-qblack mb-3">How do I create an account?</h3>
+                <p className="text-gray-600 leading-relaxed">Click the "Sign Up" button in the top right corner, fill in your details, and verify your email address to get started.</p>
+              </div>
+
+              <div className="bg-white rounded-xl border border-gray-200 p-8 hover:shadow-md transition-shadow">
+                <h3 className="text-xl font-bold text-qblack mb-3">What payment methods do you accept?</h3>
+                <p className="text-gray-600 leading-relaxed">We accept all major credit cards, PayPal, Apple Pay, and Google Pay for secure and convenient transactions.</p>
+              </div>
+
+              <div className="bg-white rounded-xl border border-gray-200 p-8 hover:shadow-md transition-shadow">
+                <h3 className="text-xl font-bold text-qblack mb-3">How long does shipping take?</h3>
+                <p className="text-gray-600 leading-relaxed">Standard shipping takes 3-5 business days. Express shipping is available for 1-2 day delivery at checkout.</p>
+              </div>
+
+              <div className="bg-white rounded-xl border border-gray-200 p-8 hover:shadow-md transition-shadow">
+                <h3 className="text-xl font-bold text-qblack mb-3">What is your return policy?</h3>
+                <p className="text-gray-600 leading-relaxed">We offer a 30-day return policy for most items. Products must be unused and in original packaging for a full refund.</p>
+              </div>
+
+              <div className="bg-white rounded-xl border border-gray-200 p-8 hover:shadow-md transition-shadow">
+                <h3 className="text-xl font-bold text-qblack mb-3">How can I track my order?</h3>
+                <p className="text-gray-600 leading-relaxed">Once shipped, you'll receive a tracking number via email. You can also track orders in your account dashboard.</p>
+              </div>
+
+              <div className="bg-white rounded-xl border border-gray-200 p-8 hover:shadow-md transition-shadow">
+                <h3 className="text-xl font-bold text-qblack mb-3">Do you offer international shipping?</h3>
+                <p className="text-gray-600 leading-relaxed">Yes! We ship to over 50 countries worldwide. Shipping costs and delivery times vary by location.</p>
+              </div>
+
+              <div className="bg-white rounded-xl border border-gray-200 p-8 hover:shadow-md transition-shadow">
+                <h3 className="text-xl font-bold text-qblack mb-3">Can I cancel or modify my order?</h3>
+                <p className="text-gray-600 leading-relaxed">You can cancel or modify your order within 24 hours of placement. After that, please contact our support team for assistance.</p>
+              </div>
+
+              <div className="bg-white rounded-xl border border-gray-200 p-8 hover:shadow-md transition-shadow">
+                <h3 className="text-xl font-bold text-qblack mb-3">How do I contact customer support?</h3>
+                <p className="text-gray-600 leading-relaxed">You can reach our support team via email at support@example.com or use the contact form below. We typically respond within 24 hours.</p>
               </div>
             </div>
-            <div className="flex-1">
-              <div className="bg-white sm:p-10 p-5">
-                <div className="title flex flex-col items-center">
-                  <h1 className="lg:text-[34px] text-xl font-bold text-qblack">
-                    Have Any Qustion
-                  </h1>
-                  <span className="-mt-5 block">
-                    <svg
-                      width="354"
-                      height="30"
-                      viewBox="0 0 354 30"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M1 28.8027C17.6508 20.3626 63.9476 8.17089 113.509 17.8802C166.729 28.3062 341.329 42.704 353 1"
-                        stroke="#FFBB38"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                      />
-                    </svg>
-                  </span>
+
+            {/* Contact Form */}
+            <div className="bg-white rounded-xl border border-gray-200 p-8">
+              <div className="text-center mb-8">
+                <h2 className="text-2xl font-bold text-qblack mb-2">Still have questions?</h2>
+                <p className="text-gray-600">Send us a message and we'll get back to you shortly.</p>
+              </div>
+              <div className="space-y-4">
+                <div className="grid md:grid-cols-2 gap-4">
+                  <InputCom label="First Name*" placeholder="First Name" name="first_name" inputClasses="h-[50px]" />
+                  <InputCom label="Last Name*" placeholder="Last Name" name="last_name" inputClasses="h-[50px]" />
                 </div>
-                <div className="inputs mt-5">
-                  <div className="mb-4">
-                    <InputCom
-                      label="First Name*"
-                      placeholder="First Name"
-                      name="first_name"
-                      inputClasses="h-[50px]"
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <InputCom
-                      label="Last  Name*"
-                      placeholder="Last Name"
-                      name="first_name"
-                      inputClasses="h-[50px]"
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <InputCom
-                      label="Email Address*"
-                      placeholder="info@quomodosoft.com"
-                      name="email"
-                      inputClasses="h-[50px]"
-                    />
-                  </div>
-                  <div className="mb-5">
-                    <h6 className="input-label text-qgray capitalize text-[13px] font-normal block mb-2 ">
-                      Message*
-                    </h6>
-                    <textarea
-                      placeholder="Type your message here"
-                      className="w-full h-[105px] focus:ring-0 focus:outline-none p-3 border border-qgray-border placeholder:text-sm"
-                    ></textarea>
-                  </div>
-                  <div>
-                    <a href="#">
-                      <div className="black-btn text-sm font-semibold w-full h-[50px] flex justify-center items-center">
-                        <span>Send Now</span>
-                      </div>
-                    </a>
-                  </div>
+                <InputCom label="Email Address*" placeholder="your@email.com" name="email" inputClasses="h-[50px]" />
+                <div>
+                  <h6 className="text-gray-700 text-sm font-semibold mb-2">Message*</h6>
+                  <textarea placeholder="Type your message here" className="w-full h-[120px] focus:ring-2 focus:ring-primary-blue focus:outline-none p-4 border-2 border-gray-200 rounded-xl placeholder:text-sm hover:border-gray-300 transition-colors resize-none"></textarea>
                 </div>
+                <button className="w-full h-[52px] bg-gradient-to-r from-primary-blue to-blue-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
+                  Send Message
+                </button>
               </div>
             </div>
           </div>

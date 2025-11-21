@@ -1,8 +1,10 @@
 import { Route, Routes } from "react-router-dom";
 import About from "./components/About";
+import AdminDashboard from "./components/AdminDashboard";
 import AllProductPage from "./components/AllProductPage";
 import Login from "./components/Auth/Login/index";
 import Profile from "./components/Auth/Profile";
+import ResetPassword from "./components/Auth/ResetPassword/index.jsx";
 import Signup from "./components/Auth/Signup";
 import BecomeSaller from "./components/BecomeSaller";
 import Blogs from "./components/Blogs";
@@ -14,27 +16,23 @@ import Faq from "./components/Faq";
 import FlashSale from "./components/FlashSale";
 import FourZeroFour from "./components/FourZeroFour";
 import Home from "./components/Home";
-import HomeTwo from "./components/HomeTwo";
+import Payment from "./components/Payment/index.jsx";
 import PrivacyPolicy from "./components/PrivacyPolicy";
 import ProductsCompaire from "./components/ProductsCompaire/index";
 import SallerPage from "./components/SallerPage";
+import SellerDashboard from "./components/SellerDashboard";
 import Sallers from "./components/Sellers";
 import SingleProductPage from "./components/SingleProductPage";
 import TermsCondition from "./components/TermsCondition/index";
 import TrackingOrder from "./components/TrackingOrder";
 import Wishlist from "./components/Wishlist";
-import HomeThree from "./components/HomeThree";
-import ResetPassword from "./components/Auth/ResetPassword/index.jsx";
-import Payment from "./components/Payment/index.jsx";
 
 export default function Routers() {
   return (
     <Routes>
       <Route exact path="/" element={<Login />} />
-      <Route exact path="/home-one" element={<Home />} />
-      <Route exact path="/home-two" element={<HomeTwo />} />
+      <Route exact path="/home" element={<Home />} />
       <Route exact path="/reset-password" element={<ResetPassword />} />
-      <Route exact path="/home-three" element={<HomeThree />} />
       <Route exact path="/all-products" element={<AllProductPage />} />
       <Route exact path="/single-product" element={<SingleProductPage />} />
       <Route exact path="/cart" element={<CardPage />} />
@@ -56,6 +54,8 @@ export default function Routers() {
       <Route exact path="/become-saller" element={<BecomeSaller />} />
       <Route exact path="/privacy-policy" element={<PrivacyPolicy />} />
       <Route exact path="/terms-condition" element={<TermsCondition />} />
+      <Route exact path="/seller-dashboard" element={<SellerDashboard />} />
+      <Route exact path="/admin-dashboard" element={<AdminDashboard />} />
       <Route exact path="*" element={<FourZeroFour />} />
       <Route exact path="/payment-success" element={<Payment />} />
     </Routes>

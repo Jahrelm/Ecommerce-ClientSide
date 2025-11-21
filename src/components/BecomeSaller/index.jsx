@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-import InputCom from "../Helpers/InputCom";
 import PageTitle from "../Helpers/PageTitle";
 import Layout from "../Partials/Layout";
 
@@ -7,10 +6,15 @@ export default function BecomeSaller() {
   const [profileImg, setProfileImg] = useState(null);
   const [logoImg, setLogoImg] = useState(null);
   const [coverImg, setCoverImg] = useState(null);
-  // logo img
+  const experienceHighlights = [
+    "Unlock curated traffic with personalised analytics from day one.",
+    "Sync inventory, orders, and fulfilment through a single dashboard.",
+    "Access launch-ready marketing boosts tailored to new storefronts.",
+  ];
+
   const logoImgInput = useRef(null);
   const browseLogoImg = () => {
-    logoImgInput.current.click();
+    logoImgInput.current?.click();
   };
   const logoImgChangHandler = (e) => {
     if (e.target.value !== "") {
@@ -21,10 +25,10 @@ export default function BecomeSaller() {
       imgReader.readAsDataURL(e.target.files[0]);
     }
   };
-  // profile img
+
   const profileImgInput = useRef(null);
   const browseProfileImg = () => {
-    profileImgInput.current.click();
+    profileImgInput.current?.click();
   };
   const profileImgChangHandler = (e) => {
     if (e.target.value !== "") {
@@ -35,10 +39,10 @@ export default function BecomeSaller() {
       imgReader.readAsDataURL(e.target.files[0]);
     }
   };
-  // cover img
+
   const coverImgInput = useRef(null);
   const browseCoverImg = () => {
-    coverImgInput.current.click();
+    coverImgInput.current?.click();
   };
   const coverImgChangHandler = (e) => {
     if (e.target.value !== "") {
@@ -49,368 +53,414 @@ export default function BecomeSaller() {
       imgReader.readAsDataURL(e.target.files[0]);
     }
   };
+
   return (
     <Layout childrenClasses="pt-0 pb-0">
-      <div className="become-saller-wrapper w-full">
-        <div className="title mb-10">
-          <PageTitle
-            title="Seller Application"
-            breadcrumb={[
-              { name: "home", path: "/" },
-              { name: "Become Saller", path: "/become-saller" },
-            ]}
-          />
-        </div>
-        <div className="content-wrapper w-full mb-10">
-          <div className="container-x mx-auto">
-            <div className="w-full bg-white sm:p-[30px] p-3">
-              <div className="flex xl:flex-row flex-col-reverse xl:space-x-11">
-                <div className="xl:w-[824px]">
-                  <div className="title w-full mb-4">
-                    <h1 className="text-[22px] font-semibold text-qblack mb-1">
-                      Seller Information
-                    </h1>
-                    <p className="text-[15px] text-qgraytwo">
-                      Fill the form below or write us .We will help you as soon
-                      as possible.
-                    </p>
-                  </div>
-                  <div className="input-area">
-                    <div className="flex sm:flex-row flex-col space-y-5 sm:space-y-0 sm:space-x-5 mb-5">
-                      <InputCom
-                        placeholder="Demo Name"
-                        label="Frist Name*"
-                        name="fname"
-                        type="text"
-                        inputClasses="h-[50px]"
-                      />
+      <div className="become-saller-wrapper w-full min-h-screen bg-gradient-to-br from-blue-50 via-white to-pink-50 flex items-center py-12 relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-72 h-72 bg-primary-blue/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-peachy-pink/5 rounded-full blur-3xl" />
+        <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 mx-auto w-[520px] h-[520px] bg-white/10 rounded-full blur-3xl" />
 
-                      <InputCom
-                        placeholder="Demo Name"
-                        label="Last Name*"
-                        name="lname"
-                        type="text"
-                        inputClasses="h-[50px]"
-                      />
-                    </div>
-                    <div className="flex sm:flex-row flex-col space-y-5 sm:space-y-0 sm:space-x-5 mb-5">
-                      <InputCom
-                        placeholder="Demo@gmail.com"
-                        label="Email Address*"
-                        name="email"
-                        type="email"
-                        inputClasses="h-[50px]"
-                      />
-
-                      <InputCom
-                        placeholder="0213 *********"
-                        label="Phone*"
-                        name="phone"
-                        type="text"
-                        inputClasses="h-[50px]"
-                      />
-                    </div>
-
-                    <div className="input-item mb-5">
-                      <h6 className="input-label text-qgray capitalize text-[13px] font-normal block mb-2 ">
-                        Country*
-                      </h6>
-                      <div className="w-full h-[50px] border border-[#EDEDED] px-5 flex justify-between items-center mb-2">
-                        <span className="text-[13px] text-qgraytwo">
-                          Select Country
-                        </span>
-                        <span>
-                          <svg
-                            width="11"
-                            height="7"
-                            viewBox="0 0 11 7"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M5.4 6.8L0 1.4L1.4 0L5.4 4L9.4 0L10.8 1.4L5.4 6.8Z"
-                              fill="#222222"
-                            />
-                          </svg>
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="input-item mb-5">
-                      <InputCom
-                        placeholder="Your address Here"
-                        label="Address*"
-                        name="address"
-                        type="text"
-                        inputClasses="h-[50px]"
-                      />
-                    </div>
-                  </div>
-
-                  {/* ============================================================== */}
-                  <div className="title w-full mb-4">
-                    <h1 className="text-[22px] font-semibold text-qblack mb-1">
-                      Shop Information
-                    </h1>
-                    <p className="text-[15px] text-qgraytwo">
-                      Fill the form below or write us .We will help you as soon
-                      as possible.
-                    </p>
-                  </div>
-                  <div className="input-area">
-                    <div className="mb-5">
-                      <InputCom
-                        placeholder="Demo Name"
-                        label="Shop Name*"
-                        name="shopname"
-                        type="text"
-                        inputClasses="h-[50px]"
-                      />
-                    </div>
-                    <div className="mb-5">
-                      <InputCom
-                        placeholder="Your address Here"
-                        label="Address*"
-                        name="shopaddress"
-                        type="text"
-                        inputClasses="h-[50px]"
-                      />
-                    </div>
-                    <div className="flex sm:flex-row flex-col space-y-5 sm:space-y-0 sm:space-x-5 mb-[30px]">
-                      <InputCom
-                        placeholder="● ● ● ● ● ●"
-                        label="Password*"
-                        name="password"
-                        type="password"
-                        inputClasses="h-[50px]"
-                      />
-
-                      <InputCom
-                        placeholder="● ● ● ● ● ●"
-                        label="Re-enter Password*"
-                        name="repassword"
-                        type="password"
-                        inputClasses="h-[50px]"
-                      />
-                    </div>
-
-                    <div className="signin-area mb-3">
-                      <div className="flex justify-center">
-                        <button
-                          type="button"
-                          className="black-btn text-sm text-white w-[490px] h-[50px] font-semibold flex justify-center bg-purple items-center"
-                        >
-                          <span>Create Seller Account</span>
-                        </button>
-                      </div>
-                    </div>
-
-                    <div className="signup-area flex justify-center">
-                      <p className="text-sm text-qgraytwo font-normal">
-                        Alrady have an Account?
-                        <a href="/login" className="ml-2 text-qblack">
-                          Log In
-                        </a>
-                      </p>
+        <div className="container-x mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="max-w-6xl mx-auto grid gap-10 lg:grid-cols-5">
+            <aside className="lg:col-span-2 space-y-8">
+              <div className="bg-white/80 backdrop-blur-xl border border-white/30 rounded-3xl p-8 shadow-2xl">
+                <PageTitle
+                  title="Become a Seller"
+                  breadcrumb={[
+                    { name: "home", path: "/" },
+                    { name: "Become Saller", path: "/become-saller" },
+                  ]}
+                />
+                <div className="flex items-center justify-center mt-6 mb-6">
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary-blue to-peachy-pink rounded-2xl blur-md opacity-40" />
+                    <div className="relative w-16 h-16 bg-gradient-to-br from-primary-blue to-peachy-pink rounded-2xl flex items-center justify-center shadow-lg">
+                      <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7h18M5 7v12h14V7m-9 0V4h4v3" />
+                      </svg>
                     </div>
                   </div>
                 </div>
-                <div className="flex-1 mb-10 xl:mb-0">
-                  <div className="update-profile w-full mb-9">
-                    <h1 className="text-xl tracking-wide font-bold text-qblack flex items-center mb-2">
-                      Update Profile
-                      <span className="ml-1">
-                        <svg
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M10 0C4.47457 0 0 4.47791 0 10C0 15.5221 4.47791 20 10 20C15.5221 20 20 15.5221 20 10C19.9967 4.48126 15.5221 0.00669344 10 0ZM10 16.67C9.53815 16.67 9.16667 16.2985 9.16667 15.8367C9.16667 15.3748 9.53815 15.0033 10 15.0033C10.4618 15.0033 10.8333 15.3748 10.8333 15.8367C10.8333 16.2952 10.4618 16.67 10 16.67ZM11.6098 10.425C11.1078 10.7396 10.8132 11.2952 10.8333 11.8842V12.5033C10.8333 12.9652 10.4618 13.3367 10 13.3367C9.53815 13.3367 9.16667 12.9652 9.16667 12.5033V11.8842C9.14324 10.6861 9.76907 9.56827 10.8032 8.96586C11.4357 8.61781 11.7704 7.90161 11.6366 7.19545C11.5027 6.52276 10.9772 5.99732 10.3046 5.8668C9.40094 5.69946 8.5308 6.29853 8.36346 7.20214C8.34673 7.30254 8.33668 7.40295 8.33668 7.50335C8.33668 7.96519 7.9652 8.33668 7.50335 8.33668C7.0415 8.33668 6.67002 7.96519 6.67002 7.50335C6.67002 5.66265 8.16265 4.17001 10.0067 4.17001C11.8474 4.17001 13.34 5.66265 13.34 7.50669C13.3333 8.71821 12.674 9.83601 11.6098 10.425Z"
-                            fill="#374557"
-                            fillOpacity="0.6"
-                          />
-                        </svg>
+                <h1 className="text-3xl font-bold bg-gradient-to-r from-qblack to-gray-700 bg-clip-text text-transparent text-center">
+                  Launch your storefront with confidence
+                </h1>
+                <p className="text-sm text-medium-grey mt-3 text-center">
+                  Share the essentials so we can verify your brand, personalise onboarding, and put your products in front of shoppers who love them.
+                </p>
+                <div className="w-16 h-1 bg-gradient-to-r from-primary-blue to-peachy-pink rounded-full mx-auto mt-6" />
+              </div>
+
+              <div className="bg-white/80 backdrop-blur-xl border border-white/30 rounded-3xl p-8 shadow-xl space-y-5">
+                <p className="text-xs uppercase tracking-[0.2em] text-[#8A8AA5]">
+                  Why sellers love us
+                </p>
+                <ul className="space-y-4">
+                  {experienceHighlights.map((item) => (
+                    <li key={item} className="flex items-start gap-3 text-sm text-gray-600 leading-relaxed">
+                      <span className="mt-1 flex h-6 w-6 items-center justify-center rounded-full bg-primary-blue/10 text-xs font-semibold text-primary-blue">
+                        ✓
                       </span>
-                    </h1>
-                    <p className="text-sm text-qgraytwo mb-5">
-                      Profile of at least Size
-                      <span className="ml-1 text-qblack">300x300</span>. Gifs
-                      work too.
-                      <span className="ml-1 text-qblack">Max 5mb</span>.
-                    </p>
-                    <div className="flex xl:justify-center justify-start">
-                      <div className="relative">
-                        <img
-                          src={
-                            profileImg ||
-                            `${process.env.PUBLIC_URL}/assets/images/edit-profileimg.jpg`
-                          }
-                          alt=""
-                          className="sm:w-[198px] sm:h-[198px] w-[199px] h-[199px] rounded-full overflow-hidden object-cover"
-                        />
-                        <input
-                          ref={profileImgInput}
-                          onChange={(e) => profileImgChangHandler(e)}
-                          type="file"
-                          className="hidden"
-                        />
-                        <div
-                          onClick={browseProfileImg}
-                          className="w-[32px] h-[32px] absolute bottom-7 sm:right-0 right-[105px]  hover:bg-[#F539F8] bg-[#F539F8] rounded-full cursor-pointer"
-                        >
-                          <svg
-                            width="32"
-                            height="32"
-                            viewBox="0 0 32 32"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M16.5147 11.5C17.7284 12.7137 18.9234 13.9087 20.1296 15.115C19.9798 15.2611 19.8187 15.4109 19.6651 15.5683C17.4699 17.7635 15.271 19.9587 13.0758 22.1539C12.9334 22.2962 12.7948 22.4386 12.6524 22.5735C12.6187 22.6034 12.5663 22.6296 12.5213 22.6296C11.3788 22.6334 10.2362 22.6297 9.09365 22.6334C9.01498 22.6334 9 22.6034 9 22.536C9 21.4009 9 20.2621 9.00375 19.1271C9.00375 19.0746 9.02997 19.0109 9.06368 18.9772C10.4123 17.6249 11.7609 16.2763 13.1095 14.9277C14.2295 13.8076 15.3459 12.6913 16.466 11.5712C16.4884 11.5487 16.4997 11.5187 16.5147 11.5Z"
-                              fill="white"
-                            />
-                            <path
-                              d="M20.9499 14.2904C19.7436 13.0842 18.5449 11.8854 17.3499 10.6904C17.5634 10.4694 17.7844 10.2446 18.0054 10.0199C18.2639 9.76139 18.5261 9.50291 18.7884 9.24443C19.118 8.91852 19.5713 8.91852 19.8972 9.24443C20.7251 10.0611 21.5492 10.8815 22.3771 11.6981C22.6993 12.0165 22.7105 12.4698 22.3996 12.792C21.9238 13.2865 21.4443 13.7772 20.9686 14.2717C20.9648 14.2792 20.9536 14.2867 20.9499 14.2904Z"
-                              fill="white"
-                            />
-                          </svg>
-                        </div>
-                      </div>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="bg-white/80 backdrop-blur-xl border border-white/30 rounded-3xl p-8 shadow-xl space-y-5">
+                <h3 className="text-lg font-semibold text-qblack">Brand assets</h3>
+                <p className="text-sm text-qgraytwo">
+                  Upload crisp imagery so shoppers trust your storefront from the very first visit.
+                </p>
+                <div className="space-y-5">
+                  <div className="flex items-center gap-4">
+                    <div className="h-16 w-16 rounded-full overflow-hidden border-2 border-white shadow-md">
+                      <img
+                        src={
+                          profileImg ||
+                          `${process.env.PUBLIC_URL}/assets/images/edit-profileimg.jpg`
+                        }
+                        alt="Profile"
+                        className="h-full w-full object-cover"
+                      />
                     </div>
+                    <div className="flex-1">
+                      <p className="text-sm font-semibold text-qblack">Profile image</p>
+                      <p className="text-xs text-qgraytwo">300x300px minimum, GIFs up to 5mb.</p>
+                    </div>
+                    <input
+                      ref={profileImgInput}
+                      onChange={(e) => profileImgChangHandler(e)}
+                      type="file"
+                      className="hidden"
+                    />
+                    <button
+                      type="button"
+                      onClick={browseProfileImg}
+                      className="text-xs font-semibold text-primary-blue border border-primary-blue/40 rounded-full px-4 py-2 transition hover:bg-primary-blue hover:text-white"
+                    >
+                      Change
+                    </button>
                   </div>
-                  <div className="update-logo w-full mb-9">
-                    <h1 className="text-xl tracking-wide font-bold text-qblack flex items-center mb-2">
-                      Update Logo
-                      <span className="ml-1">
-                        <svg
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M10 0C4.47457 0 0 4.47791 0 10C0 15.5221 4.47791 20 10 20C15.5221 20 20 15.5221 20 10C19.9967 4.48126 15.5221 0.00669344 10 0ZM10 16.67C9.53815 16.67 9.16667 16.2985 9.16667 15.8367C9.16667 15.3748 9.53815 15.0033 10 15.0033C10.4618 15.0033 10.8333 15.3748 10.8333 15.8367C10.8333 16.2952 10.4618 16.67 10 16.67ZM11.6098 10.425C11.1078 10.7396 10.8132 11.2952 10.8333 11.8842V12.5033C10.8333 12.9652 10.4618 13.3367 10 13.3367C9.53815 13.3367 9.16667 12.9652 9.16667 12.5033V11.8842C9.14324 10.6861 9.76907 9.56827 10.8032 8.96586C11.4357 8.61781 11.7704 7.90161 11.6366 7.19545C11.5027 6.52276 10.9772 5.99732 10.3046 5.8668C9.40094 5.69946 8.5308 6.29853 8.36346 7.20214C8.34673 7.30254 8.33668 7.40295 8.33668 7.50335C8.33668 7.96519 7.9652 8.33668 7.50335 8.33668C7.0415 8.33668 6.67002 7.96519 6.67002 7.50335C6.67002 5.66265 8.16265 4.17001 10.0067 4.17001C11.8474 4.17001 13.34 5.66265 13.34 7.50669C13.3333 8.71821 12.674 9.83601 11.6098 10.425Z"
-                            fill="#374557"
-                            fillOpacity="0.6"
-                          />
-                        </svg>
-                      </span>
-                    </h1>
-                    <p className="text-sm text-qgraytwo mb-5">
-                      Profile of at least Size
-                      <span className="ml-1 text-qblack">300x300</span>. Gifs
-                      work too.
-                      <span className="ml-1 text-qblack">Max 5mb</span>.
-                    </p>
-                    <div className="flex xl:justify-center justify-start">
-                      <div className="relative">
-                        <img
-                          src={
-                            logoImg ||
-                            `${process.env.PUBLIC_URL}/assets/images/edit-logoimg.jpg`
-                          }
-                          alt=""
-                          className="sm:w-[198px] sm:h-[198px] w-[199px] h-[199px] rounded-full overflow-hidden object-cover"
-                        />
-                        <input
-                          ref={logoImgInput}
-                          onChange={(e) => logoImgChangHandler(e)}
-                          type="file"
-                          className="hidden"
-                        />
-                        <div
-                          onClick={browseLogoImg}
-                          className="w-[32px] h-[32px] absolute bottom-7 sm:right-0 right-[105px]  hover:bg-[#F539F8] bg-[#F539F8] rounded-full cursor-pointer"
-                        >
-                          <svg
-                            width="32"
-                            height="32"
-                            viewBox="0 0 32 32"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M16.5147 11.5C17.7284 12.7137 18.9234 13.9087 20.1296 15.115C19.9798 15.2611 19.8187 15.4109 19.6651 15.5683C17.4699 17.7635 15.271 19.9587 13.0758 22.1539C12.9334 22.2962 12.7948 22.4386 12.6524 22.5735C12.6187 22.6034 12.5663 22.6296 12.5213 22.6296C11.3788 22.6334 10.2362 22.6297 9.09365 22.6334C9.01498 22.6334 9 22.6034 9 22.536C9 21.4009 9 20.2621 9.00375 19.1271C9.00375 19.0746 9.02997 19.0109 9.06368 18.9772C10.4123 17.6249 11.7609 16.2763 13.1095 14.9277C14.2295 13.8076 15.3459 12.6913 16.466 11.5712C16.4884 11.5487 16.4997 11.5187 16.5147 11.5Z"
-                              fill="white"
-                            />
-                            <path
-                              d="M20.9499 14.2904C19.7436 13.0842 18.5449 11.8854 17.3499 10.6904C17.5634 10.4694 17.7844 10.2446 18.0054 10.0199C18.2639 9.76139 18.5261 9.50291 18.7884 9.24443C19.118 8.91852 19.5713 8.91852 19.8972 9.24443C20.7251 10.0611 21.5492 10.8815 22.3771 11.6981C22.6993 12.0165 22.7105 12.4698 22.3996 12.792C21.9238 13.2865 21.4443 13.7772 20.9686 14.2717C20.9648 14.2792 20.9536 14.2867 20.9499 14.2904Z"
-                              fill="white"
-                            />
-                          </svg>
-                        </div>
-                      </div>
+
+                  <div className="flex items-center gap-4">
+                    <div className="h-14 w-14 rounded-full overflow-hidden border-2 border-white shadow">
+                      <img
+                        src={
+                          logoImg ||
+                          `${process.env.PUBLIC_URL}/assets/images/edit-logoimg.jpg`
+                        }
+                        alt="Logo"
+                        className="h-full w-full object-cover"
+                      />
                     </div>
+                    <div className="flex-1">
+                      <p className="text-sm font-semibold text-qblack">Logo</p>
+                      <p className="text-xs text-qgraytwo">PNG, SVG, or GIF up to 5mb.</p>
+                    </div>
+                    <input
+                      ref={logoImgInput}
+                      onChange={(e) => logoImgChangHandler(e)}
+                      type="file"
+                      className="hidden"
+                    />
+                    <button
+                      type="button"
+                      onClick={browseLogoImg}
+                      className="text-xs font-semibold text-primary-blue border border-primary-blue/40 rounded-full px-4 py-2 transition hover:bg-primary-blue hover:text-white"
+                    >
+                      Upload
+                    </button>
                   </div>
-                  <div className="update-cover w-full">
-                    <h1 className="text-xl tracking-wide font-bold text-qblack flex items-center mb-2">
-                      Update Cover
-                      <span className="ml-1">
-                        <svg
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M10 0C4.47457 0 0 4.47791 0 10C0 15.5221 4.47791 20 10 20C15.5221 20 20 15.5221 20 10C19.9967 4.48126 15.5221 0.00669344 10 0ZM10 16.67C9.53815 16.67 9.16667 16.2985 9.16667 15.8367C9.16667 15.3748 9.53815 15.0033 10 15.0033C10.4618 15.0033 10.8333 15.3748 10.8333 15.8367C10.8333 16.2952 10.4618 16.67 10 16.67ZM11.6098 10.425C11.1078 10.7396 10.8132 11.2952 10.8333 11.8842V12.5033C10.8333 12.9652 10.4618 13.3367 10 13.3367C9.53815 13.3367 9.16667 12.9652 9.16667 12.5033V11.8842C9.14324 10.6861 9.76907 9.56827 10.8032 8.96586C11.4357 8.61781 11.7704 7.90161 11.6366 7.19545C11.5027 6.52276 10.9772 5.99732 10.3046 5.8668C9.40094 5.69946 8.5308 6.29853 8.36346 7.20214C8.34673 7.30254 8.33668 7.40295 8.33668 7.50335C8.33668 7.96519 7.9652 8.33668 7.50335 8.33668C7.0415 8.33668 6.67002 7.96519 6.67002 7.50335C6.67002 5.66265 8.16265 4.17001 10.0067 4.17001C11.8474 4.17001 13.34 5.66265 13.34 7.50669C13.3333 8.71821 12.674 9.83601 11.6098 10.425Z"
-                            fill="#374557"
-                            fillOpacity="0.6"
-                          />
-                        </svg>
-                      </span>
-                    </h1>
-                    <p className="text-sm text-qgraytwo mb-5">
-                      Cover of at least Size
-                      <span className="ml-1 text-qblack">1170x920</span>.
-                    </p>
-                    <div className="flex justify-center">
-                      <div className="w-full relative">
-                        <img
-                          src={
-                            coverImg ||
-                            `${process.env.PUBLIC_URL}/assets/images/edit-coverimg.jpg`
-                          }
-                          alt=""
-                          className="w-full h-[120px] rounded-lg overflow-hidden object-cover"
-                        />
-                        <input
-                          ref={coverImgInput}
-                          onChange={(e) => coverImgChangHandler(e)}
-                          type="file"
-                          className="hidden"
-                        />
-                        <div
-                          onClick={browseCoverImg}
-                          className="w-[32px] h-[32px] absolute -bottom-4 right-4 bg-[#F539F8] hover:bg-[#F539F8] rounded-full cursor-pointer"
-                        >
-                          <svg
-                            width="32"
-                            height="32"
-                            viewBox="0 0 32 32"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M16.5147 11.5C17.7284 12.7137 18.9234 13.9087 20.1296 15.115C19.9798 15.2611 19.8187 15.4109 19.6651 15.5683C17.4699 17.7635 15.271 19.9587 13.0758 22.1539C12.9334 22.2962 12.7948 22.4386 12.6524 22.5735C12.6187 22.6034 12.5663 22.6296 12.5213 22.6296C11.3788 22.6334 10.2362 22.6297 9.09365 22.6334C9.01498 22.6334 9 22.6034 9 22.536C9 21.4009 9 20.2621 9.00375 19.1271C9.00375 19.0746 9.02997 19.0109 9.06368 18.9772C10.4123 17.6249 11.7609 16.2763 13.1095 14.9277C14.2295 13.8076 15.3459 12.6913 16.466 11.5712C16.4884 11.5487 16.4997 11.5187 16.5147 11.5Z"
-                              fill="white"
-                            />
-                            <path
-                              d="M20.9499 14.2904C19.7436 13.0842 18.5449 11.8854 17.3499 10.6904C17.5634 10.4694 17.7844 10.2446 18.0054 10.0199C18.2639 9.76139 18.5261 9.50291 18.7884 9.24443C19.118 8.91852 19.5713 8.91852 19.8972 9.24443C20.7251 10.0611 21.5492 10.8815 22.3771 11.6981C22.6993 12.0165 22.7105 12.4698 22.3996 12.792C21.9238 13.2865 21.4443 13.7772 20.9686 14.2717C20.9648 14.2792 20.9536 14.2867 20.9499 14.2904Z"
-                              fill="white"
-                            />
-                          </svg>
-                        </div>
-                      </div>
+
+                  <div className="space-y-3">
+                    <div className="relative overflow-hidden rounded-2xl border border-[#ECECF5] bg-[#F7F7FB]">
+                      <img
+                        src={
+                          coverImg ||
+                          `${process.env.PUBLIC_URL}/assets/images/edit-coverimg.jpg`
+                        }
+                        alt="Cover"
+                        className="h-[140px] w-full object-cover"
+                      />
+                      <input
+                        ref={coverImgInput}
+                        onChange={(e) => coverImgChangHandler(e)}
+                        type="file"
+                        className="hidden"
+                      />
+                      <button
+                        type="button"
+                        onClick={browseCoverImg}
+                        className="absolute right-4 bottom-4 rounded-full bg-gradient-to-r from-primary-blue to-peachy-pink px-4 py-2 text-xs font-semibold text-white shadow"
+                      >
+                        Refresh cover
+                      </button>
                     </div>
+                    <p className="text-xs text-qgraytwo">
+                      Recommended size 1170x920px for a crisp storefront header.
+                    </p>
                   </div>
                 </div>
               </div>
+            </aside>
+
+            <div className="lg:col-span-3 bg-white/80 backdrop-blur-xl border border-white/20 shadow-2xl rounded-3xl sm:p-10 p-8">
+              <div className="space-y-8">
+                <section className="space-y-4">
+                  <h2 className="text-xl font-semibold text-qblack">Seller details</h2>
+                  <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+                    <div className="group">
+                      <label className="text-sm font-semibold text-gray-700 mb-2 block">
+                        First Name*
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                          <svg className="w-5 h-5 text-gray-400 group-focus-within:text-primary-blue transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-3.314 0-6 1.79-6 4v1h12v-1c0-2.21-2.686-4-6-4z" />
+                          </svg>
+                        </div>
+                        <input
+                          type="text"
+                          placeholder="Jane"
+                          className="w-full h-[56px] pl-12 pr-4 bg-gray-50 border-2 border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary-blue focus:bg-white transition-all duration-300 hover:border-gray-300"
+                        />
+                      </div>
+                    </div>
+                    <div className="group">
+                      <label className="text-sm font-semibold text-gray-700 mb-2 block">
+                        Last Name*
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                          <svg className="w-5 h-5 text-gray-400 group-focus-within:text-primary-blue transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-3.314 0-6 1.79-6 4v1h12v-1c0-2.21-2.686-4-6-4z" />
+                          </svg>
+                        </div>
+                        <input
+                          type="text"
+                          placeholder="Doe"
+                          className="w-full h-[56px] pl-12 pr-4 bg-gray-50 border-2 border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary-blue focus:bg-white transition-all duration-300 hover:border-gray-300"
+                        />
+                      </div>
+                    </div>
+                    <div className="group">
+                      <label className="text-sm font-semibold text-gray-700 mb-2 block">
+                        Business Email*
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                          <svg className="w-5 h-5 text-gray-400 group-focus-within:text-primary-blue transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 12a4 4 0 11-8 0 4 4 0 018 0zm0 0v1.5a2.5 2.5 0 105 0V12a9 9 0 10-9 9" />
+                          </svg>
+                        </div>
+                        <input
+                          type="email"
+                          placeholder="your.email@example.com"
+                          className="w-full h-[56px] pl-12 pr-4 bg-gray-50 border-2 border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary-blue focus:bg-white transition-all duration-300 hover:border-gray-300"
+                        />
+                      </div>
+                    </div>
+                    <div className="group">
+                      <label className="text-sm font-semibold text-gray-700 mb-2 block">
+                        Phone Number*
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                          <svg className="w-5 h-5 text-gray-400 group-focus-within:text-primary-blue transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5h2l3 7-1.5 2.5a11.05 11.05 0 005 5L14 15l7 3v2a2 2 0 01-2 2A17 17 0 013 5z" />
+                          </svg>
+                        </div>
+                        <input
+                          type="text"
+                          placeholder="+1 (555) 123-4567"
+                          className="w-full h-[56px] pl-12 pr-4 bg-gray-50 border-2 border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary-blue focus:bg-white transition-all duration-300 hover:border-gray-300"
+                        />
+                      </div>
+                    </div>
+                    <div className="group md:col-span-2">
+                      <label className="text-sm font-semibold text-gray-700 mb-2 block">
+                        Country*
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                          <svg className="w-5 h-5 text-gray-400 group-focus-within:text-primary-blue transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5h18M3 10h18M3 15h18M3 20h18" />
+                          </svg>
+                        </div>
+                        <select className="w-full h-[56px] pl-12 pr-10 bg-gray-50 border-2 border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary-blue focus:bg-white transition-all duration-300 hover:border-gray-300 appearance-none">
+                          <option value="">Select your country</option>
+                          <option value="US">United States</option>
+                          <option value="CA">Canada</option>
+                          <option value="UK">United Kingdom</option>
+                          <option value="AU">Australia</option>
+                          <option value="Other">Other</option>
+                        </select>
+                        <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                            <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </span>
+                      </div>
+                    </div>
+                    <div className="group md:col-span-2">
+                      <label className="text-sm font-semibold text-gray-700 mb-2 block">
+                        Business Address*
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                          <svg className="w-5 h-5 text-gray-400 group-focus-within:text-primary-blue transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 22s8-4.5 8-11a8 8 0 10-16 0c0 6.5 8 11 8 11z" />
+                            <circle cx="12" cy="11" r="3" />
+                          </svg>
+                        </div>
+                        <input
+                          type="text"
+                          placeholder="Street, city, state, ZIP"
+                          className="w-full h-[56px] pl-12 pr-4 bg-gray-50 border-2 border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary-blue focus:bg-white transition-all duration-300 hover:border-gray-300"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <section className="space-y-4 pt-4 border-t border-gray-100">
+                  <h2 className="text-xl font-semibold text-qblack">Shop information</h2>
+                  <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+                    <div className="group">
+                      <label className="text-sm font-semibold text-gray-700 mb-2 block">
+                        Shop Name*
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                          <svg className="w-5 h-5 text-gray-400 group-focus-within:text-primary-blue transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 7h18M5 7v12h14V7m-9 0V4h4v3" />
+                          </svg>
+                        </div>
+                        <input
+                          type="text"
+                          placeholder="e.g. Shine Boutique"
+                          className="w-full h-[56px] pl-12 pr-4 bg-gray-50 border-2 border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary-blue focus:bg-white transition-all duration-300 hover:border-gray-300"
+                        />
+                      </div>
+                    </div>
+                    <div className="group">
+                      <label className="text-sm font-semibold text-gray-700 mb-2 block">
+                        Storefront URL
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                          <svg className="w-5 h-5 text-gray-400 group-focus-within:text-primary-blue transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 5C7.03 5 3 9.03 3 14s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 0V1m0 0L8 5m4-4l4 4" />
+                          </svg>
+                        </div>
+                        <input
+                          type="text"
+                          placeholder="https://yourstore.com"
+                          className="w-full h-[56px] pl-12 pr-4 bg-gray-50 border-2 border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary-blue focus:bg-white transition-all duration-300 hover:border-gray-300"
+                        />
+                      </div>
+                    </div>
+                    <div className="group md:col-span-2">
+                      <label className="text-sm font-semibold text-gray-700 mb-2 block">
+                        Shop story (optional)
+                      </label>
+                      <textarea
+                        rows={4}
+                        placeholder="Share what makes your catalogue special, how you fulfil orders, or your customer promise."
+                        className="w-full rounded-xl border-2 border-gray-200 bg-gray-50 px-4 py-4 text-sm text-qgraytwo focus:border-primary-blue focus:bg-white focus:outline-none transition-all duration-300 hover:border-gray-300"
+                      />
+                    </div>
+                    <div className="group">
+                      <label className="text-sm font-semibold text-gray-700 mb-2 block">
+                        Password*
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                          <svg className="w-5 h-5 text-gray-400 group-focus-within:text-primary-blue transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 11c1.657 0 3-1.343 3-3V6a3 3 0 10-6 0v2c0 1.657 1.343 3 3 3z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 11h14v10H5z" />
+                          </svg>
+                        </div>
+                        <input
+                          type="password"
+                          placeholder="● ● ● ● ● ●"
+                          className="w-full h-[56px] pl-12 pr-4 bg-gray-50 border-2 border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary-blue focus:bg-white transition-all duration-300 hover:border-gray-300"
+                        />
+                      </div>
+                    </div>
+                    <div className="group">
+                      <label className="text-sm font-semibold text-gray-700 mb-2 block">
+                        Re-enter Password*
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                          <svg className="w-5 h-5 text-gray-400 group-focus-within:text-primary-blue transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 11c1.657 0 3-1.343 3-3V6a3 3 0 10-6 0v2c0 1.657 1.343 3 3 3z" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 11h14v10H5z" />
+                          </svg>
+                        </div>
+                        <input
+                          type="password"
+                          placeholder="● ● ● ● ● ●"
+                          className="w-full h-[56px] pl-12 pr-4 bg-gray-50 border-2 border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary-blue focus:bg-white transition-all duration-300 hover:border-gray-300"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <div className="flex flex-col gap-4 pt-6 border-t border-gray-100 sm:flex-row sm:items-center sm:justify-between">
+                  <button
+                    type="button"
+                    className="relative w-full sm:w-auto h-[56px] bg-gradient-to-r from-primary-blue to-blue-600 text-white font-semibold rounded-xl overflow-hidden group shadow-lg hover:shadow-2xl transition-all duration-300"
+                  >
+                    <span className="relative z-10 flex items-center justify-center gap-2 px-8">
+                      Create Seller Account
+                      <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                      </svg>
+                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-primary-blue transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
+                  </button>
+                  <p className="text-center text-sm text-gray-600 sm:text-left">
+                    Already have an account?
+                    <a href="/login" className="ml-2 font-semibold text-primary-blue hover:text-peachy-pink transition-colors relative inline-flex group">
+                      Log In
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-peachy-pink group-hover:w-full transition-all duration-300" />
+                    </a>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="lg:hidden bg-white/80 backdrop-blur-xl border border-white/20 shadow-2xl rounded-3xl p-6">
+              <h3 className="text-lg font-semibold text-qblack">Need a hand?</h3>
+              <p className="text-sm text-qgraytwo">
+                Our onboarding team can walk you through catalogue uploads, fulfilment, and launch promotions.
+              </p>
+              <a
+                href="/contact"
+                className="inline-flex items-center text-sm font-semibold text-primary-blue hover:text-peachy-pink transition-colors mt-3"
+              >
+                Book a 20-minute call
+                <svg
+                  className="ml-2"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M5.3335 3.33331H12.6668V10.6666M12.6668 3.33331L3.3335 12.6666"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </a>
             </div>
           </div>
         </div>

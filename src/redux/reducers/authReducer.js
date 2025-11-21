@@ -33,6 +33,7 @@ const authReducer = (state = initialState, action) => {
                 user : action.payload,
                 error : null,
                 loading : false,
+                success : true,
                
                
             };
@@ -42,6 +43,7 @@ const authReducer = (state = initialState, action) => {
                 user : null,
                 error : action.payload,
                 loading : false,
+                success : false,
             };
         case types.RESET_PASSWORD_REQUEST_SUCCESS:
             return{

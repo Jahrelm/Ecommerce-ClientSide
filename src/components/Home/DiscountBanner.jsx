@@ -1,14 +1,14 @@
 export default function DiscountBanner({ className,type }) {
   return (
     <div
-      className={`discount-banner w-full h-[307px] bg-cover flex justify-center items-center ${
+      className={`discount-banner w-full h-[307px] bg-gradient-to-br from-primary-blue via-blue-600 to-peachy-pink flex justify-center items-center relative overflow-hidden ${
         className || ""
       }`}
-      style={{
-        background: `url(${process.env.PUBLIC_URL}/assets/images/discount-banner-1.jpg) no-repeat`,
-        backgroundSize: "cover",
-      }}
     >
+      {/* Decorative circles */}
+      <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-peachy-pink/20 rounded-full blur-3xl"></div>
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-white/5 rounded-full blur-2xl"></div>
       {type===3?(
           <div className="container-x mx-auto">
             <div
@@ -214,58 +214,40 @@ export default function DiscountBanner({ className,type }) {
             </div>
           </div>
       ):(
-          <div>
-            <div data-aos="fade-up">
-              <h1 className="sm:text-3xl text-xl font-700 text-qblack mb-2 text-center">
-                Get <span className="mx-1 text-qyellow">20%</span> Off Discount
-                Coupon
+          <div className="max-w-2xl mx-auto relative z-10">
+            <div data-aos="fade-up" className="text-center mb-8">
+              <h1 className="sm:text-4xl text-2xl font-bold text-white mb-3">
+                Stay Updated with <span className="text-peachy-pink">New Arrivals</span>
               </h1>
-              <p className="text-center sm:text-[18px] text-sm font-400">
-                by Subscribe our Newsletter
+              <p className="sm:text-lg text-base text-white/90 font-medium">
+                Subscribe to get notified about quality pre-loved items for your little ones
               </p>
             </div>
             <div
-                data-aos="fade-right"
-                className="sm:w-[543px] w-[300px] h-[54px] flex mt-8"
+                data-aos="fade-up"
+                className="max-w-xl mx-auto"
             >
-              <div className="flex-1 bg-white pl-4 flex space-x-2 items-center h-full focus-within:text-qyellow text-qblack">
-            <span>
-              <svg
-                  width="17"
-                  height="15"
-                  viewBox="0 0 17 15"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                    d="M15 14H2C1.4 14 1 13.6 1 13V2C1 1.4 1.4 1 2 1H15C15.6 1 16 1.4 16 2V13C16 13.6 15.6 14 15 14Z"
-                    stroke="currentColor"
-                    strokeMiterlimit="10"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                />
-                <path
-                    d="M3 4L8.5 8.5L14 4"
-                    stroke="currentColor"
-                    strokeMiterlimit="10"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                />
-              </svg>
-            </span>
-                <input
-                    type="email"
-                    name="email"
-                    className="w-full h-full focus:outline-none text-sm placeholder:text-xs placeholder:text-qblack text-qblack font-400 tracking-wider"
-                    placeholder="EMAIL ADDRESS"
-                />
+              <div className="flex flex-col sm:flex-row gap-3">
+                <div className="flex-1 relative">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                    </svg>
+                  </div>
+                  <input
+                      type="email"
+                      name="email"
+                      className="w-full h-14 pl-12 pr-4 rounded-xl border-2 border-white/20 bg-white/95 backdrop-blur-sm focus:outline-none focus:border-peachy-pink text-gray-800 placeholder:text-gray-500 font-medium transition-all"
+                      placeholder="Enter your email address"
+                  />
+                </div>
+                <button
+                    type="button"
+                    className="sm:w-auto w-full px-8 h-14 bg-gradient-to-r from-peachy-pink to-pink-500 hover:from-pink-500 hover:to-peachy-pink text-white rounded-xl font-bold text-sm shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5"
+                >
+                  Subscribe Now
+                </button>
               </div>
-              <button
-                  type="button"
-                  className="sm:w-[158px] w-[80px]  h-full bg-qyellow text-sm font-600"
-              >
-                Get the Coupon
-              </button>
             </div>
           </div>
       )}

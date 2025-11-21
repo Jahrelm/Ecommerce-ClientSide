@@ -78,6 +78,22 @@ const cartReducer = (state = initialState, action) => {
         error: action.payload,
       };
 
+    case types.CLEAR_CART_SUCCESS:
+    case types.SIGN_UP_SUCCESS:
+      return {
+        ...state,
+        cart: [],
+        loading: false,
+        error: null,
+      };
+
+    case types.CLEAR_CART_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+
     default:
       return state;
   }

@@ -16,13 +16,16 @@ export default function ProductsFilter({
   return (
     <>
       <div
-        className={`filter-widget w-full fixed lg:relative left-0 top-0 h-screen z-10 lg:h-auto overflow-y-scroll lg:overflow-y-auto bg-white px-[30px] pt-[40px] ${
+        className={`filter-widget w-full fixed lg:relative left-0 top-0 h-screen z-10 lg:h-auto overflow-y-scroll lg:overflow-y-auto bg-white rounded-2xl shadow-lg px-6 pt-8 pb-6 ${
           className || ""
         }  ${filterToggle ? "block" : "hidden lg:block"}`}
       >
-        <div className="filter-subject-item pb-10 border-b border-qgray-border">
-          <div className="subject-title mb-[30px]">
-            <h1 className="text-black text-base font-500">
+        <div className="filter-subject-item pb-8 border-b border-gray-200">
+          <div className="subject-title mb-6">
+            <h1 className="text-gray-900 text-lg font-bold flex items-center gap-2">
+              <svg className="w-5 h-5 text-primary-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+              </svg>
               Product categories
             </h1>
           </div>
@@ -471,9 +474,14 @@ export default function ProductsFilter({
             </ul>
           </div>
         </div>
-        <div className="filter-subject-item pb-10 border-b border-qgray-border mt-10">
-          <div className="subject-title mb-[30px]">
-            <h1 className="text-black text-base font-500">Price Range</h1>
+        <div className="filter-subject-item pb-8 border-b border-gray-200 mt-8">
+          <div className="subject-title mb-6">
+            <h1 className="text-gray-900 text-base font-bold flex items-center gap-2">
+              <svg className="w-5 h-5 text-primary-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Price Range
+            </h1>
           </div>
           <div className="price-range mb-5">
             <InputRange
@@ -484,13 +492,20 @@ export default function ProductsFilter({
               onChange={volumeHandler}
             />
           </div>
-          <p className="text-xs text-qblack font-400">
-            Price: ${volume.min} - ${volume.max}
-          </p>
+          <div className="bg-gradient-to-r from-primary-blue/10 to-peachy-pink/10 rounded-lg px-4 py-3">
+            <p className="text-sm text-gray-800 font-semibold">
+              ${volume.min} - ${volume.max}
+            </p>
+          </div>
         </div>
-        <div className="filter-subject-item pb-10 border-b border-qgray-border mt-10">
-          <div className="subject-title mb-[30px]">
-            <h1 className="text-black text-base font-500">Brands</h1>
+        <div className="filter-subject-item pb-8 border-b border-gray-200 mt-8">
+          <div className="subject-title mb-6">
+            <h1 className="text-gray-900 text-base font-bold flex items-center gap-2">
+              <svg className="w-5 h-5 text-primary-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+              </svg>
+              Brands
+            </h1>
           </div>
           <div className="filter-items">
             <ul>
@@ -657,58 +672,63 @@ export default function ProductsFilter({
             </ul>
           </div>
         </div>
-        <div className="filter-subject-item pb-10 border-b border-qgray-border mt-10">
-          <div className="subject-title mb-[30px]">
-            <h1 className="text-black text-base font-500">Storage</h1>
+        <div className="filter-subject-item pb-8 border-b border-gray-200 mt-8">
+          <div className="subject-title mb-6">
+            <h1 className="text-gray-900 text-base font-bold flex items-center gap-2">
+              <svg className="w-5 h-5 text-primary-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4" />
+              </svg>
+              Storage
+            </h1>
           </div>
           <div className="filter-items">
             <div className="flex space-x-[5px] flex-wrap">
               <span
                 onClick={() => filterstorage("64GB")}
-                className={` font-400 border border-qgray-border text-xs px-[14px] py-[6px] cursor-pointer mb-[5px] ${
+                className={`font-medium text-xs px-4 py-2 rounded-lg cursor-pointer mb-2 transition-all duration-300 ${
                   storage === "64GB"
-                    ? "bg-qyellow text-qblack border-none"
-                    : " text-qgray "
+                    ? "bg-gradient-to-r from-primary-blue to-blue-600 text-white shadow-md"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                 }`}
               >
                 64GB
               </span>
               <span
                 onClick={() => filterstorage("128GB")}
-                className={` font-400 border border-qgray-border text-xs px-[14px] py-[6px] cursor-pointer mb-[5px] ${
+                className={`font-medium text-xs px-4 py-2 rounded-lg cursor-pointer mb-2 transition-all duration-300 ${
                   storage === "128GB"
-                    ? "bg-qyellow text-qblack border-none"
-                    : " text-qgray "
+                    ? "bg-gradient-to-r from-primary-blue to-blue-600 text-white shadow-md"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                 }`}
               >
                 128GB
               </span>
               <span
                 onClick={() => filterstorage("256GB")}
-                className={` font-400 border border-qgray-border text-xs px-[14px] py-[6px] cursor-pointer mb-[5px] ${
+                className={`font-medium text-xs px-4 py-2 rounded-lg cursor-pointer mb-2 transition-all duration-300 ${
                   storage === "256GB"
-                    ? "bg-qyellow text-qblack border-none"
-                    : " text-qgray "
+                    ? "bg-gradient-to-r from-primary-blue to-blue-600 text-white shadow-md"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                 }`}
               >
                 256GB
               </span>
               <span
                 onClick={() => filterstorage("512GB")}
-                className={` font-400 border border-qgray-border text-xs px-[14px] py-[6px] cursor-pointer mb-[5px] ${
+                className={`font-medium text-xs px-4 py-2 rounded-lg cursor-pointer mb-2 transition-all duration-300 ${
                   storage === "512GB"
-                    ? "bg-qyellow text-qblack border-none"
-                    : " text-qgray "
+                    ? "bg-gradient-to-r from-primary-blue to-blue-600 text-white shadow-md"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                 }`}
               >
                 512GB
               </span>
               <span
                 onClick={() => filterstorage("1024GB")}
-                className={` font-400 border border-qgray-border text-xs px-[14px] py-[6px] cursor-pointer mb-[5px] ${
+                className={`font-medium text-xs px-4 py-2 rounded-lg cursor-pointer mb-2 transition-all duration-300 ${
                   storage === "1024GB"
-                    ? "bg-qyellow text-qblack border-none"
-                    : " text-qgray "
+                    ? "bg-gradient-to-r from-primary-blue to-blue-600 text-white shadow-md"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                 }`}
               >
                 1024GB
@@ -716,9 +736,14 @@ export default function ProductsFilter({
             </div>
           </div>
         </div>
-        <div className="filter-subject-item pb-10 mt-10">
-          <div className="subject-title mb-[30px]">
-            <h1 className="text-black text-base font-500">Sizes</h1>
+        <div className="filter-subject-item pb-8 mt-8">
+          <div className="subject-title mb-6">
+            <h1 className="text-gray-900 text-base font-bold flex items-center gap-2">
+              <svg className="w-5 h-5 text-primary-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+              </svg>
+              Sizes
+            </h1>
           </div>
           <div className="filter-items">
             <ul>
@@ -828,7 +853,7 @@ export default function ProductsFilter({
         <button
           onClick={filterToggleHandler}
           type="button"
-          className="w-10 h-10 fixed top-5 right-5 z-50 rounded  lg:hidden flex justify-center items-center border border-qred text-qred"
+          className="w-10 h-10 fixed top-5 right-5 z-50 rounded-xl lg:hidden flex justify-center items-center bg-red-500 text-white shadow-lg hover:bg-red-600 transition-colors"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

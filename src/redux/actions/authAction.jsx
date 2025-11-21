@@ -54,9 +54,11 @@ export const loginUser = (formData) => async (dispatch) => {
         dispatch(loginSuccess(response.data));
         const authToken = response.data.jwt
         const userInfo = response.data.user.userId
+        const userRole = response.data.user.userType || 'buyer' // Get user role from response
         console.log(authToken);
         sessionStorage.setItem('authToken', authToken)
         sessionStorage.setItem('userInfo', userInfo);
+        sessionStorage.setItem('userRole', userRole);
 
     } catch (error) {
         let errorMessage = "Invalid Username or Password";

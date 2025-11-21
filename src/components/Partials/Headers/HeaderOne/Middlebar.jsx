@@ -48,14 +48,14 @@ export default function Middlebar({ className, type }) {
   }, [wishlist]);
 
   return (
-    <div className={`w-full h-[86px] bg-white ${className}`}>
+    <div className={`w-full h-[90px] bg-white/95 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50 shadow-sm ${className}`}>
       <div className="container-x mx-auto h-full">
         <div className="relative h-full">
-          <div className="flex justify-between items-center h-full">
+          <div className="flex justify-between items-center h-full px-4">
             {/* Logo Section */}
-            <div className="flex items-center justify-center h-24">
+            <div className="flex items-center justify-center">
               {type === 3 ? (
-                <a href="/">
+                <a href="/" className="transform hover:scale-105 transition-transform duration-300">
                   <img
                     width="152"
                     height="36"
@@ -64,92 +64,88 @@ export default function Middlebar({ className, type }) {
                   />
                 </a>
               ) : (
-                <a href="/" className="flex items-center">
-                  <img
-                    className="max-w-full h-auto max-h-20"
-                    style={{ width: "80px", maxHeight: "120px" }}
-                    src={`${process.env.PUBLIC_URL}/assets/images/mobileLogo.png`}
-                    alt="logo"
-                  />
-                  <span className="ml-4 text-xl font-semibold text-customBlue">
-                    WorthIT-Mobile
-                  </span>
+                <a href="/" className="flex items-center gap-3 group">
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary-blue to-peachy-pink rounded-xl blur-sm opacity-30 group-hover:opacity-50 transition-opacity"></div>
+                    <div className="relative w-12 h-12 bg-gradient-to-br from-primary-blue to-peachy-pink rounded-xl flex items-center justify-center shadow-md">
+                      <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-lg font-bold bg-gradient-to-r from-primary-blue to-peachy-pink bg-clip-text text-transparent">
+                      Toddler Kingdom
+                    </span>
+                    <span className="text-xs text-gray-500 font-medium">Pre-Loved Market</span>
+                  </div>
                 </a>
               )}
             </div>
 
             {/* Search Box */}
-            <div className="w-[517px] h-[44px]">
-              <SearchBox type={type} className="search-com" />
+            <div className="flex-1 max-w-2xl mx-8">
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <svg className="w-5 h-5 text-gray-400 group-focus-within:text-primary-blue transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+                <SearchBox type={type} className="search-com" />
+              </div>
             </div>
 
             {/* Icons (Compare, Wishlist, Cart, Profile) */}
-            <div className="flex space-x-6 items-center">
-              {/* Compare */}
-              <div className="compaire relative">
-                <a href="/products-compaire">
-                  <span>
-                    <Compair />
-                  </span>
-                </a>
-                <span
-                  className={`w-[18px] h-[18px] rounded-full absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px] ${
-                    type === 3 ? "bg-qh3-blue text-white" : "bg-customBlue text-white"
-                  }`}
-                >
-                  2
-                </span>
-              </div>
-
+            <div className="flex items-center gap-2">
               {/* Wishlist */}
-              <div className="favorite relative">
-                <a href="/wishlist">
-                  <span>
-                    <ThinLove />
+              <a href="/wishlist" className="relative p-2.5 hover:bg-gray-50 rounded-xl transition-all duration-300 group">
+                <svg className="w-6 h-6 text-gray-600 group-hover:text-peachy-pink transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                </svg>
+                {wishlistCount > 0 && (
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-br from-peachy-pink to-pink-400 text-white text-[10px] font-bold rounded-full flex items-center justify-center shadow-md">
+                    {wishlistCount}
                   </span>
-                </a>
-                <span
-                  className={`w-[18px] h-[18px] rounded-full absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px] ${
-                    type === 3 ? "bg-qh3-blue text-white" : "bg-customBlue text-white"
-                  }`}
-                >
-                  {wishlistCount}
-                </span>
-              </div>
+                )}
+              </a>
 
               {/* Cart */}
-              <div className="cart-wrapper group relative py-4">
-                <div className="cart relative cursor-pointer">
-                  <span>
-                    <ThinBag />
-                  </span>
-                  <span
-                    className={`w-[18px] h-[18px] rounded-full absolute -top-2.5 -right-2.5 flex justify-center items-center text-[9px] ${
-                      type === 3 ? "bg-qh3-blue text-white" : "bg-customBlue text-white"
-                    }`}
-                  >
-                    {count}
-                  </span>
-                </div>
+              <div className="cart-wrapper group relative">
+                <button className="relative p-2.5 hover:bg-gray-50 rounded-xl transition-all duration-300">
+                  <svg className="w-6 h-6 text-gray-600 group-hover:text-primary-blue transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                  </svg>
+                  {count > 0 && (
+                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-br from-primary-blue to-blue-600 text-white text-[10px] font-bold rounded-full flex items-center justify-center shadow-md">
+                      {count}
+                    </span>
+                  )}
+                </button>
                 <Cart
                   type={type}
-                  className="absolute -right-[45px] top-11 z-50 hidden group-hover:block"
+                  className="absolute -right-[45px] top-14 z-50 hidden group-hover:block"
                 />
               </div>
 
+              {/* Divider */}
+              <div className="w-px h-8 bg-gray-200 mx-2"></div>
+
               {/* User/Profile */}
-              <div className="flex items-center space-x-2">
-                <a href="/profile" className="flex items-center space-x-2">
-                  <span>
-                    <ThinPeople />
-                  </span>
-                  {username ? (
-                    <span className="text-sm font-medium text-gray-700">{username}</span>
-                  ) : (
-                    <span className="text-sm font-medium text-gray-700">Login</span>
-                  )}
-                </a>
-              </div>
+              <a href="/profile" className="flex items-center gap-2 px-4 py-2 hover:bg-gray-50 rounded-xl transition-all duration-300 group">
+                <div className="w-9 h-9 bg-gradient-to-br from-primary-blue to-peachy-pink rounded-full flex items-center justify-center shadow-md">
+                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </div>
+                {username ? (
+                  <div className="flex flex-col">
+                    <span className="text-xs text-gray-500 font-medium">Welcome</span>
+                    <span className="text-sm font-semibold text-gray-800 group-hover:text-primary-blue transition-colors">{username}</span>
+                  </div>
+                ) : (
+                  <span className="text-sm font-semibold text-gray-800 group-hover:text-primary-blue transition-colors">Login</span>
+                )}
+              </a>
             </div>
           </div>
         </div>

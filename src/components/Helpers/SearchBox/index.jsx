@@ -20,72 +20,34 @@ export default function SearchBox({className,type}) {
 
   return (
     <>
-      <div
-        className={`w-full h-full flex items-center  border border-qgray-border bg-white ${
-          className || ""
-        }`}
-      >
-        <div className="flex-1 bg-red-500 h-full">
-          <form 
-              className="h-full"
-              onSubmit={(e) => {
-                e.preventDefault();
-                handleSearch();
-
-              }}
-          >
+      <div className={`w-full h-[48px] flex items-center ${className || ""}`}>
+        <form 
+          className="flex-1 flex items-center h-full"
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSearch();
+          }}
+        >
+          <div className="flex-1 relative">
             <input
               type="text"
               name="search"
-              className="search-input"
-              placeholder="Search Product..." 
+              className="w-full h-[48px] pl-12 pr-4 bg-gray-50 border-2 border-gray-200 rounded-l-xl text-sm focus:outline-none focus:border-primary-blue focus:bg-white transition-all duration-300 hover:border-gray-300"
+              placeholder="Search for products..." 
               value={title}
               onChange={handleInputChange}
             />
-          </form>
-        </div>
-        <div className="w-[1px] h-[22px] bg-qgray-border"></div>
-     {/*    <div className="flex-1 flex items-center px-4">
+          </div>
           <button
-            type="text"
-            className="w-full text-xs font-500 text-qgray flex justify-between items-center"
+            className="h-[48px] px-8 bg-gradient-to-r from-primary-blue to-blue-600 hover:from-blue-600 hover:to-primary-blue text-white text-sm font-semibold rounded-r-xl transition-all duration-300 shadow-md hover:shadow-lg flex items-center gap-2"
+            type="submit"
           >
-            <span>All Categories</span>
-            <span>
-              <svg
-                width="10"
-                height="5"
-                viewBox="0 0 10 5"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <rect
-                  x="9.18359"
-                  y="0.90918"
-                  width="5.78538"
-                  height="1.28564"
-                  transform="rotate(135 9.18359 0.90918)"
-                  fill="#8E8E8E"
-                />
-                <rect
-                  x="5.08984"
-                  y="5"
-                  width="5.78538"
-                  height="1.28564"
-                  transform="rotate(-135 5.08984 5)"
-                  fill="#8E8E8E"
-                />
-              </svg>
-            </span>
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            Search
           </button>
-        </div> */}
-        <button
-          className={`w-[93px] h-full text-sm font-600 ${type === 3 ? 'bg-qh3-blue text-white' : 'bg-customBlue text-white'}`}
-          type="submit"
-          onClick={handleSearch}
-        >
-          Search
-        </button>
+        </form>
       </div>
     </>
   );

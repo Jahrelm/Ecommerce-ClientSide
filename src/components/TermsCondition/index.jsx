@@ -1,20 +1,27 @@
-import PageTitle from "../Helpers/PageTitle";
 import Layout from "../Partials/Layout";
 
 export default function TermsCondition() {
   return (
-    <Layout childrenClasses="pt-0 pb-0">
-      <div className="terms-condition-page w-full bg-white pb-[30px]">
-        <div className="w-full mb-[30px]">
-          <PageTitle
-            breadcrumb={[
-              { name: "home", path: "/" },
-              { name: "Terms and condition", path: "/terms-conditions" },
-            ]}
-            title="Terms and Condition"
-          />
+    <Layout>
+      <div className="terms-condition-page w-full bg-off-white">
+        {/* Hero Header */}
+        <div className="bg-gradient-to-r from-primary-blue to-blue-500 text-white py-10 sm:py-12 -mt-[30px] mb-8">
+          <div className="container-x mx-auto">
+            <div className="max-w-3xl">
+              <span className="inline-block px-3 py-1 rounded-full bg-white/20 text-xs font-semibold uppercase tracking-wider mb-3">
+                Legal
+              </span>
+              <h1 className="text-2xl sm:text-3xl font-bold mb-2">
+                Terms and Conditions
+              </h1>
+              <p className="text-sm sm:text-base text-white/90 leading-relaxed">
+                Please read these terms carefully before using our marketplace services.
+              </p>
+            </div>
+          </div>
         </div>
-        <div className="w-full">
+
+        <div className="w-full pb-[30px]">
           <div className="container-x mx-auto">
             <div className="content-item w-full mb-10">
               <h2 className="text-[18px] font-medium text-qblack mb-5">
