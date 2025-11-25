@@ -1,4 +1,3 @@
-import React from 'react';
 
 export default function InputCom({
   label,
@@ -10,9 +9,11 @@ export default function InputCom({
   value,
   inputClasses,
   labelClasses = "text-qgray text-[13px] font-normal",
+  inputWrapperClasses,
+  className,
 }) {
   return (
-    <div className="input-com w-full h-full">
+    <div className={`input-com w-full ${className || "h-full"}`}>
       {label && (
         <label
           className={`input-label capitalize block  mb-2 ${labelClasses || ""}`}
@@ -21,17 +22,16 @@ export default function InputCom({
           {label}
         </label>
       )}
-      <div className="input-wrapper border border-qgray-border w-full h-full overflow-hidden relative ">
+      <div className={`input-wrapper w-full overflow-hidden relative ${inputWrapperClasses || "h-full border border-qgray-border"}`}>
         <input
           placeholder={placeholder}
           value={value}
-          onChange={inputHandler} 
-          className={`input-field placeholder:text-sm text-sm px-6 text-dark-gray w-full h-full font-normal bg-white focus:ring-0 focus:outline-none ${
-            inputClasses || ""
-          }`}
+          onChange={inputHandler}
+          className={`input-field placeholder:text-sm text-sm px-6 text-dark-gray w-full h-full font-normal bg-white focus:ring-0 focus:outline-none ${inputClasses || ""
+            }`}
           type={type}
           id={name}
-          name={name} 
+          name={name}
         />
         {children && children}
       </div>

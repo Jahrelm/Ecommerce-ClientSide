@@ -1,10 +1,20 @@
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
+import {
+    FiBell,
+    FiBox,
+    FiDollarSign,
+    FiSettings,
+    FiShoppingBag,
+    FiUsers,
+    FiX
+} from "react-icons/fi";
 import Layout from "../Partials/Layout";
 
 const AdminDashboard = () => {
-    const [activeSection, setActiveSection] = useState("overview");
-    const [activeTab, setActiveTab] = useState("pending");
+    const [activeTab, setActiveTab] = useState("overview");
     const [selectedListing, setSelectedListing] = useState(null);
+    const [listingStatusTab, setListingStatusTab] = useState("pending");
 
     // Mock data - replace with actual API calls
     const [listings, setListings] = useState([
@@ -56,7 +66,7 @@ const AdminDashboard = () => {
         setSelectedListing(null);
     };
 
-    const filteredListings = listings.filter(listing => listing.status === activeTab);
+    const filteredListings = listings.filter(listing => listing.status === listingStatusTab);
 
     const stats = {
         pending: listings.filter(l => l.status === "pending").length,
@@ -65,548 +75,433 @@ const AdminDashboard = () => {
         total: listings.length
     };
 
-    const menuItems = [
-        { id: "overview", label: "Overview", icon: "📊" },
-        { id: "listings", label: "Product Listings", icon: "📦" },
-        { id: "orders", label: "Orders", icon: "🛒" },
-        { id: "users", label: "Users", icon: "👥" },
-        { id: "sellers", label: "Sellers", icon: "🏪" },
-        { id: "analytics", label: "Analytics", icon: "📈" },
-        { id: "settings", label: "Settings", icon: "⚙️" }
+    const tabs = [
+        { id: "overview", label: "Dashboard" },
+        { id: "listings", label: "Products" },
+        { id: "category", label: "Category" },
+        { id: "users", label: "Customers" },
+        { id: "sells", label: "Sells" },
+        { id: "coupons", label: "Coupons" },
+        { id: "settings", label: "Settings" }
     ];
 
     return (
-        <Layout>
-            <div className="admin-dashboard-wrapper w-full bg-gray-50 min-h-screen">
-                {/* Top Header Bar */}
-                <div className="bg-gradient-to-r from-primary-blue to-blue-500 -mt-[30px] mb-6">
-                    <div className="container-x mx-auto">
-                        <div className="flex items-center justify-between py-4">
-                            <h1 className="text-2xl font-bold text-white">
-                                Admin
-                            </h1>
-                            <div className="flex items-center gap-4">
-                                <span className="text-sm text-white/80">5 Aug, 2020</span>
-                                <button className="p-2 hover:bg-white/10 rounded-lg text-white">🔔</button>
-                                <button className="p-2 hover:bg-white/10 rounded-lg text-white">👤</button>
-                            </div>
+        <Layout childrenClasses="pt-0 pb-0 bg-gray-50" discountBannerProps={{ compact: true }} footerProps={{ compact: true }}>
+            <div className="min-h-screen pb-12">
+                {/* Blue Header Banner */}
+                <div className="bg-primary-blue w-full h-[280px] relative">
+                    <div className="container-x mx-auto pt-12">
+                        <div className="inline-block px-4 py-1 rounded-full bg-white/20 text-white text-xs font-medium mb-4 backdrop-blur-sm">
+                            ADMIN PORTAL
                         </div>
+                        <h1 className="text-4xl font-bold text-white mb-2">Admin Dashboard</h1>
+                        <p className="text-blue-100 text-lg">Manage products, orders, customers, and platform settings.</p>
                     </div>
                 </div>
 
-                <div className="container-x mx-auto pb-10">
-                    {/* Sidebar + Main Content Layout */}
-                    <div className="flex gap-6">
-                        {/* Sidebar */}
-                        <div className="w-56 flex-shrink-0">
-                            <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden sticky top-4">
-                                <nav className="py-2">
-                                    <button
-                                        onClick={() => setActiveSection("overview")}
-                                        className={`w-full flex items-center gap-3 px-6 py-3.5 text-left transition-all ${activeSection === "overview"
-                                            ? "bg-primary-blue text-white"
-                                            : "text-gray-700 hover:bg-gray-50"
-                                            }`}
-                                    >
-                                        <span className="text-lg">🏠</span>
-                                        <span className="font-medium text-sm">Dashboard</span>
-                                    </button>
-                                    <button
-                                        onClick={() => setActiveSection("listings")}
-                                        className={`w-full flex items-center gap-3 px-6 py-3.5 text-left transition-all ${activeSection === "listings"
-                                            ? "bg-primary-blue text-white"
-                                            : "text-gray-700 hover:bg-gray-50"
-                                            }`}
-                                    >
-                                        <span className="text-lg">📦</span>
-                                        <span className="font-medium text-sm">Products</span>
-                                    </button>
-                                    <button
-                                        onClick={() => setActiveSection("category")}
-                                        className={`w-full flex items-center gap-3 px-6 py-3.5 text-left transition-all ${activeSection === "category"
-                                            ? "bg-primary-blue text-white"
-                                            : "text-gray-700 hover:bg-gray-50"
-                                            }`}
-                                    >
-                                        <span className="text-lg">📂</span>
-                                        <span className="font-medium text-sm">Category</span>
-                                    </button>
-                                    <button
-                                        onClick={() => setActiveSection("users")}
-                                        className={`w-full flex items-center gap-3 px-6 py-3.5 text-left transition-all ${activeSection === "users"
-                                            ? "bg-primary-blue text-white"
-                                            : "text-gray-700 hover:bg-gray-50"
-                                            }`}
-                                    >
-                                        <span className="text-lg">👥</span>
-                                        <span className="font-medium text-sm">Customers</span>
-                                    </button>
-                                    <button
-                                        onClick={() => setActiveSection("sells")}
-                                        className={`w-full flex items-center gap-3 px-6 py-3.5 text-left transition-all ${activeSection === "sells"
-                                            ? "bg-primary-blue text-white"
-                                            : "text-gray-700 hover:bg-gray-50"
-                                            }`}
-                                    >
-                                        <span className="text-lg">💰</span>
-                                        <span className="font-medium text-sm">Sells</span>
-                                    </button>
-                                    <button
-                                        onClick={() => setActiveSection("coupons")}
-                                        className={`w-full flex items-center gap-3 px-6 py-3.5 text-left transition-all ${activeSection === "coupons"
-                                            ? "bg-primary-blue text-white"
-                                            : "text-gray-700 hover:bg-gray-50"
-                                            }`}
-                                    >
-                                        <span className="text-lg">🎟️</span>
-                                        <span className="font-medium text-sm">Coupons</span>
-                                    </button>
-                                    <button
-                                        onClick={() => setActiveSection("settings")}
-                                        className={`w-full flex items-center gap-3 px-6 py-3.5 text-left transition-all ${activeSection === "settings"
-                                            ? "bg-primary-blue text-white"
-                                            : "text-gray-700 hover:bg-gray-50"
-                                            }`}
-                                    >
-                                        <span className="text-lg">⚙️</span>
-                                        <span className="font-medium text-sm">Settings</span>
-                                    </button>
-                                </nav>
+                <div className="container-x mx-auto -mt-24 relative z-10 space-y-8">
+                    {/* Welcome Card */}
+                    <div className="bg-white rounded-3xl p-8 shadow-lg shadow-blue-900/5 flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div className="flex items-center gap-6">
+                            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center text-white text-3xl font-bold shadow-lg shadow-purple-200">
+                                A
+                            </div>
+                            <div>
+                                <h2 className="text-2xl font-bold text-qblack flex items-center gap-2">
+                                    Hello, Admin! <span className="text-2xl">👋</span>
+                                </h2>
+                                <div className="flex items-center gap-2 mt-1">
+                                    <span className="w-2 h-2 rounded-full bg-green-500"></span>
+                                    <p className="text-gray-500 text-sm">System is running smoothly</p>
+                                </div>
                             </div>
                         </div>
+                        <div className="flex items-center gap-4">
+                            <button className="flex items-center gap-2 px-6 py-3 bg-white border border-gray-200 rounded-xl text-gray-600 font-medium hover:bg-gray-50 transition-colors shadow-sm">
+                                <FiBell className="w-5 h-5" />
+                                Notifications
+                            </button>
+                        </div>
+                    </div>
 
-                        {/* Main Content Area */}
-                        <div className="flex-1">
-                            {/* Overview Section */}
-                            {activeSection === "overview" && (
-                                <div>
-                                    {/* Stats Cards */}
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
-                                        {/* Total Sales Card */}
-                                        <div className="bg-white rounded-2xl p-5 border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                                            <div className="flex items-start justify-between mb-4">
-                                                <div className="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center">
-                                                    <span className="text-2xl">💰</span>
-                                                </div>
-                                                <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center">
-                                                    <span className="text-lg">📄</span>
-                                                </div>
-                                            </div>
-                                            <div className="text-xs text-gray-500 mb-1">Total Sales</div>
-                                            <div className="text-xs text-gray-400 mb-2">Last 30 days</div>
-                                            <div className="flex items-baseline gap-2">
-                                                <span className="text-sm text-gray-500">$</span>
-                                                <span className="text-2xl font-bold text-gray-900">76,96,432</span>
-                                            </div>
+                    {/* Navigation Tabs */}
+                    <div className="flex items-center gap-2 bg-white p-2 rounded-2xl w-fit shadow-sm border border-gray-100 overflow-x-auto max-w-full">
+                        {tabs.map(tab => (
+                            <button
+                                key={tab.id}
+                                onClick={() => setActiveTab(tab.id)}
+                                className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-200 whitespace-nowrap ${activeTab === tab.id
+                                    ? "bg-qblack text-white shadow-md"
+                                    : "text-gray-500 hover:bg-gray-50 hover:text-qblack"
+                                    }`}
+                            >
+                                {tab.label}
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Content Area */}
+                    <AnimatePresence mode="wait">
+                        {activeTab === "overview" && (
+                            <motion.div
+                                key="overview"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -20 }}
+                                transition={{ duration: 0.3 }}
+                                className="space-y-8"
+                            >
+                                {/* Stats Grid */}
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                                    {/* Total Sales */}
+                                    <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+                                        <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+                                            <FiDollarSign className="w-24 h-24 text-orange-500 transform rotate-12" />
                                         </div>
-
-                                        {/* Total Orders Card */}
-                                        <div className="bg-white rounded-2xl p-5 border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                                            <div className="flex items-start justify-between mb-4">
-                                                <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center">
-                                                    <span className="text-2xl">📋</span>
-                                                </div>
-                                                <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center">
-                                                    <span className="text-lg">📄</span>
-                                                </div>
-                                            </div>
-                                            <div className="text-xs text-gray-500 mb-1">Total Order</div>
-                                            <div className="text-xs text-gray-400 mb-2">Last 30 days</div>
-                                            <div className="flex items-baseline gap-2">
-                                                <span className="text-sm text-success-green">↑</span>
-                                                <span className="text-2xl font-bold text-gray-900">1645</span>
-                                            </div>
+                                        <div className="w-12 h-12 bg-orange-500 rounded-2xl flex items-center justify-center text-white mb-4 shadow-lg shadow-orange-200">
+                                            <FiDollarSign className="w-6 h-6" />
                                         </div>
-
-                                        {/* Total Customers Card */}
-                                        <div className="bg-white rounded-2xl p-5 border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                                            <div className="flex items-start justify-between mb-4">
-                                                <div className="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center">
-                                                    <span className="text-2xl">👥</span>
-                                                </div>
-                                                <div className="w-10 h-10 rounded-lg bg-purple-50 flex items-center justify-center">
-                                                    <span className="text-lg">👤</span>
-                                                </div>
-                                            </div>
-                                            <div className="text-xs text-gray-500 mb-1">Total Customer</div>
-                                            <div className="text-xs text-gray-400 mb-2">Last 30 days</div>
-                                            <div className="flex items-baseline gap-2">
-                                                <span className="text-sm text-success-green">↑</span>
-                                                <span className="text-2xl font-bold text-gray-900">14,634</span>
-                                            </div>
-                                        </div>
-
-                                        {/* Total Products Card */}
-                                        <div className="bg-white rounded-2xl p-5 border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                                            <div className="flex items-start justify-between mb-4">
-                                                <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center">
-                                                    <span className="text-2xl">📦</span>
-                                                </div>
-                                                <div className="w-10 h-10 rounded-lg bg-green-50 flex items-center justify-center">
-                                                    <span className="text-lg">🎁</span>
-                                                </div>
-                                            </div>
-                                            <div className="text-xs text-gray-500 mb-1">Total Products</div>
-                                            <div className="text-xs text-gray-400 mb-2">Last 30 days</div>
-                                            <div className="flex items-baseline gap-2">
-                                                <span className="text-sm text-success-green">↑</span>
-                                                <span className="text-2xl font-bold text-gray-900">254</span>
-                                            </div>
+                                        <div className="relative z-10">
+                                            <p className="text-gray-400 text-xs font-bold uppercase tracking-wider">Total Sales</p>
+                                            <h3 className="text-3xl font-black text-qblack mt-1">$76.9k</h3>
+                                            <p className="text-xs text-gray-400 mt-1">Last 30 days</p>
                                         </div>
                                     </div>
 
-                                    {/* Recent Orders & Top Listings */}
-                                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                                        {/* Recent Orders */}
-                                        <div className="bg-white rounded-3xl p-6 border border-gray-200 shadow-lg shadow-gray-200/50 hover:shadow-xl hover:shadow-gray-300/50 hover:-translate-y-0.5 transition-all duration-300">
-                                            <div className="flex items-center justify-between mb-6">
-                                                <h3 className="text-lg font-bold text-qblack">Recent Orders</h3>
-                                                <button className="text-xs text-primary-blue hover:text-blue-700 font-semibold transition-colors">View All →</button>
-                                            </div>
-                                            <div className="space-y-3">
-                                                <div className="flex items-center gap-4 p-4 bg-gradient-to-r from-blue-50 to-transparent rounded-2xl hover:from-blue-100 transition-all border border-blue-100">
-                                                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-400 to-blue-500 flex items-center justify-center text-xl shadow-md">
-                                                        🍼
-                                                    </div>
-                                                    <div className="flex-1 min-w-0">
-                                                        <p className="font-bold text-gray-900 truncate">Baby Bottle Set</p>
-                                                        <p className="text-xs text-gray-500">Order #8641573</p>
-                                                    </div>
-                                                    <span className="px-3 py-1.5 bg-yellow-100 text-yellow-700 text-xs font-bold rounded-full whitespace-nowrap">Pending</span>
-                                                </div>
-                                                <div className="flex items-center gap-4 p-4 bg-gradient-to-r from-purple-50 to-transparent rounded-2xl hover:from-purple-100 transition-all border border-purple-100">
-                                                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-400 to-purple-500 flex items-center justify-center text-xl shadow-md">
-                                                        📱
-                                                    </div>
-                                                    <div className="flex-1 min-w-0">
-                                                        <p className="font-bold text-gray-900 truncate">Baby Monitor</p>
-                                                        <p className="text-xs text-gray-500">Order #2457821</p>
-                                                    </div>
-                                                    <span className="px-3 py-1.5 bg-red-100 text-red-700 text-xs font-bold rounded-full whitespace-nowrap">Cancelled</span>
-                                                </div>
-                                                <div className="flex items-center gap-4 p-4 bg-gradient-to-r from-green-50 to-transparent rounded-2xl hover:from-green-100 transition-all border border-green-100">
-                                                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-400 to-green-500 flex items-center justify-center text-xl shadow-md">
-                                                        🎧
-                                                    </div>
-                                                    <div className="flex-1 min-w-0">
-                                                        <p className="font-bold text-gray-900 truncate">Sound Machine</p>
-                                                        <p className="text-xs text-gray-500">Order #1024184</p>
-                                                    </div>
-                                                    <span className="px-3 py-1.5 bg-green-100 text-green-700 text-xs font-bold rounded-full whitespace-nowrap">Shipped</span>
-                                                </div>
-                                            </div>
+                                    {/* Total Orders */}
+                                    <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+                                        <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+                                            <FiShoppingBag className="w-24 h-24 text-blue-500 transform rotate-12" />
                                         </div>
+                                        <div className="w-12 h-12 bg-blue-500 rounded-2xl flex items-center justify-center text-white mb-4 shadow-lg shadow-blue-200">
+                                            <FiShoppingBag className="w-6 h-6" />
+                                        </div>
+                                        <div className="relative z-10">
+                                            <span className="inline-block px-2 py-1 bg-green-50 text-green-600 text-xs font-bold rounded-lg mb-2">↑ 12%</span>
+                                            <p className="text-gray-400 text-xs font-bold uppercase tracking-wider">Total Orders</p>
+                                            <h3 className="text-3xl font-black text-qblack mt-1">1,645</h3>
+                                        </div>
+                                    </div>
 
-                                        {/* Top Selling Products */}
-                                        <div className="bg-white rounded-3xl p-6 border border-gray-200 shadow-lg shadow-gray-200/50 hover:shadow-xl hover:shadow-gray-300/50 hover:-translate-y-0.5 transition-all duration-300">
-                                            <div className="flex items-center justify-between mb-6">
-                                                <h3 className="text-lg font-bold text-qblack">Top Selling Products</h3>
-                                                <button className="text-xs text-primary-blue hover:text-blue-700 font-semibold transition-colors">View All →</button>
-                                            </div>
-                                            <div className="space-y-3">
-                                                <div className="flex items-center gap-4 p-4 bg-gradient-to-r from-orange-50 to-transparent rounded-2xl hover:from-orange-100 transition-all border border-orange-100">
-                                                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-400 to-orange-500 flex items-center justify-center text-xl shadow-md">
-                                                        🚼
-                                                    </div>
-                                                    <div className="flex-1 min-w-0">
-                                                        <p className="font-bold text-gray-900 truncate">UPPAbaby Stroller</p>
-                                                        <p className="text-xs text-gray-500">ID: 1261380</p>
-                                                    </div>
-                                                    <div className="text-right">
-                                                        <p className="text-lg font-bold text-gray-900">128</p>
-                                                        <p className="text-xs text-gray-500">Sales</p>
-                                                    </div>
-                                                </div>
-                                                <div className="flex items-center gap-4 p-4 bg-gradient-to-r from-blue-50 to-transparent rounded-2xl hover:from-blue-100 transition-all border border-blue-100">
-                                                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-400 to-blue-500 flex items-center justify-center text-xl shadow-md">
-                                                        🎒
-                                                    </div>
-                                                    <div className="flex-1 min-w-0">
-                                                        <p className="font-bold text-gray-900 truncate">Diaper Backpack</p>
-                                                        <p className="text-xs text-gray-500">ID: 1261318</p>
-                                                    </div>
-                                                    <div className="text-right">
-                                                        <p className="text-lg font-bold text-gray-900">401</p>
-                                                        <p className="text-xs text-gray-500">Sales</p>
-                                                    </div>
-                                                </div>
-                                                <div className="flex items-center gap-4 p-4 bg-gradient-to-r from-green-50 to-transparent rounded-2xl hover:from-green-100 transition-all border border-green-100">
-                                                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-400 to-green-500 flex items-center justify-center text-xl shadow-md">
-                                                        🍼
-                                                    </div>
-                                                    <div className="flex-1 min-w-0">
-                                                        <p className="font-bold text-gray-900 truncate">Baby Bottles</p>
-                                                        <p className="text-xs text-gray-500">ID: 8441573</p>
-                                                    </div>
-                                                    <div className="text-right">
-                                                        <p className="text-lg font-bold text-gray-900">1K+</p>
-                                                        <p className="text-xs text-gray-500">Sales</p>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                    {/* Total Customers */}
+                                    <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+                                        <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+                                            <FiUsers className="w-24 h-24 text-purple-500 transform rotate-12" />
+                                        </div>
+                                        <div className="w-12 h-12 bg-purple-500 rounded-2xl flex items-center justify-center text-white mb-4 shadow-lg shadow-purple-200">
+                                            <FiUsers className="w-6 h-6" />
+                                        </div>
+                                        <div className="relative z-10">
+                                            <span className="inline-block px-2 py-1 bg-green-50 text-green-600 text-xs font-bold rounded-lg mb-2">↑ 5%</span>
+                                            <p className="text-gray-400 text-xs font-bold uppercase tracking-wider">Total Customers</p>
+                                            <h3 className="text-3xl font-black text-qblack mt-1">14.6k</h3>
+                                        </div>
+                                    </div>
+
+                                    {/* Total Products */}
+                                    <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+                                        <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+                                            <FiBox className="w-24 h-24 text-green-500 transform rotate-12" />
+                                        </div>
+                                        <div className="w-12 h-12 bg-green-500 rounded-2xl flex items-center justify-center text-white mb-4 shadow-lg shadow-green-200">
+                                            <FiBox className="w-6 h-6" />
+                                        </div>
+                                        <div className="relative z-10">
+                                            <span className="inline-block px-2 py-1 bg-green-50 text-green-600 text-xs font-bold rounded-lg mb-2">↑ 8%</span>
+                                            <p className="text-gray-400 text-xs font-bold uppercase tracking-wider">Total Products</p>
+                                            <h3 className="text-3xl font-black text-qblack mt-1">254</h3>
                                         </div>
                                     </div>
                                 </div>
-                            )}
 
-                            {/* Listings Section */}
-                            {activeSection === "listings" && (
-                                <div>
-                                    <h2 className="text-2xl font-bold text-qblack mb-6">Product Listings</h2>
-
-                                    <div className="bg-white rounded-2xl shadow-sm border border-gray-200">
-                                        {/* Tabs */}
-                                        <div className="px-6 pt-6 pb-4 border-b border-gray-200">
-                                            <div className="flex gap-6">
-                                                <button
-                                                    onClick={() => setActiveTab("pending")}
-                                                    className={`pb-3 px-1 font-semibold text-sm transition-all border-b-2 ${activeTab === "pending"
-                                                        ? "border-qblack text-qblack"
-                                                        : "border-transparent text-gray-500 hover:text-gray-700"
-                                                        }`}
-                                                >
-                                                    Pending ({stats.pending})
-                                                </button>
-                                                <button
-                                                    onClick={() => setActiveTab("approved")}
-                                                    className={`pb-3 px-1 font-semibold text-sm transition-all border-b-2 ${activeTab === "approved"
-                                                        ? "border-qblack text-qblack"
-                                                        : "border-transparent text-gray-500 hover:text-gray-700"
-                                                        }`}
-                                                >
-                                                    Approved ({stats.approved})
-                                                </button>
-                                                <button
-                                                    onClick={() => setActiveTab("rejected")}
-                                                    className={`pb-3 px-1 font-semibold text-sm transition-all border-b-2 ${activeTab === "rejected"
-                                                        ? "border-qblack text-qblack"
-                                                        : "border-transparent text-gray-500 hover:text-gray-700"
-                                                        }`}
-                                                >
-                                                    Rejected ({stats.rejected})
-                                                </button>
-                                            </div>
+                                {/* Recent Orders & Top Products Grid */}
+                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                    <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm">
+                                        <div className="flex items-center justify-between mb-6">
+                                            <h3 className="text-xl font-bold text-qblack">Recent Orders</h3>
+                                            <button className="text-sm text-primary-blue font-bold hover:underline">View All</button>
                                         </div>
+                                        <div className="space-y-4">
+                                            {[
+                                                { name: "Baby Bottle Set", id: "#8641573", status: "Pending", color: "bg-yellow-100 text-yellow-700", icon: "🍼", iconBg: "bg-blue-100 text-blue-600" },
+                                                { name: "Baby Monitor", id: "#2457821", status: "Cancelled", color: "bg-red-100 text-red-700", icon: "📱", iconBg: "bg-purple-100 text-purple-600" },
+                                                { name: "Sound Machine", id: "#1024184", status: "Shipped", color: "bg-green-100 text-green-700", icon: "🎧", iconBg: "bg-green-100 text-green-600" }
+                                            ].map((order, i) => (
+                                                <div key={i} className="flex items-center gap-4 p-4 rounded-2xl border border-gray-100 hover:border-primary-blue/30 hover:bg-blue-50/30 transition-all">
+                                                    <div className={`w-12 h-12 rounded-xl ${order.iconBg} flex items-center justify-center text-xl`}>
+                                                        {order.icon}
+                                                    </div>
+                                                    <div className="flex-1">
+                                                        <h4 className="font-bold text-qblack">{order.name}</h4>
+                                                        <p className="text-xs text-gray-500">Order {order.id}</p>
+                                                    </div>
+                                                    <span className={`px-3 py-1 rounded-full text-xs font-bold ${order.color}`}>
+                                                        {order.status}
+                                                    </span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
 
-                                        {/* Listings Table */}
-                                        <div className="overflow-x-auto">
-                                            <table className="w-full">
-                                                <thead className="bg-gray-50">
+                                    <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-sm">
+                                        <div className="flex items-center justify-between mb-6">
+                                            <h3 className="text-xl font-bold text-qblack">Top Selling Products</h3>
+                                            <button className="text-sm text-primary-blue font-bold hover:underline">View All</button>
+                                        </div>
+                                        <div className="space-y-4">
+                                            {[
+                                                { name: "UPPAbaby Stroller", id: "1261380", sales: "128", icon: "🚼", iconBg: "bg-orange-100 text-orange-600" },
+                                                { name: "Diaper Backpack", id: "1261318", sales: "401", icon: "🎒", iconBg: "bg-blue-100 text-blue-600" },
+                                                { name: "Baby Bottles", id: "8441573", sales: "1K+", icon: "🍼", iconBg: "bg-green-100 text-green-600" }
+                                            ].map((item, i) => (
+                                                <div key={i} className="flex items-center gap-4 p-4 rounded-2xl border border-gray-100 hover:border-primary-blue/30 hover:bg-blue-50/30 transition-all">
+                                                    <div className={`w-12 h-12 rounded-xl ${item.iconBg} flex items-center justify-center text-xl`}>
+                                                        {item.icon}
+                                                    </div>
+                                                    <div className="flex-1">
+                                                        <h4 className="font-bold text-qblack">{item.name}</h4>
+                                                        <p className="text-xs text-gray-500">ID: {item.id}</p>
+                                                    </div>
+                                                    <div className="text-right">
+                                                        <p className="font-bold text-qblack">{item.sales}</p>
+                                                        <p className="text-xs text-gray-500">Sales</p>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        )}
+
+                        {activeTab === "listings" && (
+                            <motion.div
+                                key="listings"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -20 }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                <div className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden">
+                                    <div className="p-6 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                                        <h2 className="text-xl font-bold text-qblack">Product Listings</h2>
+                                        <div className="flex gap-2 bg-gray-50 p-1 rounded-xl">
+                                            {["pending", "approved", "rejected"].map(status => (
+                                                <button
+                                                    key={status}
+                                                    onClick={() => setListingStatusTab(status)}
+                                                    className={`px-4 py-2 rounded-lg text-xs font-bold capitalize transition-all ${listingStatusTab === status
+                                                        ? "bg-white text-qblack shadow-sm"
+                                                        : "text-gray-500 hover:text-qblack"
+                                                        }`}
+                                                >
+                                                    {status} ({stats[status]})
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full">
+                                            <thead className="bg-gray-50/50">
+                                                <tr>
+                                                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-wider">Product</th>
+                                                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-wider">Seller</th>
+                                                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-wider">Category</th>
+                                                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-wider">Condition</th>
+                                                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-wider">Price</th>
+                                                    <th className="px-6 py-4 text-left text-xs font-bold text-gray-400 uppercase tracking-wider">Status</th>
+                                                    <th className="px-6 py-4 text-right text-xs font-bold text-gray-400 uppercase tracking-wider">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="divide-y divide-gray-100">
+                                                {filteredListings.length === 0 ? (
                                                     <tr>
-                                                        <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Product</th>
-                                                        <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Seller</th>
-                                                        <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Category</th>
-                                                        <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Condition</th>
-                                                        <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Price</th>
-                                                        <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Submitted</th>
-                                                        <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Actions</th>
+                                                        <td colSpan="7" className="px-6 py-12 text-center text-gray-500">
+                                                            No {listingStatusTab} listings found
+                                                        </td>
                                                     </tr>
-                                                </thead>
-                                                <tbody className="bg-white divide-y divide-gray-200">
-                                                    {filteredListings.length === 0 ? (
-                                                        <tr>
-                                                            <td colSpan="7" className="px-6 py-12 text-center text-gray-500">
-                                                                No {activeTab} listings
+                                                ) : (
+                                                    filteredListings.map((listing) => (
+                                                        <tr key={listing.id} className="hover:bg-gray-50/50 transition-colors">
+                                                            <td className="px-6 py-4">
+                                                                <div className="font-bold text-qblack text-sm">{listing.title}</div>
+                                                                <div className="text-xs text-gray-500 capitalize mt-1">{listing.brand}</div>
+                                                            </td>
+                                                            <td className="px-6 py-4">
+                                                                <div className="text-sm text-gray-900">{listing.seller}</div>
+                                                                <div className="text-xs text-gray-500 mt-0.5">{listing.sellerEmail}</div>
+                                                            </td>
+                                                            <td className="px-6 py-4">
+                                                                <span className="text-sm text-gray-600 capitalize">{listing.category}</span>
+                                                            </td>
+                                                            <td className="px-6 py-4">
+                                                                <span className="inline-flex px-2.5 py-1 text-xs font-bold rounded-lg bg-blue-50 text-blue-600 capitalize">
+                                                                    {listing.condition}
+                                                                </span>
+                                                            </td>
+                                                            <td className="px-6 py-4">
+                                                                <div className="text-sm font-bold text-qblack">${listing.askingPrice}</div>
+                                                                {listing.originalPrice && (
+                                                                    <div className="text-xs text-gray-400 line-through mt-0.5">${listing.originalPrice}</div>
+                                                                )}
+                                                            </td>
+                                                            <td className="px-6 py-4">
+                                                                <span className={`inline-flex px-2.5 py-1 text-xs font-bold rounded-lg capitalize ${listing.status === 'approved' ? 'bg-green-50 text-green-600' :
+                                                                    listing.status === 'rejected' ? 'bg-red-50 text-red-600' :
+                                                                        'bg-yellow-50 text-yellow-600'
+                                                                    }`}>
+                                                                    {listing.status}
+                                                                </span>
+                                                            </td>
+                                                            <td className="px-6 py-4 text-right">
+                                                                <button
+                                                                    onClick={() => setSelectedListing(listing)}
+                                                                    className="text-sm text-primary-blue font-bold hover:text-blue-700 hover:underline"
+                                                                >
+                                                                    Review
+                                                                </button>
                                                             </td>
                                                         </tr>
-                                                    ) : (
-                                                        filteredListings.map((listing) => (
-                                                            <tr key={listing.id} className="hover:bg-gray-50 transition-colors">
-                                                                <td className="px-6 py-5">
-                                                                    <div className="font-semibold text-gray-900">{listing.title}</div>
-                                                                    <div className="text-sm text-gray-500 capitalize mt-0.5">{listing.brand}</div>
-                                                                </td>
-                                                                <td className="px-6 py-5">
-                                                                    <div className="text-sm text-gray-900">{listing.seller}</div>
-                                                                    <div className="text-xs text-gray-500 mt-0.5">{listing.sellerEmail}</div>
-                                                                </td>
-                                                                <td className="px-6 py-5">
-                                                                    <span className="text-sm text-gray-700 capitalize">{listing.category}</span>
-                                                                </td>
-                                                                <td className="px-6 py-5">
-                                                                    <span className="inline-flex px-3 py-1 text-xs font-semibold rounded-md bg-blue-50 text-blue-700 capitalize">
-                                                                        {listing.condition}
-                                                                    </span>
-                                                                </td>
-                                                                <td className="px-6 py-5">
-                                                                    <div className="text-sm font-bold text-gray-900">${listing.askingPrice}</div>
-                                                                    {listing.originalPrice && (
-                                                                        <div className="text-xs text-gray-400 line-through mt-0.5">${listing.originalPrice}</div>
-                                                                    )}
-                                                                </td>
-                                                                <td className="px-6 py-5">
-                                                                    <div className="text-sm text-gray-500">{listing.submittedDate}</div>
-                                                                </td>
-                                                                <td className="px-6 py-5">
-                                                                    <button
-                                                                        onClick={() => setSelectedListing(listing)}
-                                                                        className="text-sm text-primary-blue hover:text-blue-700 font-semibold hover:underline"
-                                                                    >
-                                                                        View Details
-                                                                    </button>
-                                                                </td>
-                                                            </tr>
-                                                        ))
-                                                    )}
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                                    ))
+                                                )}
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
-                            )}
+                            </motion.div>
+                        )}
 
-                            {/* Orders Section */}
-                            {activeSection === "orders" && (
-                                <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
-                                    <h3 className="text-2xl font-bold text-qblack mb-4">Order Management</h3>
-                                    <p className="text-gray-600">Order management interface coming soon...</p>
+                        {/* Placeholder for other tabs */}
+                        {["category", "users", "sells", "coupons", "settings"].includes(activeTab) && (
+                            <motion.div
+                                key={activeTab}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -20 }}
+                                transition={{ duration: 0.3 }}
+                                className="bg-white rounded-3xl p-12 text-center border border-gray-100 shadow-sm"
+                            >
+                                <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                                    <FiSettings className="w-8 h-8 text-gray-400" />
                                 </div>
-                            )}
-
-                            {/* Users Section */}
-                            {activeSection === "users" && (
-                                <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
-                                    <h3 className="text-2xl font-bold text-qblack mb-4">User Management</h3>
-                                    <p className="text-gray-600">User management interface coming soon...</p>
-                                </div>
-                            )}
-
-                            {/* Sellers Section */}
-                            {activeSection === "sellers" && (
-                                <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
-                                    <h3 className="text-2xl font-bold text-qblack mb-4">Seller Management</h3>
-                                    <p className="text-gray-600">Seller management interface coming soon...</p>
-                                </div>
-                            )}
-
-                            {/* Analytics Section */}
-                            {activeSection === "analytics" && (
-                                <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
-                                    <h3 className="text-2xl font-bold text-qblack mb-4">Analytics & Reports</h3>
-                                    <p className="text-gray-600">Analytics dashboard coming soon...</p>
-                                </div>
-                            )}
-
-                            {/* Settings Section */}
-                            {activeSection === "settings" && (
-                                <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
-                                    <h3 className="text-2xl font-bold text-qblack mb-4">Platform Settings</h3>
-                                    <p className="text-gray-600">Settings interface coming soon...</p>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-
-                    {/* Detail Modal */}
-                    {selectedListing && (
-                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                            <div className="bg-white rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto">
-                                {/* Modal Header */}
-                                <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
-                                    <h2 className="text-xl font-semibold text-gray-900">Listing Details</h2>
-                                    <button
-                                        onClick={() => setSelectedListing(null)}
-                                        className="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors"
-                                    >
-                                        <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                        </svg>
-                                    </button>
-                                </div>
-
-                                {/* Modal Content */}
-                                <div className="px-6 py-6 space-y-6">
-                                    {/* Product Info */}
-                                    <div>
-                                        <h3 className="text-lg font-semibold text-gray-900 mb-4">{selectedListing.title}</h3>
-                                        <div className="grid grid-cols-2 gap-4">
-                                            <div>
-                                                <div className="text-sm text-gray-600 mb-1">Brand</div>
-                                                <div className="text-base font-medium text-gray-900 capitalize">{selectedListing.brand}</div>
-                                            </div>
-                                            <div>
-                                                <div className="text-sm text-gray-600 mb-1">Category</div>
-                                                <div className="text-base font-medium text-gray-900 capitalize">{selectedListing.category}</div>
-                                            </div>
-                                            <div>
-                                                <div className="text-sm text-gray-600 mb-1">Condition</div>
-                                                <div className="text-base font-medium text-gray-900 capitalize">{selectedListing.condition}</div>
-                                            </div>
-                                            <div>
-                                                <div className="text-sm text-gray-600 mb-1">Age Range</div>
-                                                <div className="text-base font-medium text-gray-900">{selectedListing.ageRange}</div>
-                                            </div>
-                                            <div>
-                                                <div className="text-sm text-gray-600 mb-1">Original Price</div>
-                                                <div className="text-base font-medium text-gray-900">${selectedListing.originalPrice}</div>
-                                            </div>
-                                            <div>
-                                                <div className="text-sm text-gray-600 mb-1">Asking Price</div>
-                                                <div className="text-xl font-bold text-primary-blue">${selectedListing.askingPrice}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Description */}
-                                    <div>
-                                        <div className="text-sm text-gray-600 mb-2">Description</div>
-                                        <p className="text-sm text-gray-700 leading-relaxed">{selectedListing.description}</p>
-                                    </div>
-
-                                    {/* Seller Info */}
-                                    <div className="bg-gray-50 rounded-lg p-4">
-                                        <div className="text-sm font-semibold text-gray-900 mb-3">Seller Information</div>
-                                        <div className="grid grid-cols-2 gap-4">
-                                            <div>
-                                                <div className="text-xs text-gray-600 mb-1">Name</div>
-                                                <div className="text-sm font-medium text-gray-900">{selectedListing.seller}</div>
-                                            </div>
-                                            <div>
-                                                <div className="text-xs text-gray-600 mb-1">Email</div>
-                                                <div className="text-sm font-medium text-gray-900">{selectedListing.sellerEmail}</div>
-                                            </div>
-                                            <div>
-                                                <div className="text-xs text-gray-600 mb-1">Submitted Date</div>
-                                                <div className="text-sm font-medium text-gray-900">{selectedListing.submittedDate}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Photos */}
-                                    <div>
-                                        <div className="text-sm text-gray-600 mb-2">Photos</div>
-                                        <div className="aspect-video bg-gray-100 rounded-lg flex items-center justify-center border border-gray-200">
-                                            <div className="text-center">
-                                                <svg className="w-12 h-12 text-gray-300 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                                </svg>
-                                                <span className="text-sm text-gray-400">No photos uploaded</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Modal Actions */}
-                                {selectedListing.status === "pending" && (
-                                    <div className="flex gap-3 px-6 py-4 border-t border-gray-200 bg-gray-50">
-                                        <button
-                                            onClick={() => handleReject(selectedListing.id)}
-                                            className="flex-1 py-3 border border-red-300 text-red-700 font-medium rounded-lg hover:bg-red-50 transition-colors"
-                                        >
-                                            Reject Listing
-                                        </button>
-                                        <button
-                                            onClick={() => handleApprove(selectedListing.id)}
-                                            className="flex-1 py-3 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition-colors"
-                                        >
-                                            Approve Listing
-                                        </button>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    )}
+                                <h3 className="text-2xl font-bold text-qblack mb-2 capitalize">{activeTab} Management</h3>
+                                <p className="text-gray-500">This module is currently under development.</p>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </div>
+
+                {/* Detail Modal */}
+                <AnimatePresence>
+                    {selectedListing && (
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+                            onClick={() => setSelectedListing(null)}
+                        >
+                            <motion.div
+                                initial={{ scale: 0.95, opacity: 0 }}
+                                animate={{ scale: 1, opacity: 1 }}
+                                exit={{ scale: 0.95, opacity: 0 }}
+                                onClick={(e) => e.stopPropagation()}
+                                className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
+                            >
+                                <div className="p-8">
+                                    <div className="flex items-center justify-between mb-8">
+                                        <div>
+                                            <h2 className="text-2xl font-bold text-qblack">Review Listing</h2>
+                                            <p className="text-gray-500 text-sm">Review product details before approving</p>
+                                        </div>
+                                        <button
+                                            onClick={() => setSelectedListing(null)}
+                                            className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
+                                        >
+                                            <FiX className="w-5 h-5 text-gray-500" />
+                                        </button>
+                                    </div>
+
+                                    <div className="space-y-8">
+                                        {/* Product Summary */}
+                                        <div className="flex gap-6">
+                                            <div className="w-32 h-32 bg-gray-100 rounded-2xl flex items-center justify-center flex-shrink-0">
+                                                <FiBox className="w-10 h-10 text-gray-400" />
+                                            </div>
+                                            <div>
+                                                <h3 className="text-xl font-bold text-qblack mb-2">{selectedListing.title}</h3>
+                                                <div className="flex flex-wrap gap-2 mb-4">
+                                                    <span className="px-3 py-1 bg-blue-50 text-blue-600 text-xs font-bold rounded-lg capitalize">{selectedListing.condition}</span>
+                                                    <span className="px-3 py-1 bg-gray-100 text-gray-600 text-xs font-bold rounded-lg capitalize">{selectedListing.category}</span>
+                                                </div>
+                                                <div className="flex items-baseline gap-2">
+                                                    <span className="text-2xl font-black text-primary-blue">${selectedListing.askingPrice}</span>
+                                                    {selectedListing.originalPrice && (
+                                                        <span className="text-sm text-gray-400 line-through">${selectedListing.originalPrice}</span>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Details Grid */}
+                                        <div className="grid grid-cols-2 gap-6">
+                                            <div className="bg-gray-50 p-4 rounded-2xl">
+                                                <p className="text-xs text-gray-500 font-bold uppercase mb-1">Brand</p>
+                                                <p className="font-bold text-qblack capitalize">{selectedListing.brand}</p>
+                                            </div>
+                                            <div className="bg-gray-50 p-4 rounded-2xl">
+                                                <p className="text-xs text-gray-500 font-bold uppercase mb-1">Age Range</p>
+                                                <p className="font-bold text-qblack">{selectedListing.ageRange}</p>
+                                            </div>
+                                        </div>
+
+                                        {/* Description */}
+                                        <div>
+                                            <h4 className="font-bold text-qblack mb-2">Description</h4>
+                                            <p className="text-gray-600 leading-relaxed text-sm">{selectedListing.description}</p>
+                                        </div>
+
+                                        {/* Seller Info */}
+                                        <div className="border-t border-gray-100 pt-6">
+                                            <h4 className="font-bold text-qblack mb-4">Seller Information</h4>
+                                            <div className="flex items-center gap-4">
+                                                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 font-bold text-lg">
+                                                    {selectedListing.seller[0]}
+                                                </div>
+                                                <div>
+                                                    <p className="font-bold text-qblack">{selectedListing.seller}</p>
+                                                    <p className="text-sm text-gray-500">{selectedListing.sellerEmail}</p>
+                                                </div>
+                                                <div className="ml-auto text-right">
+                                                    <p className="text-xs text-gray-400">Submitted</p>
+                                                    <p className="text-sm font-bold text-qblack">{selectedListing.submittedDate}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Actions */}
+                                        {selectedListing.status === "pending" && (
+                                            <div className="grid grid-cols-2 gap-4 pt-4">
+                                                <button
+                                                    onClick={() => handleReject(selectedListing.id)}
+                                                    className="py-4 rounded-xl border-2 border-red-100 text-red-600 font-bold hover:bg-red-50 transition-colors"
+                                                >
+                                                    Reject Listing
+                                                </button>
+                                                <button
+                                                    onClick={() => handleApprove(selectedListing.id)}
+                                                    className="py-4 rounded-xl bg-primary-blue text-white font-bold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200"
+                                                >
+                                                    Approve Listing
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            </motion.div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </div>
         </Layout>
     );

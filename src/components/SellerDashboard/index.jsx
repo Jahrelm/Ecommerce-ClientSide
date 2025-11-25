@@ -3,16 +3,19 @@ import { useRef, useState } from "react";
 import {
     FiBell,
     FiBox,
+    FiCheck,
     FiChevronDown,
     FiChevronRight,
     FiDollarSign,
     FiEye,
     FiFilter,
     FiGrid,
+    FiImage,
     FiList,
     FiPlus,
     FiSearch,
     FiStar,
+    FiTag,
     FiUploadCloud,
     FiX
 } from "react-icons/fi";
@@ -24,15 +27,26 @@ export default function SellerDashboard() {
     const { user } = useSelector((state) => state.auth || {});
     const [activeTab, setActiveTab] = useState("overview");
     const [showUploadForm, setShowUploadForm] = useState(false);
+    const [currentStep, setCurrentStep] = useState(1);
     const imageInputRef = useRef(null);
 
     // Product form data
     const [productData, setProductData] = useState({
         name: "",
         category: "",
+        brand: "",
+        model: "",
+        year: "",
+        color: "",
+        material: "",
+        condition: "",
+        features: [],
+        description: "",
+        defects: "",
         price: "",
+        originalPrice: "",
         stock: "",
-        description: ""
+        shippingCost: "",
     });
 
     // Product images for upload
@@ -50,12 +64,24 @@ export default function SellerDashboard() {
     const salesHistory = [
         { id: 1, product: "Chicco KeyFit 30 Car Seat", soldPrice: 115, originalPrice: 120, buyer: "Jennifer M.", date: "2024-01-20", status: "shipped" },
         { id: 2, product: "Carter's Clothing Bundle", soldPrice: 45, originalPrice: 50, buyer: "Sarah K.", date: "2024-01-18", status: "delivered" },
+        { id: 3, product: "Fisher-Price Sit-Me-Up Floor Seat", soldPrice: 35, originalPrice: 40, buyer: "Emily R.", date: "2024-01-15", status: "delivered" },
+        { id: 4, product: "Dr. Brown's Options+ Bottles (Set of 4)", soldPrice: 20, originalPrice: 25, buyer: "Michael T.", date: "2024-01-12", status: "processing" },
+        { id: 5, product: "Halo BassiNest Swivel Sleeper", soldPrice: 150, originalPrice: 180, buyer: "Jessica L.", date: "2024-01-10", status: "shipped" },
+        { id: 6, product: "Ergobaby Omni 360 Carrier", soldPrice: 90, originalPrice: 100, buyer: "David W.", date: "2024-01-08", status: "cancelled" },
+        { id: 7, product: "Skip Hop Moby Bath Tub", soldPrice: 25, originalPrice: 30, buyer: "Ashley P.", date: "2024-01-05", status: "delivered" },
     ];
 
     const tabs = [
         { id: "overview", label: "Overview" },
         { id: "listings", label: "My Listings" },
         { id: "history", label: "Sales History" }
+    ];
+
+    const steps = [
+        { id: 1, title: "Basics", icon: FiTag, description: "Name, Brand & Category" },
+        { id: 2, title: "Photos", icon: FiImage, description: "Upload Images" },
+        { id: 3, title: "Details", icon: FiList, description: "Condition & Description" },
+        { id: 4, title: "Pricing", icon: FiDollarSign, description: "Price & Stock" },
     ];
 
     const getStatusColor = (status) => {
@@ -86,7 +112,7 @@ export default function SellerDashboard() {
 
         Promise.all(imagePromises)
             .then(images => {
-                setProductImages(prev => [...prev, ...images].slice(0, 5));
+                setProductImages(prev => [...prev, ...images].slice(0, 4));
             })
             .catch(error => console.error("Error uploading images:", error));
     };
@@ -95,12 +121,21 @@ export default function SellerDashboard() {
         setProductImages(prev => prev.filter((_, i) => i !== index));
     };
 
+    const handleNextStep = () => {
+        if (currentStep < 4) setCurrentStep(prev => prev + 1);
+    };
+
+    const handlePrevStep = () => {
+        if (currentStep > 1) setCurrentStep(prev => prev - 1);
+    };
+
     const handleSubmitProduct = (e) => {
         e.preventDefault();
         console.log("Submitting product:", { ...productData, images: productImages });
-        setProductData({ name: "", category: "", price: "", stock: "", description: "" });
+        setProductData({ name: "", category: "", brand: "", condition: "", description: "", price: "", stock: "" });
         setProductImages([]);
         setShowUploadForm(false);
+        setCurrentStep(1);
         alert("Product submitted for verification!");
     };
 
@@ -110,7 +145,7 @@ export default function SellerDashboard() {
     const totalViews = products.reduce((acc, p) => acc + p.views, 0);
 
     return (
-        <Layout childrenClasses="pt-0 pb-0 bg-gray-50">
+        <Layout childrenClasses="pt-0 pb-0 bg-gray-50" discountBannerProps={{ compact: true }} footerProps={{ compact: true }}>
             <div className="min-h-screen pb-12">
                 {/* Blue Header Banner */}
                 <div className="bg-primary-blue w-full h-[280px] relative">
@@ -162,8 +197,8 @@ export default function SellerDashboard() {
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id)}
                                 className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-200 ${activeTab === tab.id
-                                        ? "bg-qblack text-white shadow-md"
-                                        : "text-gray-500 hover:bg-gray-50 hover:text-qblack"
+                                    ? "bg-qblack text-white shadow-md"
+                                    : "text-gray-500 hover:bg-gray-50 hover:text-qblack"
                                     }`}
                             >
                                 {tab.label}
@@ -479,139 +514,406 @@ export default function SellerDashboard() {
                     {showUploadForm && (
                         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
                             <motion.div
-                                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                                initial={{ opacity: 0, scale: 0.95, y: 20 }}
                                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                                exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                                className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto border border-gray-100"
+                                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                                className="bg-white rounded-3xl shadow-2xl w-full max-w-6xl max-h-[95vh] overflow-hidden border border-gray-100 flex flex-col md:flex-row"
                             >
-                                <div className="p-8 border-b border-gray-100 flex items-center justify-between sticky top-0 bg-white/95 backdrop-blur z-10">
-                                    <div>
-                                        <h2 className="text-2xl font-bold text-qblack">Add New Product</h2>
-                                        <p className="text-sm text-gray-500 mt-1">Fill in the details to list your item</p>
+                                {/* Sidebar Stepper */}
+                                <div className="w-full md:w-80 bg-primary-blue p-10 border-r border-blue-600 flex flex-col">
+                                    <div className="mb-12">
+                                        <h2 className="text-3xl font-bold text-white">Add Product</h2>
+                                        <p className="text-base text-blue-100 mt-2">List your item in 4 steps</p>
                                     </div>
-                                    <button
-                                        onClick={() => setShowUploadForm(false)}
-                                        className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-500 hover:text-qblack"
-                                    >
-                                        <FiX className="w-6 h-6" />
-                                    </button>
+
+                                    <div className="space-y-8 relative">
+                                        {/* Connecting Line */}
+                                        <div className="absolute left-6 top-5 bottom-5 w-0.5 bg-blue-400/30 -z-10"></div>
+
+                                        {steps.map((step) => {
+                                            const isActive = currentStep === step.id;
+                                            const isCompleted = currentStep > step.id;
+
+                                            return (
+                                                <button
+                                                    key={step.id}
+                                                    onClick={() => setCurrentStep(step.id)}
+                                                    className="flex items-start gap-5 relative w-full text-left group"
+                                                >
+                                                    <div
+                                                        className={`w-12 h-12 rounded-full flex items-center justify-center border-2 transition-all duration-300 z-10 ${isActive
+                                                            ? "bg-white border-white text-primary-blue shadow-lg scale-110"
+                                                            : isCompleted
+                                                                ? "bg-green-400 border-green-400 text-white"
+                                                                : "bg-blue-800/50 border-blue-400/30 text-blue-200 group-hover:border-white group-hover:text-white"
+                                                            }`}
+                                                    >
+                                                        {isCompleted ? <FiCheck className="w-6 h-6" /> : <step.icon className="w-6 h-6" />}
+                                                    </div>
+                                                    <div className={`transition-opacity duration-300 pt-1 ${isActive ? "opacity-100" : "opacity-60 group-hover:opacity-100"}`}>
+                                                        <p className={`font-bold text-base ${isActive ? "text-white" : "text-blue-200 group-hover:text-white"}`}>{step.title}</p>
+                                                        <p className="text-sm text-blue-300 mt-0.5">{step.description}</p>
+                                                    </div>
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
                                 </div>
-                                <div className="p-8">
-                                    <form onSubmit={handleSubmitProduct} className="space-y-6">
-                                        <div className="grid grid-cols-2 gap-6">
-                                            <InputCom
-                                                label="Product Name"
-                                                placeholder="e.g. UPPAbaby Vista V2"
-                                                name="name"
-                                                type="text"
-                                                value={productData.name}
-                                                inputHandler={handleInputChange}
-                                                inputClasses="h-[50px] rounded-xl border-gray-200 focus:border-primary-blue"
-                                            />
-                                            <InputCom
-                                                label="Category"
-                                                placeholder="Select category"
-                                                name="category"
-                                                type="text"
-                                                value={productData.category}
-                                                inputHandler={handleInputChange}
-                                                inputClasses="h-[50px] rounded-xl border-gray-200 focus:border-primary-blue"
-                                            />
-                                        </div>
-                                        <div className="grid grid-cols-2 gap-6">
-                                            <InputCom
-                                                label="Price ($)"
-                                                placeholder="0.00"
-                                                name="price"
-                                                type="number"
-                                                value={productData.price}
-                                                inputHandler={handleInputChange}
-                                                inputClasses="h-[50px] rounded-xl border-gray-200 focus:border-primary-blue"
-                                            />
-                                            <InputCom
-                                                label="Stock"
-                                                placeholder="0"
-                                                name="stock"
-                                                type="number"
-                                                value={productData.stock}
-                                                inputHandler={handleInputChange}
-                                                inputClasses="h-[50px] rounded-xl border-gray-200 focus:border-primary-blue"
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="block text-sm font-bold text-gray-700 mb-2">Description</label>
-                                            <textarea
-                                                name="description"
-                                                value={productData.description}
-                                                onChange={handleInputChange}
-                                                rows="4"
-                                                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-blue focus:ring-4 focus:ring-blue-50 outline-none transition-all resize-none text-sm"
-                                                placeholder="Describe your product features, condition, etc..."
-                                            ></textarea>
-                                        </div>
 
+                                {/* Main Content */}
+                                <div className="flex-1 flex flex-col h-full overflow-hidden bg-white">
+                                    <div className="p-8 border-b border-gray-100 flex justify-between items-center bg-white z-10">
                                         <div>
-                                            <label className="block text-sm font-bold text-gray-700 mb-2">Product Images</label>
-                                            <div
-                                                onClick={() => imageInputRef.current.click()}
-                                                className="border-2 border-dashed border-gray-200 rounded-2xl p-10 text-center hover:border-primary-blue hover:bg-blue-50/50 transition-all cursor-pointer group"
-                                            >
-                                                <input
-                                                    ref={imageInputRef}
-                                                    type="file"
-                                                    multiple
-                                                    accept="image/*"
-                                                    onChange={handleImageUpload}
-                                                    className="hidden"
-                                                />
-                                                <div className="w-16 h-16 bg-blue-50 text-primary-blue rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                                                    <FiUploadCloud className="w-8 h-8" />
-                                                </div>
-                                                <p className="text-base font-bold text-qblack">Click to upload images</p>
-                                                <p className="text-sm text-gray-400 mt-1">SVG, PNG, JPG or GIF (max. 800x400px)</p>
-                                            </div>
+                                            <h3 className="text-2xl font-bold text-qblack">{steps[currentStep - 1].title}</h3>
+                                            <p className="text-gray-500 text-sm mt-1">Please fill in the details below</p>
+                                        </div>
+                                        <button
+                                            onClick={() => setShowUploadForm(false)}
+                                            className="p-3 hover:bg-gray-100 rounded-full transition-colors text-gray-500 hover:text-qblack"
+                                        >
+                                            <FiX className="w-6 h-6" />
+                                        </button>
+                                    </div>
 
-                                            {productImages.length > 0 && (
-                                                <div className="grid grid-cols-5 gap-4 mt-6">
-                                                    {productImages.map((img, index) => (
-                                                        <div key={index} className="relative group">
-                                                            <img
-                                                                src={img}
-                                                                alt={`Preview ${index}`}
-                                                                className="w-full h-24 object-cover rounded-xl border border-gray-200 shadow-sm"
-                                                            />
-                                                            <button
-                                                                type="button"
-                                                                onClick={(e) => {
-                                                                    e.stopPropagation();
-                                                                    removeImage(index);
-                                                                }}
-                                                                className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-all shadow-md hover:bg-red-600 transform hover:scale-110"
-                                                            >
-                                                                <FiX className="w-3 h-3" />
-                                                            </button>
-                                                        </div>
-                                                    ))}
-                                                </div>
+                                    <div className="flex-1 overflow-y-auto p-10">
+                                        <form onSubmit={handleSubmitProduct} className="h-full max-w-4xl mx-auto">
+                                            {currentStep === 1 && (
+                                                <motion.div
+                                                    initial={{ opacity: 0, x: 20 }}
+                                                    animate={{ opacity: 1, x: 0 }}
+                                                    className="space-y-8"
+                                                >
+                                                    <InputCom
+                                                        label="Product Name"
+                                                        placeholder="e.g. UPPAbaby Vista V2 Stroller - Jake (Black/Carbon)"
+                                                        name="name"
+                                                        type="text"
+                                                        value={productData.name}
+                                                        inputHandler={handleInputChange}
+                                                        inputWrapperClasses="border-b border-gray-200"
+                                                        inputClasses="text-lg font-medium text-qblack placeholder:text-gray-300 px-0 bg-transparent h-auto pb-0 pt-3"
+                                                        className="h-auto"
+                                                        labelClasses="text-gray-500 text-sm font-medium"
+                                                    />
+                                                    <div className="grid grid-cols-2 gap-8">
+                                                        <InputCom
+                                                            label="Brand"
+                                                            placeholder="e.g. UPPAbaby"
+                                                            name="brand"
+                                                            type="text"
+                                                            value={productData.brand}
+                                                            inputHandler={handleInputChange}
+                                                            inputWrapperClasses="border-b border-gray-200"
+                                                            inputClasses="text-lg font-medium text-qblack placeholder:text-gray-300 px-0 bg-transparent h-auto pb-0 pt-3"
+                                                            className="h-auto"
+                                                            labelClasses="text-gray-500 text-sm font-medium"
+                                                        />
+                                                        <InputCom
+                                                            label="Model"
+                                                            placeholder="e.g. Vista V2"
+                                                            name="model"
+                                                            type="text"
+                                                            value={productData.model || ""}
+                                                            inputHandler={handleInputChange}
+                                                            inputWrapperClasses="border-b border-gray-200"
+                                                            inputClasses="text-lg font-medium text-qblack placeholder:text-gray-300 px-0 bg-transparent h-auto pb-0 pt-3"
+                                                            className="h-auto"
+                                                            labelClasses="text-gray-500 text-sm font-medium"
+                                                        />
+                                                    </div>
+                                                    <div className="grid grid-cols-2 gap-8">
+                                                        <InputCom
+                                                            label="Category"
+                                                            placeholder="Select category"
+                                                            name="category"
+                                                            type="text"
+                                                            value={productData.category}
+                                                            inputHandler={handleInputChange}
+                                                            inputWrapperClasses="border-b border-gray-200"
+                                                            inputClasses="text-lg font-medium text-qblack placeholder:text-gray-300 px-0 bg-transparent h-auto pb-0 pt-3"
+                                                            className="h-auto"
+                                                            labelClasses="text-gray-500 text-sm font-medium"
+                                                        />
+                                                        <InputCom
+                                                            label="Year of Purchase"
+                                                            placeholder="e.g. 2023"
+                                                            name="year"
+                                                            type="number"
+                                                            value={productData.year || ""}
+                                                            inputHandler={handleInputChange}
+                                                            inputWrapperClasses="border-b border-gray-200"
+                                                            inputClasses="text-lg font-medium text-qblack placeholder:text-gray-300 px-0 bg-transparent h-auto pb-0 pt-3"
+                                                            className="h-auto"
+                                                            labelClasses="text-gray-500 text-sm font-medium"
+                                                        />
+                                                    </div>
+                                                    <div className="grid grid-cols-2 gap-8">
+                                                        <InputCom
+                                                            label="Color"
+                                                            placeholder="e.g. Black"
+                                                            name="color"
+                                                            type="text"
+                                                            value={productData.color || ""}
+                                                            inputHandler={handleInputChange}
+                                                            inputWrapperClasses="border-b border-gray-200"
+                                                            inputClasses="text-lg font-medium text-qblack placeholder:text-gray-300 px-0 bg-transparent h-auto pb-0 pt-3"
+                                                            className="h-auto"
+                                                            labelClasses="text-gray-500 text-sm font-medium"
+                                                        />
+                                                        <InputCom
+                                                            label="Material (Optional)"
+                                                            placeholder="e.g. Aluminum, Fabric"
+                                                            name="material"
+                                                            type="text"
+                                                            value={productData.material || ""}
+                                                            inputHandler={handleInputChange}
+                                                            inputWrapperClasses="border-b border-gray-200"
+                                                            inputClasses="text-lg font-medium text-qblack placeholder:text-gray-300 px-0 bg-transparent h-auto pb-0 pt-3"
+                                                            className="h-auto"
+                                                            labelClasses="text-gray-500 text-sm font-medium"
+                                                        />
+                                                    </div>
+                                                </motion.div>
                                             )}
-                                        </div>
 
-                                        <div className="flex gap-4 pt-6 border-t border-gray-100">
+                                            {currentStep === 3 && (
+                                                <motion.div
+                                                    initial={{ opacity: 0, x: 20 }}
+                                                    animate={{ opacity: 1, x: 0 }}
+                                                    className="space-y-8"
+                                                >
+
+
+                                                    <div>
+                                                        <label className="block text-base font-bold text-gray-700 mb-3">Features</label>
+                                                        <div className="flex flex-wrap gap-3">
+                                                            {["Original Box", "Manual Included", "Warranty", "Accessories", "Pet Free Home", "Smoke Free Home"].map((feature) => (
+                                                                <button
+                                                                    key={feature}
+                                                                    type="button"
+                                                                    onClick={() => {
+                                                                        const currentFeatures = productData.features || [];
+                                                                        const newFeatures = currentFeatures.includes(feature)
+                                                                            ? currentFeatures.filter(f => f !== feature)
+                                                                            : [...currentFeatures, feature];
+                                                                        setProductData({ ...productData, features: newFeatures });
+                                                                    }}
+                                                                    className={`px-4 py-2 rounded-full border transition-all text-sm font-bold ${(productData.features || []).includes(feature)
+                                                                        ? "bg-qblack text-white border-qblack"
+                                                                        : "bg-white text-gray-600 border-gray-200 hover:border-gray-300"
+                                                                        }`}
+                                                                >
+                                                                    {feature}
+                                                                </button>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+
+                                                    <div>
+                                                        <label className="block text-gray-500 text-sm font-medium mb-1">Description</label>
+                                                        <textarea
+                                                            name="description"
+                                                            value={productData.description}
+                                                            onChange={handleInputChange}
+                                                            rows="4"
+                                                            className="w-full px-0 pt-3 pb-0 border-b border-gray-200 focus:border-primary-blue outline-none transition-all resize-none text-lg font-medium text-qblack placeholder:text-gray-300 bg-transparent"
+                                                            placeholder="Describe your product features, condition, any flaws, and why you're selling it..."
+                                                        ></textarea>
+                                                    </div>
+
+                                                    <div>
+                                                        <label className="block text-gray-500 text-sm font-medium mb-1">Defects or Flaws (if any)</label>
+                                                        <textarea
+                                                            name="defects"
+                                                            value={productData.defects || ""}
+                                                            onChange={handleInputChange}
+                                                            rows="2"
+                                                            className="w-full px-0 pt-3 pb-0 border-b border-gray-200 focus:border-primary-blue outline-none transition-all resize-none text-lg font-medium text-qblack placeholder:text-gray-300 bg-transparent"
+                                                            placeholder="Please be honest about any scratches, stains, or missing parts..."
+                                                        ></textarea>
+                                                    </div>
+                                                </motion.div>
+                                            )}
+
+                                            {currentStep === 2 && (
+                                                <motion.div
+                                                    initial={{ opacity: 0, x: 20 }}
+                                                    animate={{ opacity: 1, x: 0 }}
+                                                    className="space-y-6"
+                                                >
+                                                    <div className="grid grid-cols-3 gap-6">
+                                                        <input
+                                                            ref={imageInputRef}
+                                                            type="file"
+                                                            multiple
+                                                            accept="image/*"
+                                                            onChange={handleImageUpload}
+                                                            className="hidden"
+                                                        />
+                                                        {[0, 1, 2, 3].map((index) => (
+                                                            <div
+                                                                key={index}
+                                                                onClick={() => !productImages[index] && imageInputRef.current.click()}
+                                                                className={`relative rounded-3xl border-2 border-dashed transition-all flex flex-col items-center justify-center cursor-pointer overflow-hidden
+                                                                    ${productImages[index] ? "border-transparent bg-gray-50" : "border-gray-200 hover:border-primary-blue hover:bg-blue-50/30"}
+                                                                    ${index === 0 ? "col-span-3 h-64" : "col-span-1 h-40"}
+                                                                `}
+                                                            >
+                                                                {productImages[index] ? (
+                                                                    <>
+                                                                        <img src={productImages[index]} alt={`Preview ${index}`} className="w-full h-full object-cover" />
+                                                                        <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors" />
+                                                                        <button
+                                                                            type="button"
+                                                                            onClick={(e) => {
+                                                                                e.stopPropagation();
+                                                                                removeImage(index);
+                                                                            }}
+                                                                            className="absolute top-3 right-3 bg-white text-red-500 p-2 rounded-full shadow-lg hover:bg-red-50 transition-colors z-10"
+                                                                        >
+                                                                            <FiX className="w-4 h-4" />
+                                                                        </button>
+                                                                        {index === 0 && (
+                                                                            <div className="absolute top-3 left-3 bg-primary-blue text-white px-3 py-1.5 rounded-lg text-xs font-bold shadow-md z-10">
+                                                                                Main Photo
+                                                                            </div>
+                                                                        )}
+                                                                    </>
+                                                                ) : (
+                                                                    <div className="text-center p-4">
+                                                                        <div className={`rounded-full bg-blue-50 text-primary-blue flex items-center justify-center mx-auto mb-2 ${index === 0 ? "w-16 h-16" : "w-10 h-10"}`}>
+                                                                            {index === 0 ? <FiImage className="w-8 h-8" /> : <FiPlus className="w-5 h-5" />}
+                                                                        </div>
+                                                                        <p className={`font-bold text-qblack ${index === 0 ? "text-lg" : "text-sm"}`}>
+                                                                            {index === 0 ? "Main Photo" : `Photo ${index + 1}`}
+                                                                        </p>
+                                                                        {index === 0 && <p className="text-gray-400 text-sm mt-1">Upload the main image</p>}
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                    <p className="text-sm text-gray-400 text-center">
+                                                        Upload 4 photos. The first one will be the main image.
+                                                    </p>
+                                                </motion.div>
+                                            )}
+
+                                            {currentStep === 4 && (
+                                                <motion.div
+                                                    initial={{ opacity: 0, x: 20 }}
+                                                    animate={{ opacity: 1, x: 0 }}
+                                                    className="space-y-8"
+                                                >
+                                                    <div>
+                                                        <label className="block text-base font-bold text-gray-700 mb-3">Condition *</label>
+                                                        <div className="grid grid-cols-2 gap-4">
+                                                            {[
+                                                                { label: "New", desc: "Brand new, never used" },
+                                                                { label: "Like New", desc: "Used once or twice, no visible wear" },
+                                                                { label: "Good", desc: "Used with minor signs of wear" },
+                                                                { label: "Fair", desc: "Used with noticeable wear but fully functional" }
+                                                            ].map((item) => (
+                                                                <div
+                                                                    key={item.label}
+                                                                    onClick={() => setProductData({ ...productData, condition: item.label })}
+                                                                    className={`p-6 rounded-2xl border-2 cursor-pointer transition-all text-left ${productData.condition === item.label
+                                                                        ? "border-primary-blue bg-blue-50 text-primary-blue shadow-md"
+                                                                        : "border-gray-100 hover:border-gray-200 text-gray-600 hover:bg-gray-50"
+                                                                        }`}
+                                                                >
+                                                                    <p className="font-bold text-lg text-qblack">{item.label}</p>
+                                                                    <p className="text-sm text-gray-500 mt-1">{item.desc}</p>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="grid grid-cols-2 gap-8">
+                                                        <InputCom
+                                                            label="Original Retail Price"
+                                                            placeholder="$ 0.00"
+                                                            name="originalPrice"
+                                                            type="number"
+                                                            value={productData.originalPrice || ""}
+                                                            inputHandler={handleInputChange}
+                                                            inputWrapperClasses="border border-gray-200 rounded-xl"
+                                                            inputClasses="text-lg font-medium text-qblack placeholder:text-gray-300 px-4 bg-transparent h-12"
+                                                            className="h-auto"
+                                                            labelClasses="text-gray-700 text-base font-bold mb-2"
+                                                        />
+                                                        <InputCom
+                                                            label="Your Asking Price *"
+                                                            placeholder="$ 0.00"
+                                                            name="price"
+                                                            type="number"
+                                                            value={productData.price}
+                                                            inputHandler={handleInputChange}
+                                                            inputWrapperClasses="border border-gray-200 rounded-xl"
+                                                            inputClasses="text-lg font-medium text-qblack placeholder:text-gray-300 px-4 bg-transparent h-12"
+                                                            className="h-auto"
+                                                            labelClasses="text-gray-700 text-base font-bold mb-2"
+                                                        />
+                                                    </div>
+
+                                                    <div className="space-y-4 pt-2">
+                                                        <label className="flex items-center gap-3 cursor-pointer group">
+                                                            <div className={`w-6 h-6 rounded border flex items-center justify-center transition-colors ${productData.acceptOffers ? "bg-qblack border-qblack text-white" : "border-gray-300 bg-white"}`}>
+                                                                <input
+                                                                    type="checkbox"
+                                                                    className="hidden"
+                                                                    checked={productData.acceptOffers || false}
+                                                                    onChange={(e) => setProductData({ ...productData, acceptOffers: e.target.checked })}
+                                                                />
+                                                                {productData.acceptOffers && <FiCheck className="w-4 h-4" />}
+                                                            </div>
+                                                            <span className="text-base font-medium text-qblack group-hover:text-gray-600">Accept offers from buyers</span>
+                                                        </label>
+
+                                                        <label className="flex items-center gap-3 cursor-pointer group">
+                                                            <div className={`w-6 h-6 rounded border flex items-center justify-center transition-colors ${productData.includeShipping ? "bg-qblack border-qblack text-white" : "border-gray-300 bg-white"}`}>
+                                                                <input
+                                                                    type="checkbox"
+                                                                    className="hidden"
+                                                                    checked={productData.includeShipping || false}
+                                                                    onChange={(e) => setProductData({ ...productData, includeShipping: e.target.checked })}
+                                                                />
+                                                                {productData.includeShipping && <FiCheck className="w-4 h-4" />}
+                                                            </div>
+                                                            <span className="text-base font-medium text-qblack group-hover:text-gray-600">Include shipping in price</span>
+                                                        </label>
+                                                    </div>
+                                                </motion.div>
+                                            )}
+                                        </form>
+                                    </div>
+
+                                    <div className="p-8 border-t border-gray-100 flex justify-between bg-white z-10">
+                                        <button
+                                            type="button"
+                                            onClick={currentStep === 1 ? () => setShowUploadForm(false) : handlePrevStep}
+                                            className="px-8 py-3 rounded-xl border border-gray-200 text-gray-600 font-bold hover:bg-gray-50 transition-colors text-base"
+                                        >
+                                            {currentStep === 1 ? "Cancel" : "Back"}
+                                        </button>
+
+                                        {currentStep < 4 ? (
                                             <button
                                                 type="button"
-                                                onClick={() => setShowUploadForm(false)}
-                                                className="flex-1 px-6 py-3.5 rounded-xl border border-gray-200 text-gray-700 font-bold hover:bg-gray-50 transition-colors"
+                                                onClick={handleNextStep}
+                                                className="px-8 py-3 rounded-xl bg-qblack text-white font-bold hover:bg-gray-800 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center gap-3 text-base"
                                             >
-                                                Cancel
+                                                Next Step <FiChevronRight />
                                             </button>
+                                        ) : (
                                             <button
-                                                type="submit"
-                                                className="flex-1 px-6 py-3.5 rounded-xl bg-qblack text-white font-bold hover:bg-gray-800 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                                                onClick={handleSubmitProduct}
+                                                className="px-8 py-3 rounded-xl bg-primary-blue text-white font-bold hover:bg-blue-600 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center gap-3 text-base"
                                             >
-                                                Create Listing
+                                                Publish Listing <FiCheck />
                                             </button>
-                                        </div>
-                                    </form>
+                                        )}
+                                    </div>
                                 </div>
                             </motion.div>
                         </div>

@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import PasswordSvg from "./PasswordSvg";
+import { useState } from "react";
 
 export default function PasswordTab({ userData }) {
   const [oldPass, setOldPass] = useState("hide-password");
@@ -10,10 +9,10 @@ export default function PasswordTab({ userData }) {
     newPassword: "",
     confirmPassword: ""
   });
-  
+
   // Log user data for debugging
   console.log("PasswordTab - User data from props:", userData);
-  
+
   const showPassword = (value) => {
     const password = document.getElementById(`${value}`);
     if (value && value === "old_password") {
@@ -44,16 +43,16 @@ export default function PasswordTab({ userData }) {
       }
     }
   };
-  
+
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     setFormData({
       ...formData,
-      [id === "old_password" ? "currentPassword" : 
-       id === "new_password" ? "newPassword" : "confirmPassword"]: value
+      [id === "old_password" ? "currentPassword" :
+        id === "new_password" ? "newPassword" : "confirmPassword"]: value
     });
   };
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // Here you would dispatch an action to update the password
@@ -62,7 +61,7 @@ export default function PasswordTab({ userData }) {
       username: userData?.username,
       ...formData
     });
-    
+
     // Reset form after submission
     setFormData({
       currentPassword: "",
@@ -70,19 +69,23 @@ export default function PasswordTab({ userData }) {
       confirmPassword: ""
     });
   };
-  
+
   // Check if password reset token is available
   const hasResetToken = userData?.resetToken && userData?.resetTokenExpiry;
   const resetTokenExpiry = userData?.resetTokenExpiry ? new Date(userData.resetTokenExpiry) : null;
   const isTokenValid = resetTokenExpiry && new Date() < resetTokenExpiry;
-  
+
   return (
     <div className="changePasswordTab w-full">
-      <div className="w-full bg-gradient-to-r from-amber-500 to-orange-500 rounded-lg p-5 mb-6">
-        <h1 className="text-2xl font-bold text-white mb-2">Change Password</h1>
-        <p className="text-white/80">Update your password to keep your account secure</p>
+      <div className="w-full bg-primary-blue rounded-xl p-6 mb-8 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-16 -mt-16 blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-32 h-32 bg-black/10 rounded-full -ml-10 -mb-10 blur-2xl"></div>
+        <div className="relative z-10">
+          <h1 className="text-2xl font-bold text-white mb-2">Change Password</h1>
+          <p className="text-blue-100">Update your password to keep your account secure</p>
+        </div>
       </div>
-      
+
       {hasResetToken && (
         <div className={`mb-6 p-4 rounded-lg ${isTokenValid ? 'bg-blue-50 border border-blue-200' : 'bg-red-50 border border-red-200'}`}>
           <div className="flex items-start">
@@ -97,8 +100,8 @@ export default function PasswordTab({ userData }) {
               </h3>
               <div className={`mt-2 text-sm ${isTokenValid ? 'text-blue-700' : 'text-red-700'}`}>
                 <p>
-                  {isTokenValid 
-                    ? `You have a password reset token that expires on ${resetTokenExpiry.toLocaleString()}.` 
+                  {isTokenValid
+                    ? `You have a password reset token that expires on ${resetTokenExpiry.toLocaleString()}.`
                     : 'Your password reset token has expired. Please request a new one if needed.'}
                 </p>
               </div>
@@ -106,27 +109,27 @@ export default function PasswordTab({ userData }) {
           </div>
         </div>
       )}
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-          <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-            <div className="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center mr-2">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-amber-600" viewBox="0 0 20 20" fill="currentColor">
+        <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+          <h2 className="text-xl font-bold text-qblack mb-6 flex items-center border-b border-gray-100 pb-4">
+            <div className="w-10 h-10 rounded-full bg-yellow-50 flex items-center justify-center mr-3">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-yellow-600" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
               </svg>
             </div>
             Password Settings
           </h2>
-          
-          <form onSubmit={handleSubmit} className="space-y-4">
+
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div className="input-field">
-              <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="old_password">
+              <label className="block text-sm font-bold text-gray-500 mb-2" htmlFor="old_password">
                 Current Password
               </label>
               <div className="relative">
                 <input
                   placeholder="Enter your current password"
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition duration-200"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-primary-blue focus:ring-1 focus:ring-primary-blue transition-all"
                   type="password"
                   id="old_password"
                   value={formData.currentPassword}
@@ -134,13 +137,13 @@ export default function PasswordTab({ userData }) {
                   required
                 />
                 <div
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer"
                   onClick={() => showPassword("old_password")}
                 >
                   {oldPass === "show-password" ? (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 text-gray-500 hover:text-gray-700"
+                      className="h-5 w-5 text-gray-400 hover:text-primary-blue transition-colors"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -160,7 +163,7 @@ export default function PasswordTab({ userData }) {
                   ) : (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 text-gray-500 hover:text-gray-700"
+                      className="h-5 w-5 text-gray-400 hover:text-primary-blue transition-colors"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -176,15 +179,15 @@ export default function PasswordTab({ userData }) {
                 </div>
               </div>
             </div>
-            
+
             <div className="input-field">
-              <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="new_password">
+              <label className="block text-sm font-bold text-gray-500 mb-2" htmlFor="new_password">
                 New Password
               </label>
               <div className="relative">
                 <input
                   placeholder="Enter your new password"
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition duration-200"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-primary-blue focus:ring-1 focus:ring-primary-blue transition-all"
                   type="password"
                   id="new_password"
                   value={formData.newPassword}
@@ -192,13 +195,13 @@ export default function PasswordTab({ userData }) {
                   required
                 />
                 <div
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer"
                   onClick={() => showPassword("new_password")}
                 >
                   {newPass === "show-password" ? (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 text-gray-500 hover:text-gray-700"
+                      className="h-5 w-5 text-gray-400 hover:text-primary-blue transition-colors"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -218,7 +221,7 @@ export default function PasswordTab({ userData }) {
                   ) : (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 text-gray-500 hover:text-gray-700"
+                      className="h-5 w-5 text-gray-400 hover:text-primary-blue transition-colors"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -234,15 +237,15 @@ export default function PasswordTab({ userData }) {
                 </div>
               </div>
             </div>
-            
+
             <div className="input-field">
-              <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor="confirm_password">
+              <label className="block text-sm font-bold text-gray-500 mb-2" htmlFor="confirm_password">
                 Confirm New Password
               </label>
               <div className="relative">
                 <input
                   placeholder="Confirm your new password"
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition duration-200"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-primary-blue focus:ring-1 focus:ring-primary-blue transition-all"
                   type="password"
                   id="confirm_password"
                   value={formData.confirmPassword}
@@ -250,13 +253,13 @@ export default function PasswordTab({ userData }) {
                   required
                 />
                 <div
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer"
                   onClick={() => showPassword("confirm_password")}
                 >
                   {confirmPass === "show-password" ? (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 text-gray-500 hover:text-gray-700"
+                      className="h-5 w-5 text-gray-400 hover:text-primary-blue transition-colors"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -276,7 +279,7 @@ export default function PasswordTab({ userData }) {
                   ) : (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 text-gray-500 hover:text-gray-700"
+                      className="h-5 w-5 text-gray-400 hover:text-primary-blue transition-colors"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -291,16 +294,16 @@ export default function PasswordTab({ userData }) {
                   )}
                 </div>
               </div>
-              {formData.newPassword && formData.confirmPassword && 
-               formData.newPassword !== formData.confirmPassword && (
-                <p className="mt-1 text-sm text-red-600">Passwords do not match</p>
-              )}
+              {formData.newPassword && formData.confirmPassword &&
+                formData.newPassword !== formData.confirmPassword && (
+                  <p className="mt-2 text-sm text-red-500 font-medium">Passwords do not match</p>
+                )}
             </div>
-            
-            <div className="mt-6">
+
+            <div className="mt-8">
               <button
                 type="submit"
-                className="w-full px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg transition duration-300 flex items-center justify-center"
+                className="w-full px-6 py-3 bg-primary-blue hover:bg-blue-600 text-white font-bold rounded-xl transition duration-300 flex items-center justify-center shadow-lg shadow-blue-500/30"
                 disabled={formData.newPassword !== formData.confirmPassword}
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
@@ -311,18 +314,18 @@ export default function PasswordTab({ userData }) {
             </div>
           </form>
         </div>
-        
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-          <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-            <div className="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center mr-2">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-amber-600" viewBox="0 0 20 20" fill="currentColor">
+
+        <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100">
+          <h2 className="text-xl font-bold text-qblack mb-6 flex items-center border-b border-gray-100 pb-4">
+            <div className="w-10 h-10 rounded-full bg-yellow-50 flex items-center justify-center mr-3">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-yellow-600" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
               </svg>
             </div>
             Password Tips
           </h2>
-          
-          <div className="space-y-4">
+
+          <div className="space-y-5">
             <div className="flex items-start">
               <div className="flex-shrink-0 mt-0.5">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
@@ -330,10 +333,10 @@ export default function PasswordTab({ userData }) {
                 </svg>
               </div>
               <div className="ml-3">
-                <p className="text-sm text-gray-700">Use at least 8 characters</p>
+                <p className="text-sm font-medium text-gray-600">Use at least 8 characters</p>
               </div>
             </div>
-            
+
             <div className="flex items-start">
               <div className="flex-shrink-0 mt-0.5">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
@@ -341,10 +344,10 @@ export default function PasswordTab({ userData }) {
                 </svg>
               </div>
               <div className="ml-3">
-                <p className="text-sm text-gray-700">Include at least one uppercase letter</p>
+                <p className="text-sm font-medium text-gray-600">Include at least one uppercase letter</p>
               </div>
             </div>
-            
+
             <div className="flex items-start">
               <div className="flex-shrink-0 mt-0.5">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
@@ -352,10 +355,10 @@ export default function PasswordTab({ userData }) {
                 </svg>
               </div>
               <div className="ml-3">
-                <p className="text-sm text-gray-700">Include at least one number</p>
+                <p className="text-sm font-medium text-gray-600">Include at least one number</p>
               </div>
             </div>
-            
+
             <div className="flex items-start">
               <div className="flex-shrink-0 mt-0.5">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
@@ -363,38 +366,38 @@ export default function PasswordTab({ userData }) {
                 </svg>
               </div>
               <div className="ml-3">
-                <p className="text-sm text-gray-700">Include at least one special character (e.g., !@#$%)</p>
+                <p className="text-sm font-medium text-gray-600">Include at least one special character (e.g., !@#$%)</p>
               </div>
             </div>
-            
+
             <div className="flex items-start">
               <div className="flex-shrink-0 mt-0.5">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-500" viewBox="0 0 20 20" fill="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                 </svg>
               </div>
               <div className="ml-3">
-                <p className="text-sm text-gray-700">Avoid using easily guessable information like birthdays or names</p>
+                <p className="text-sm font-medium text-gray-600">Avoid using easily guessable information like birthdays or names</p>
               </div>
             </div>
-            
+
             <div className="flex items-start">
               <div className="flex-shrink-0 mt-0.5">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-500" viewBox="0 0 20 20" fill="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                 </svg>
               </div>
               <div className="ml-3">
-                <p className="text-sm text-gray-700">Don't reuse passwords across multiple sites</p>
+                <p className="text-sm font-medium text-gray-600">Don't reuse passwords across multiple sites</p>
               </div>
             </div>
-            
-            <div className="border-t border-gray-100 pt-4 mt-4">
-              <h3 className="text-sm font-medium text-gray-700 mb-2">Account Username</h3>
-              <p className="text-sm text-gray-600 mb-1">Your current username:</p>
-              <div className="bg-gray-50 p-2 rounded flex items-center justify-between">
-                <span className="font-medium text-gray-800">{userData?.username || "Not available"}</span>
-                <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
+
+            <div className="border-t border-gray-100 pt-6 mt-6">
+              <h3 className="text-sm font-bold text-gray-700 mb-3">Account Username</h3>
+              <p className="text-sm text-gray-500 mb-2">Your current username:</p>
+              <div className="bg-gray-50 p-3 rounded-xl flex items-center justify-between border border-gray-100">
+                <span className="font-bold text-qblack">{userData?.username || "Not available"}</span>
+                <span className="text-xs font-bold bg-blue-50 text-primary-blue px-3 py-1 rounded-full uppercase tracking-wider">
                   {userData?.enabled ? "Active" : "Inactive"}
                 </span>
               </div>

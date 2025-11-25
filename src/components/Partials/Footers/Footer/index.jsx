@@ -2,14 +2,14 @@ import Facebook from "../../../Helpers/icons/Facebook";
 import Instagram from "../../../Helpers/icons/Instagram";
 import Youtube from "../../../Helpers/icons/Youtube";
 
-export default function Footer({ type }) {
+export default function Footer({ type, compact }) {
 
     return (
         <footer className="footer-section-wrapper bg-white print:hidden border-t border-gray-200">
-            <div className="container-x block mx-auto pt-16 pb-8">
-                <div className="w-full flex flex-col items-center mb-12">
+            <div className={`container-x block mx-auto ${compact ? "pt-8 pb-4" : "pt-16 pb-8"}`}>
+                <div className={`w-full flex flex-col items-center ${compact ? "mb-6" : "mb-12"}`}>
                     {/* logo area */}
-                    <div className="mb-6">
+                    <div className={`${compact ? "mb-3" : "mb-6"}`}>
                         {type === 3 ? (
                             <a href="/">
                                 <img
@@ -23,14 +23,14 @@ export default function Footer({ type }) {
                             <a href="/" className="flex items-center gap-3 group">
                                 <div className="relative">
                                     <div className="absolute inset-0 bg-gradient-to-br from-primary-blue to-peachy-pink rounded-xl blur-sm opacity-30 group-hover:opacity-50 transition-opacity"></div>
-                                    <div className="relative w-12 h-12 bg-gradient-to-br from-primary-blue to-peachy-pink rounded-xl flex items-center justify-center shadow-md">
-                                        <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <div className={`relative ${compact ? "w-10 h-10" : "w-12 h-12"} bg-gradient-to-br from-primary-blue to-peachy-pink rounded-xl flex items-center justify-center shadow-md`}>
+                                        <svg className={`${compact ? "w-6 h-6" : "w-7 h-7"} text-white`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                                         </svg>
                                     </div>
                                 </div>
                                 <div className="flex flex-col">
-                                    <span className="text-xl font-bold bg-gradient-to-r from-primary-blue to-peachy-pink bg-clip-text text-transparent">
+                                    <span className={`${compact ? "text-lg" : "text-xl"} font-bold bg-gradient-to-r from-primary-blue to-peachy-pink bg-clip-text text-transparent`}>
                                         Toddler Kingdom
                                     </span>
                                     <span className="text-xs text-gray-500 font-medium">Pre-Loved Market</span>
@@ -39,12 +39,14 @@ export default function Footer({ type }) {
                         )}
 
                     </div>
-                    <p className="text-sm text-gray-500 text-center max-w-2xl mb-6">
-                        Your trusted marketplace for quality pre-loved toddler items. Connecting parents to give children's items a second life.
-                    </p>
+                    {!compact && (
+                        <p className="text-sm text-gray-500 text-center max-w-2xl mb-6">
+                            Your trusted marketplace for quality pre-loved toddler items. Connecting parents to give children's items a second life.
+                        </p>
+                    )}
                     <div className="w-full h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent"></div>
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
+                <div className={`grid grid-cols-2 md:grid-cols-4 gap-8 ${compact ? "mb-6" : "mb-10"}`}>
                     <div>
                         <h6 className="text-sm font-bold text-gray-900 mb-4 uppercase tracking-wider">
                             Shop
@@ -128,7 +130,7 @@ export default function Footer({ type }) {
                         </div>
                     </div>
                 </div>
-                <div className="bottom-bar border-t border-gray-200 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
+                <div className={`bottom-bar border-t border-gray-200 ${compact ? "pt-4" : "pt-6"} flex flex-col md:flex-row justify-between items-center gap-4`}>
                     <span className="text-sm text-gray-600 text-center md:text-left">
                         © 2024 <span className="font-semibold text-gray-900">Toddler Kingdom</span>. All rights reserved
                     </span>

@@ -1,353 +1,314 @@
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+import { FiArrowRight, FiCheck, FiStar, FiTrendingUp, FiTruck, FiUser } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import datas from "../../data/products.json";
-import SectionStyleThree from "../Helpers/SectionStyleThree";
 import SectionStyleTwo from "../Helpers/SectionStyleTwo";
-import ViewMoreTitle from "../Helpers/ViewMoreTitle";
 import Layout from "../Partials/Layout";
-
-const categories = [
-  {
-    name: "Clothing",
-    icon: "👕",
-    count: "2,500+ items",
-    color: "from-blue-50 to-blue-100",
-    link: "/all-products?category=clothing"
-  },
-  {
-    name: "Toys & Games",
-    icon: "🧸",
-    count: "1,800+ items",
-    color: "from-pink-50 to-pink-100",
-    link: "/all-products?category=toys"
-  },
-  {
-    name: "Baby Gear",
-    icon: "🍼",
-    count: "950+ items",
-    color: "from-purple-50 to-purple-100",
-    link: "/all-products?category=gear"
-  },
-  {
-    name: "Books",
-    icon: "📚",
-    count: "1,200+ items",
-    color: "from-yellow-50 to-yellow-100",
-    link: "/all-products?category=books"
-  },
-  {
-    name: "Shoes",
-    icon: "👟",
-    count: "850+ items",
-    color: "from-green-50 to-green-100",
-    link: "/all-products?category=shoes"
-  },
-  {
-    name: "Furniture",
-    icon: "🪑",
-    count: "420+ items",
-    color: "from-orange-50 to-orange-100",
-    link: "/all-products?category=furniture"
-  }
-];
-
-const features = [
-  {
-    icon: (
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
-    title: "Quality Verified",
-    description: "Every item inspected for safety and quality"
-  },
-  {
-    icon: (
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
-    title: "Save Up to 70%",
-    description: "Affordable prices on quality pre-loved items"
-  },
-  {
-    icon: (
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
-    title: "Eco-Friendly",
-    description: "Reduce waste, support sustainability"
-  },
-  {
-    icon: (
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
-    title: "Secure Transactions",
-    description: "Safe payments and buyer protection"
-  }
-];
 
 export default function Home() {
   const { products } = datas;
+  const scrollRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: scrollRef });
+  const y = useTransform(scrollYProgress, [0, 1], [0, -100]);
+
+  const categories = [
+    { name: "Clothing", image: "https://images.unsplash.com/photo-1522771753035-0a1539503ed5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", color: "bg-blue-50" },
+    { name: "Toys", image: "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", color: "bg-pink-50" },
+    { name: "Gear", image: "https://images.unsplash.com/photo-1519689680058-324335c77eba?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", color: "bg-green-50" },
+    { name: "Nursery", image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80", color: "bg-yellow-50" },
+  ];
+
+  const testimonials = [
+    { name: "Sarah M.", role: "Super Mom", text: "I sold my stroller in 2 days! The process was so simple and the community is amazing.", avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024d" },
+    { name: "James P.", role: "Dad of 2", text: "Found the perfect bike for my son at half the retail price. Highly recommend!", avatar: "https://i.pravatar.cc/150?u=a042581f4e29026704d" },
+    { name: "Emily R.", role: "New Parent", text: "Love the sustainability aspect. It feels good to give these items a second life.", avatar: "https://i.pravatar.cc/150?u=a042581f4e29026024d" },
+  ];
 
   return (
-    <Layout>
-      {/* Promotional Banners Section - Enhanced with Motion */}
-      <div className="w-full bg-gradient-to-b from-white via-[#FAFAFA] to-white py-20 relative overflow-hidden">
-        {/* Animated Background Elements */}
-        <div className="absolute top-10 left-10 w-72 h-72 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
-        <div className="absolute top-20 right-10 w-72 h-72 bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
-        <div className="absolute -bottom-8 left-1/2 w-72 h-72 bg-pink-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
-        
-        <div className="container-x mx-auto px-4 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-6">
-            {/* Large Left Banner - Enhanced */}
-            <div data-aos="fade-right" className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#E8F4FF] to-[#F0F7FF] min-h-[450px] flex flex-col justify-between p-12 shadow-lg hover:shadow-2xl transition-all duration-500 group">
-              {/* Decorative circles */}
-              <div className="absolute -top-20 -right-20 w-40 h-40 bg-white/30 rounded-full group-hover:scale-150 transition-transform duration-700"></div>
-              <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-primary-blue/10 rounded-full group-hover:scale-125 transition-transform duration-700"></div>
-              
-              <div className="relative z-10">
-                <div className="inline-block px-3 py-1 rounded-md bg-primary-blue/10 text-primary-blue text-[10px] font-bold uppercase tracking-widest mb-5 animate-pulse">
-                  ⭐ Featured
-                </div>
-                <h2 className="text-[48px] leading-[1.1] font-bold text-qblack mb-4 max-w-md group-hover:text-primary-blue transition-colors duration-300">
-                  Best Pre-Loved Collection
-                </h2>
-                <p className="text-[16px] text-gray-600 leading-relaxed mb-8 max-w-sm">
-                  Quality items for toddlers at unbeatable prices
-                </p>
+    <Layout childrenClasses="pt-0 pb-0">
+      <div ref={scrollRef} className="w-full overflow-hidden bg-[#F9FAFB]">
+        {/* Hero Section - Matched to Reference */}
+        <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20 pb-20 lg:pt-0 lg:pb-0">
+          {/* Soft Background Gradients */}
+          <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+            <div className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-blue-100/40 rounded-full blur-[100px]"></div>
+            <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-pink-100/40 rounded-full blur-[100px]"></div>
+          </div>
+
+          <div className="container-x mx-auto px-4 relative z-10 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            {/* Left Content */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="relative z-20 max-w-2xl"
+            >
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.2 }}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-blue-100 shadow-sm text-primary-blue font-bold text-xs mb-8"
+              >
+                <span className="w-2 h-2 rounded-full bg-primary-blue"></span>
+                The #1 Marketplace for Kids
+              </motion.div>
+
+              <h1 className="text-6xl lg:text-[5.5rem] font-black text-qblack leading-[0.95] mb-8 tracking-tight">
+                Big Dreams, <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#3B82F6] to-[#EC4899]">
+                  Little Prices
+                </span>
+              </h1>
+
+              <p className="text-xl text-gray-500 mb-10 max-w-lg leading-relaxed font-medium">
+                Join the community of parents buying and selling pre-loved kids' gear. Sustainable, safe, and simple.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4 mb-12">
+                <Link to="/signup">
+                  <button className="h-[60px] px-8 rounded-full bg-qblack text-white font-bold text-lg hover:bg-gray-800 transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1 flex items-center justify-center gap-2 w-full sm:w-auto min-w-[180px]">
+                    Get Started
+                    <FiArrowRight />
+                  </button>
+                </Link>
                 <Link to="/all-products">
-                  <button className="h-[52px] px-9 rounded-xl bg-qblack text-white font-semibold hover:bg-primary-blue hover:scale-105 transition-all duration-300 text-[14px] shadow-lg hover:shadow-xl">
-                    Explore Collection →
+                  <button className="h-[60px] px-8 rounded-full bg-white text-qblack border border-gray-200 font-bold text-lg hover:border-gray-300 hover:bg-gray-50 transition-all shadow-sm hover:shadow-md w-full sm:w-auto min-w-[180px]">
+                    Browse Shop
                   </button>
                 </Link>
               </div>
-              
-              {/* Animated decoration */}
-              <div className="flex gap-2 mt-8 relative z-10">
-                <div className="w-8 h-1 rounded-full bg-primary-blue animate-pulse"></div>
-                <div className="w-8 h-1 rounded-full bg-gray-300 group-hover:bg-primary-blue transition-colors duration-500"></div>
-                <div className="w-8 h-1 rounded-full bg-gray-300 group-hover:bg-primary-blue transition-colors duration-700"></div>
+
+              <div className="flex items-center gap-6 text-sm font-bold text-gray-400">
+                <div className="flex items-center gap-2">
+                  <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center text-green-500">
+                    <FiCheck size={12} strokeWidth={3} />
+                  </div>
+                  Verified Sellers
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center text-green-500">
+                    <FiCheck size={12} strokeWidth={3} />
+                  </div>
+                  Buyer Protection
+                </div>
               </div>
+            </motion.div>
+
+            {/* Right Images - Composition */}
+            <motion.div
+              style={{ y }}
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="relative h-[600px] w-full hidden lg:block"
+            >
+              {/* Back Image (Baby) */}
+              <div className="absolute top-0 right-0 w-[420px] h-[520px] bg-white rounded-[2.5rem] shadow-2xl overflow-hidden border-[10px] border-white transform rotate-6 z-10 hover:rotate-3 transition-all duration-700 ease-in-out">
+                <img
+                  src="https://images.unsplash.com/photo-1519689680058-324335c77eba?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                  alt="Baby with sunglasses"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
+              {/* Front Image (Toys) */}
+              <div className="absolute bottom-10 left-10 w-[360px] h-[360px] bg-white rounded-[2.5rem] shadow-[0_20px_50px_-12px_rgba(0,0,0,0.25)] overflow-hidden border-[10px] border-white z-20 hover:scale-[1.02] transition-all duration-500">
+                <img
+                  src="https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                  alt="Toys"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/70 via-black/30 to-transparent">
+                  <p className="text-white font-bold text-xl">Toys & Games</p>
+                  <p className="text-white/90 text-sm font-medium">Starting at $5</p>
+                </div>
+              </div>
+
+              {/* Floating "Just Sold" Card */}
+              <motion.div
+                animate={{ y: [0, -15, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute top-[15%] left-[5%] bg-white px-5 py-3 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] flex items-center gap-4 z-30"
+              >
+                <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center text-2xl">
+                  💰
+                </div>
+                <div>
+                  <p className="font-bold text-qblack text-sm">Just Sold</p>
+                  <p className="text-xs text-gray-500 font-medium">+$45.00</p>
+                </div>
+              </motion.div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Stats Bar - Premium Dark */}
+        <div className="bg-[#111827] py-16">
+          <div className="container-x mx-auto px-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-x divide-white/5">
+              {[
+                { label: "Happy Parents", value: "50k+" },
+                { label: "Items Listed", value: "120k+" },
+                { label: "Trust Score", value: "4.9/5" },
+                { label: "Money Saved", value: "$2M+" }
+              ].map((stat, i) => (
+                <div key={i} className="group cursor-default">
+                  <h3 className="text-4xl md:text-5xl font-black text-white mb-2 group-hover:text-primary-blue transition-colors duration-300">{stat.value}</h3>
+                  <p className="text-gray-400 font-bold uppercase tracking-widest text-xs">{stat.label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* How It Works - Clean & Simple */}
+        <section className="py-24 bg-white relative">
+          <div className="container-x mx-auto px-4">
+            <div className="text-center mb-20">
+              <span className="text-primary-blue font-bold tracking-wider uppercase text-xs bg-blue-50 px-3 py-1 rounded-full">Simple Process</span>
+              <h2 className="text-4xl font-black text-qblack mt-4">How it Works</h2>
             </div>
 
-            {/* Right Side - Two Stacked Banners */}
-            <div className="grid grid-rows-2 gap-6">
-              {/* Top Right Banner - Enhanced */}
-              <div data-aos="fade-left" data-aos-delay="100" className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#FFF5F5] to-[#FFE8E8] p-8 flex items-center justify-between shadow-lg hover:shadow-2xl transition-all duration-500 group">
-                {/* Animated badge */}
-                <div className="absolute top-4 right-4 bg-[#C84B31] text-white px-3 py-1 rounded-full text-[10px] font-bold animate-bounce">
-                  50% OFF
-                </div>
-                
-                <div className="max-w-[60%] relative z-10">
-                  <div className="text-[11px] font-bold text-[#C84B31] mb-2 uppercase tracking-wider flex items-center gap-2">
-                    <span className="inline-block w-2 h-2 bg-[#C84B31] rounded-full animate-ping"></span>
-                    Sale
+            <div className="grid md:grid-cols-3 gap-12 relative">
+              {/* Connecting Line */}
+              <div className="hidden md:block absolute top-[40%] left-[16%] right-[16%] h-0.5 bg-gradient-to-r from-gray-100 via-blue-100 to-gray-100 -z-10"></div>
+
+              {[
+                { icon: <FiUser />, title: "Create Account", desc: "Sign up in seconds and join our trusted community." },
+                { icon: <FiTruck />, title: "List or Shop", desc: "Snap a photo to sell or browse thousands of items." },
+                { icon: <FiTrendingUp />, title: "Earn & Save", desc: "Get paid securely or save big on quality gear." }
+              ].map((item, idx) => (
+                <div key={idx} className="bg-white p-8 rounded-[2rem] border border-gray-100 shadow-lg shadow-gray-100/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-center group">
+                  <div className="w-20 h-20 mx-auto bg-white border-2 border-blue-50 rounded-2xl flex items-center justify-center text-primary-blue text-3xl mb-8 group-hover:bg-primary-blue group-hover:text-white transition-colors duration-300 shadow-sm">
+                    {item.icon}
                   </div>
-                  <h3 className="text-[26px] leading-[1.2] font-bold text-qblack mb-5 group-hover:scale-105 transition-transform duration-300">
-                    Kids Fashion Styles
-                  </h3>
-                  <Link to="/all-products?category=clothing">
-                    <button className="h-[44px] px-7 rounded-xl bg-[#C84B31] text-white font-semibold hover:bg-[#B33A22] hover:scale-105 transition-all duration-300 text-[13px] shadow-md">
-                      Shop Now →
+                  <h3 className="text-xl font-bold text-qblack mb-3">{item.title}</h3>
+                  <p className="text-gray-500 leading-relaxed text-sm">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Categories Section - Modern Cards */}
+        <section className="py-24 bg-gray-50">
+          <div className="container-x mx-auto px-4">
+            <div className="flex justify-between items-end mb-12">
+              <div>
+                <h2 className="text-4xl font-black text-qblack">Shop by Category</h2>
+                <p className="text-gray-500 mt-2 font-medium">Find exactly what you need for your little one.</p>
+              </div>
+              <Link to="/all-products" className="hidden md:flex items-center gap-2 font-bold text-qblack hover:text-primary-blue transition-colors group">
+                View All <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {categories.map((cat, idx) => (
+                <Link key={idx} to="/all-products">
+                  <motion.div
+                    whileHover={{ y: -8 }}
+                    className="group relative h-[420px] rounded-[2rem] overflow-hidden cursor-pointer shadow-sm hover:shadow-xl transition-all duration-300 bg-white"
+                  >
+                    <img src={cat.image} alt={cat.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
+                    <div className="absolute bottom-0 left-0 w-full p-8">
+                      <div className="w-10 h-1 bg-white mb-4 rounded-full opacity-50 group-hover:w-16 group-hover:opacity-100 transition-all duration-300"></div>
+                      <h3 className="text-3xl font-bold text-white mb-2">{cat.name}</h3>
+                      <div className="flex items-center gap-2 text-white/90 font-bold text-sm group-hover:text-white transition-colors">
+                        Explore <FiArrowRight />
+                      </div>
+                    </div>
+                  </motion.div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Featured Products */}
+        <section className="py-24 bg-white">
+          <div className="container-x mx-auto px-4">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-black text-qblack mb-4">Fresh Finds</h2>
+              <p className="text-gray-500 font-medium">New items added every hour by parents like you.</p>
+            </div>
+            <SectionStyleTwo products={products.slice(0, 4)} />
+            <div className="mt-16 text-center">
+              <Link to="/all-products">
+                <button className="px-10 py-4 rounded-full bg-white border-2 border-qblack font-bold text-qblack hover:bg-qblack hover:text-white transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                  View All Products
+                </button>
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* Testimonials - Clean Cards */}
+        <section className="py-24 bg-[#F8F0EA] overflow-hidden">
+          <div className="container-x mx-auto px-4">
+            <div className="text-center mb-16">
+              <div className="flex justify-center gap-1 mb-4">
+                {[1, 2, 3, 4, 5].map(i => <FiStar key={i} className="text-yellow-400 fill-current w-5 h-5" />)}
+              </div>
+              <h2 className="text-4xl font-black text-qblack">Loved by Parents</h2>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8">
+              {testimonials.map((t, i) => (
+                <div key={i} className="bg-white p-10 rounded-[2rem] shadow-sm hover:shadow-lg transition-all duration-300">
+                  <div className="mb-6 text-primary-blue">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M14.017 21L14.017 18C14.017 16.8954 13.1216 16 12.017 16H9C9.55228 16 10 15.5523 10 15V9C10 8.44772 9.55228 8 9 8H5C4.44772 8 4 8.44772 4 9V18C4 19.6569 5.34315 21 7 21H14.017ZM21.017 21L21.017 18C21.017 16.8954 20.1216 16 19.017 16H16C16.5523 16 17 15.5523 17 15V9C17 8.44772 16.5523 8 16 8H12C11.4477 8 11 8.44772 11 9V18C11 19.6569 12.3431 21 14 21H21.017Z" /></svg>
+                  </div>
+                  <p className="text-qblack font-medium text-lg leading-relaxed mb-8">"{t.text}"</p>
+                  <div className="flex items-center gap-4 border-t border-gray-100 pt-6">
+                    <img src={t.avatar} alt={t.name} className="w-12 h-12 rounded-full bg-gray-200 object-cover" />
+                    <div>
+                      <h4 className="font-bold text-qblack">{t.name}</h4>
+                      <p className="text-xs text-gray-500 font-bold uppercase tracking-wider">{t.role}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Section - Creative & Bold */}
+        <section className="py-24 px-4">
+          <div className="container-x mx-auto">
+            <div className="bg-gradient-to-br from-primary-blue to-purple-600 rounded-[3rem] p-12 md:p-24 text-center relative overflow-hidden shadow-2xl shadow-blue-900/20">
+              {/* Abstract Shapes */}
+              <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+                <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-white/10 rounded-full blur-[80px]"></div>
+                <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-purple-500/30 rounded-full blur-[80px]"></div>
+              </div>
+
+              <div className="relative z-10 max-w-4xl mx-auto">
+                <h2 className="text-5xl md:text-7xl font-black text-white mb-8 tracking-tight leading-tight">
+                  Ready to join the <br />
+                  <span className="text-blue-200">Revolution?</span>
+                </h2>
+                <p className="text-xl text-blue-100 mb-12 leading-relaxed max-w-2xl mx-auto font-medium">
+                  Whether you're decluttering or hunting for treasures, we've got you covered. Start your journey today.
+                </p>
+                <div className="flex flex-col sm:flex-row justify-center gap-6">
+                  <Link to="/signup">
+                    <button className="h-[70px] px-12 rounded-full bg-white text-primary-blue font-black text-xl hover:bg-blue-50 transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1 min-w-[220px]">
+                      Join Now
+                    </button>
+                  </Link>
+                  <Link to="/about">
+                    <button className="h-[70px] px-12 rounded-full bg-transparent border-2 border-white/30 text-white font-bold text-xl hover:bg-white/10 hover:border-white transition-all min-w-[220px]">
+                      Learn More
                     </button>
                   </Link>
                 </div>
-                
-                {/* Decorative element */}
-                <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-[#C84B31]/10 rounded-full group-hover:scale-150 transition-transform duration-700"></div>
-              </div>
-
-              {/* Bottom Right Banner - Enhanced */}
-              <div data-aos="fade-left" data-aos-delay="200" className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#F8F5FF] to-[#F0E8FF] p-8 shadow-lg hover:shadow-2xl transition-all duration-500 group">
-                {/* Sparkle effect */}
-                <div className="absolute top-6 left-6 text-2xl animate-spin-slow">✨</div>
-                
-                <div className="flex items-start justify-between">
-                  <div className="max-w-[60%] relative z-10">
-                    <div className="text-[11px] font-bold text-primary-blue mb-2 uppercase tracking-wider flex items-center gap-2">
-                      <span className="inline-block w-2 h-2 bg-primary-blue rounded-full animate-pulse"></span>
-                      New Arrivals
-                    </div>
-                    <h3 className="text-[26px] leading-[1.2] font-bold text-qblack mb-5 group-hover:scale-105 transition-transform duration-300">
-                      Toys & Games
-                    </h3>
-                    <Link to="/all-products?category=toys">
-                      <button className="h-[44px] px-7 rounded-xl bg-qblack text-white font-semibold hover:bg-primary-blue hover:scale-105 transition-all duration-300 text-[13px] shadow-md">
-                        Discover →
-                      </button>
-                    </Link>
-                  </div>
-                  
-                  {/* Animated Badge */}
-                  <div className="text-right relative">
-                    <div className="absolute -inset-2 bg-primary-blue/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500"></div>
-                    <div className="relative bg-white rounded-2xl p-4 shadow-lg">
-                      <div className="text-[48px] font-bold text-primary-blue leading-none group-hover:scale-110 transition-transform duration-300">30+</div>
-                      <div className="text-[11px] text-gray-600 font-medium mt-1">New Items</div>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Decorative element */}
-                <div className="absolute -top-10 -left-10 w-32 h-32 bg-primary-blue/10 rounded-full group-hover:scale-150 transition-transform duration-700"></div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* Features Section */}
-      <div className="w-full bg-off-white py-12">
-        <div className="container-x mx-auto px-4">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {features.map((feature, index) => (
-              <div key={index} className="flex items-start gap-4 p-6 rounded-xl bg-white border border-gray-100 hover:shadow-md transition-shadow">
-                <div className="flex-shrink-0 text-primary-blue">
-                  {feature.icon}
-                </div>
-                <div>
-                  <h3 className="text-base font-semibold text-qblack mb-1">{feature.title}</h3>
-                  <p className="text-sm text-medium-grey">{feature.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Categories Section - Enhanced */}
-      <div className="w-full bg-gradient-to-b from-white to-gray-50 py-20 relative overflow-hidden">
-        {/* Decorative background */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-50 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-50 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float" style={{animationDelay: '1s'}}></div>
-        
-        <div className="container-x mx-auto relative z-10">
-          <div className="text-center mb-12" data-aos="fade-up">
-            <div className="inline-block mb-4">
-              <span className="px-4 py-2 rounded-full bg-primary-blue/10 text-primary-blue text-xs font-bold uppercase tracking-wider">
-                🎯 Browse Collections
-              </span>
-            </div>
-            <h2 className="text-4xl font-bold text-qblack mb-4">Shop by Category</h2>
-            <p className="text-lg text-medium-grey">Find exactly what you need for your toddler</p>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-            {categories.map((category, index) => (
-              <Link key={index} to={category.link}>
-                <div 
-                  data-aos="zoom-in" 
-                  data-aos-delay={index * 50}
-                  className={`group rounded-3xl bg-gradient-to-br ${category.color} p-8 text-center hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 cursor-pointer border border-gray-100 relative overflow-hidden`}
-                >
-                  {/* Shimmer effect on hover */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-shimmer"></div>
-                  
-                  <div className="relative z-10">
-                    <div className="text-6xl mb-4 group-hover:scale-125 group-hover:rotate-12 transition-all duration-500 inline-block">{category.icon}</div>
-                    <h3 className="text-base font-bold text-qblack mb-2 group-hover:text-primary-blue transition-colors">{category.name}</h3>
-                    <p className="text-xs text-medium-grey font-medium">{category.count}</p>
-                  </div>
-                  
-                  {/* Decorative corner */}
-                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-white/50 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Featured Products */}
-      <div className="w-full bg-white py-16">
-        <div className="container-x mx-auto px-4">
-          <div className="flex justify-between items-center mb-10">
-            <h2 className="text-3xl font-bold text-qblack">Featured Items</h2>
-            <Link to="/all-products">
-              <button className="flex items-center gap-2 text-primary-blue font-semibold hover:gap-3 transition-all">
-                View More
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M7 4l6 6-6 6" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </button>
-            </Link>
-          </div>
-          <SectionStyleTwo products={products.slice(0, 8)} />
-        </div>
-      </div>
-
-      {/* Trust Banner */}
-      <div className="w-full bg-gradient-to-r from-primary-blue to-blue-600 py-20 mb-[60px]">
-        <div className="container-x mx-auto">
-          <div className="grid md:grid-cols-[1.2fr,1fr] gap-12 items-center text-white">
-            <div>
-              <h2 className="text-4xl lg:text-5xl font-bold mb-6 leading-tight">Why Parents Trust Us</h2>
-              <p className="text-lg text-white/90 leading-relaxed mb-8 max-w-xl">
-                Every seller is verified, every item is inspected, and every transaction is protected. 
-                We're building a community of parents who care about quality, affordability, and sustainability.
-              </p>
-              <Link to="/about">
-                <button className="h-14 px-8 rounded-full bg-white text-primary-blue font-semibold hover:shadow-2xl transition-all">
-                  Learn More About Us
-                </button>
-              </Link>
-            </div>
-            <div className="grid grid-cols-2 gap-5">
-              <div className="bg-white/15 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition-all">
-                <p className="text-5xl font-bold mb-2">126</p>
-                <p className="text-sm text-white/90 font-medium">Tons kept out of landfills</p>
-              </div>
-              <div className="bg-white/15 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition-all">
-                <p className="text-5xl font-bold mb-2">800+</p>
-                <p className="text-sm text-white/90 font-medium">Verified sellers</p>
-              </div>
-              <div className="bg-white/15 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition-all">
-                <p className="text-5xl font-bold mb-2">92%</p>
-                <p className="text-sm text-white/90 font-medium">Repeat customers</p>
-              </div>
-              <div className="bg-white/15 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition-all">
-                <p className="text-5xl font-bold mb-2">24h</p>
-                <p className="text-sm text-white/90 font-medium">Support response</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* New Arrivals */}
-      <SectionStyleThree
-        products={products.slice(0, 8)}
-        sectionTitle="New Arrivals"
-        seeMoreUrl="/all-products"
-        className="new-products mb-[60px]"
-      />
-
-      {/* CTA Section */}
-      <div className="w-full bg-gradient-to-br from-accent-cream to-soft-lavender/30 py-24 mb-[60px]">
-        <div className="container-x mx-auto">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl lg:text-5xl font-bold text-qblack mb-6">Ready to Start Selling?</h2>
-            <p className="text-xl text-medium-grey mb-10 leading-relaxed">
-              Turn your gently used children's items into cash. Join our community of trusted sellers and help other families find quality products.
-            </p>
-            <div className="flex flex-wrap justify-center gap-5">
-              <Link to="/become-saller">
-                <button className="h-16 px-10 rounded-full bg-primary-blue text-white font-semibold shadow-lg hover:shadow-2xl hover:bg-blue-600 transition-all text-lg">
-                  Become a Seller
-                </button>
-              </Link>
-              <Link to="/contact">
-                <button className="h-16 px-10 rounded-full border-2 border-gray-300 bg-white text-qblack font-semibold hover:border-primary-blue hover:text-primary-blue transition-all text-lg">
-                  Contact Us
-                </button>
-              </Link>
-            </div>
-          </div>
-        </div>
+        </section>
       </div>
     </Layout>
   );
